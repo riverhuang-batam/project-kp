@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Maatwebsite\Excel\Facades\Excel as Excel;
 use App\Http\Controllers\Controller;
-use App\Imports\OrderImport;
 use App\Models\Order;
 use App\Models\Marking;
 use App\Models\Item;
@@ -150,4 +148,20 @@ class OrderController extends Controller
     $newOrder->save();
     return response()->json(['status'=>'success']);
   }
+
+  public function orderSelect(Request $request){
+    $term = trim($request->q);
+    if(empty($term)){
+        return response()->json([]);
+    }
+
+    $orders = Order::select('id','purchase_code')->where('purchase_code', 'like', '%' .$term . '%')->limit(20)->get();
+
+    $formattedOrders= [];
+    foreach($orders as $order){
+        $formattedOrders[] = ['id'=>$order->id, 'text'=>$order->purchase_code];
+    }
+
+    return response()->json($formattedOrders);
+}
 }

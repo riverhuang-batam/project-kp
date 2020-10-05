@@ -1,8 +1,8 @@
 @extends('layouts.app')
-@section('title', 'Data Order - Purchasing App')
+@section('title', 'Data Payment - Purchasing App')
 
 @section('content')
-<div class="container-fluid">
+<div class="container">
   <div id="delete-alert" class="alert alert-success d-none">
     Data have been removed
    </div>
@@ -17,27 +17,16 @@
         <div class="card-header d-flex justify-content-between align-items-center">
           <div class="d-flex align-items-center">
             <div class="card-title mr-2">
-              Data Order
+              Data Payment
             </div>
             <div class="card-title ml-2">
-              <a href="{{ route('orders.create') }}" type="button" class="btn btn-primary">+
+              <a href="{{ route('payments.create') }}" type="button" class="btn btn-primary">+
                 Add New Record</a>
             </div>
           </div>
-          <div class="d-flex">
-            <div class="card-title mr-2">
-              <a href="{{ route('payments.index') }}" type="button" class="btn btn-primary text-light">
-                Add Payment</a>
-            </div>
-            <div class="card-title mr-2 ml-2">
-              <a href="{{ route('markings.index') }}" type="button" class="btn btn-info text-light">
-                Marking List</a>
-            </div>
-            <div class="card-title ml-2">
-              <a href="{{ route('items.index') }}" type="button" class="btn btn-info text-light">
-                Item List</a>
-            </div>
-          </div>
+          <div>
+            <a href="{{ route('orders.index') }}" type="button" class="btn btn-secondary">
+              Back to Order</a> </div>
         </div>
         <div class="card-body">
           <div class="table-responsive">
@@ -46,11 +35,8 @@
                 <tr>
                   <th>No</th>
                   <th>Purchase code</th>
-                  <th>Date</th>
-                  <th>Marking</th>
-                  <th>Item</th>
-                  <th>Quantity</th>
-                  <th>Status</th>
+                  <th>Type</th>
+                  <th>File Name</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -80,14 +66,9 @@
             }, 3000);
         }
         $table = $('.yajra-datatable').DataTable({
-            // rowCallback: function( row, data, index ) {
-            //   if ( data['items'] === null || data['marking'] === null ) {
-            //     $(row).hide();
-            //   }
-            // },
             processing: true,
             serverSide: true,
-            ajax: "{{ route('order-list') }}",
+            ajax: "{{ route('payment-list') }}",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex'
@@ -97,24 +78,12 @@
                     name: 'purchase_code'
                 },
                 {
-                    data: 'date',
-                    name: 'date'
+                    data: 'type',
+                    name: 'type'
                 },
                 {
-                    data: 'marking',
-                    name: 'marking'
-                },
-                {
-                    data: 'items',
-                    name: 'items'
-                },
-                {
-                    data: 'qty',
-                    name: 'qty'
-                },
-                {
-                    data: 'status',
-                    name: 'status'
+                    data: 'file_name',
+                    name: 'file_name'
                 },
                 {
                     data: 'action',
@@ -127,13 +96,13 @@
 
         $('body').on('click', '#show-detail', function () {
             let data_id = $(this).data('id');
-            let url = "orders/" + data_id;
+            let url = "payments/" + data_id;
             $(location).attr('href', url);
         });
 
         $('body').on('click', '#edit', function () {
             let data_id = $(this).data('id');
-            let url = "orders/" + data_id + "/edit";
+            let url = "payments/" + data_id + "/edit";
             $(location).attr('href', url);
         });
 
@@ -141,7 +110,7 @@
             let data_id = $(this).data("id");
             let confirmation = confirm("Are you sure want to delete the data?");
             if (confirmation) {
-                let url = window.location.origin + "/orders/" + data_id;
+                let url = window.location.origin + "/payments/" + data_id;
                 $.ajax({
                     url: url,
                     type: 'DELETE',
@@ -161,27 +130,9 @@
                       }, 3000);
                     },
                     error: function (data) {
-                        $(location).attr('href', window.location.origin + "/orders");
+                        $(location).attr('href', window.location.origin + "/payments");
                     }
                 });
-            }
-        });
-
-        $('body').on('click', '#duplicate', function () {
-            let data_id = $(this).data('id');
-            let confirmation = confirm("Are you sure want to duplicate this data?");
-            if(confirmation){
-              let url = "orders/duplicate/" + data_id;
-              console.log(url);
-              $.ajax({
-                url: url,
-                success: function(data){
-                  $(location).attr('href', window.location.origin + "/orders");
-                },
-                error: function(data){
-                  $(location).attr('href', window.location.origin + "/orders");
-                }
-              })
             }
         });
     });

@@ -18,12 +18,18 @@ Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
   Route::resource('orders', 'App\Http\Controllers\Admin\OrderController');
-  Route::get('orders/duplicate/{id}', 'App\Http\Controllers\Admin\OrderController@duplicateOrder');
-  Route::resource('markings', 'App\Http\Controllers\Admin\MarkingController');
-  Route::resource('items', 'App\Http\Controllers\Admin\ItemController');
   Route::get('order-list', 'App\Http\Controllers\Admin\OrderController@orderDataTable')->name('order-list');
+  Route::get('order-select', 'App\Http\Controllers\Admin\OrderController@orderSelect')->name('order-select');
+  Route::get('orders/duplicate/{id}', 'App\Http\Controllers\Admin\OrderController@duplicateOrder');
+
+  Route::resource('markings', 'App\Http\Controllers\Admin\MarkingController');
   Route::get('marking-list', 'App\Http\Controllers\Admin\MarkingController@markingDataTable')->name('marking-list');
   Route::get('marking-select', 'App\Http\Controllers\Admin\MarkingController@markingSelect')->name('marking-select');
+
+  Route::resource('items', 'App\Http\Controllers\Admin\ItemController');
   Route::get('item-list', 'App\Http\Controllers\Admin\ItemController@itemDataTable')->name('item-list');
   Route::get('item-select', 'App\Http\Controllers\Admin\ItemController@itemSelect')->name('item-select');
+
+  Route::resource('payments','App\Http\Controllers\Admin\PaymentController');
+  Route::get('payment-list', 'App\Http\Controllers\Admin\PaymentController@paymentDataTable')->name('payment-list');
 });
