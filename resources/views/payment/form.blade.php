@@ -1,0 +1,153 @@
+@extends('layouts.app')
+@section('title', 'Create Payment - Purchasing App')
+
+@section('content')
+<div class="container">
+  @if(session('error'))
+  <div id="alert" class="alert alert-danger">
+    {{ session('error') }}
+  </div>
+  @endif
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title m-0">
+           {{isset($payment) ? 'Edit Existing' : 'Add New'}} Payment
+          </div>
+        </div>
+        <div class="card-body">
+          <form method="POST" enctype="multipart/form-data" 
+            action="{{ isset($payment) ? route('payments.update', $payment['id']) : route('payments.store') }}">
+            @csrf
+            @if(isset($payment))
+            @method('PUT')
+            @endif
+            <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="order_id">Purchase code</label>
+                    <select id="order_id" name="order_id" class="form-control select2"></select>
+                    @error('order_id')
+                    <div class="invalid-feedback d-inline-block">
+                      {{ $message }}
+                    </div>
+                    @enderror
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="type">Payment type</label>
+                    <select class="custom-select @error('type') is-invalid @enderror" id="type" name="type">
+                      <option value="">Select type</option>
+                      <option value="1" {{isset($payment) && $payment['type'] == 1 || old('type') == 1 ? 'selected="selected"' : ""}}>Stock</option>
+                      <option value="2" {{isset($payment) && $payment['type'] == 2 || old('type') == 2 ? 'selected="selected"' : ""}}>Shipping</option>
+                    </select>
+                    @error('type')
+                    <div class="invalid-feedback">
+                      {{ $message }}
+                    </div>
+                    @enderror
+                  </div>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="file_name">Attachment</label>
+                  <input type="file" name="file_name"/>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="btn-group">
+              @if(!isset($purchase_code))
+              <a href="{{ route('payments.index') }}" type="button" class="btn btn-secondary mr-2">Back</a>
+              @endif 
+              @if(isset($purchase_code))
+              <a href="{{ route('purchases.index') }}" type="button" class="btn btn-secondary mr-2">Back to Purchase</a> 
+              @endif
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+@endsection
+
+@section('scripts')
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script type="text/javascript">    
+  $(function(){
+    let alert = $('#alert').length;
+        if (alert > 0) {
+            setTimeout(() => {
+                $('#alert').remove();
+            }, 3000);
+        }
+    $('#order_id').select2({
+      placeholder: "Search for purchase order...",
+      minimumInputLength: 1,
+      minimumResultsForSearch: Infinity,
+      ajax: {
+        url: "{{route('purchase-select')}}",
+        dataType: 'json',
+        delay: 250,
+        data: function(params){
+          return {
+            q: $.trim(params.term)
+          }
+        },
+        processResults: function (data) {
+            return {
+                results: data
+            };
+        },
+        cache: true
+      }
+    });
+
+    @if(isset($payment))
+      @php
+        $purchase = \App\Models\Purchase::find($payment['order_id']);
+      @endphp
+      let order = {
+          id: '{{ $purchase->id }}',
+          text: '{{ $purchase->purchase_code }}'
+      };
+      
+      let orderOption = new Option(order.text, order.id, false, false);
+      $('#order_id').append(orderOption).trigger('change');
+    @endif
+
+    @if(isset($purchase_code))
+      @php
+        $purchase = \App\Models\Purchase::find($purchase_code['id']);
+      @endphp
+        let order = {
+            id: '{{ $purchase->id }}',
+            text: '{{ $purchase->purchase_code }}'
+        };
+        
+        let orderOption = new Option(order.text, order.id, false, false);
+        $('#order_id').append(orderOption).trigger('change');
+    @endif
+
+    @if(old('order_id'))
+      @php
+        $purchase = \App\Models\Purchase::find($payment['order_id']);
+      @endphp
+      let order = {
+          id: '{{ $purchase->id }}',
+          text: '{{ $purchase->purchase_code }}'
+      };
+      let orderOption = new Option(order.text, order.id, false, false);
+      $('#order_id').append(orderOption).trigger('change');
+    @endif
+})
+</script>
+@endsection

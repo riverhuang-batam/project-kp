@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPurchaseCodeOrderTable extends Migration
+class UpdatePaymentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddPurchaseCodeOrderTable extends Migration
      */
     public function up()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->string('purchase_code', 100);
+        Schema::table('payments', function (Blueprint $table) {
+            $table->string('file_name', 255)->nullable()->change();
         });
     }
 
@@ -25,8 +25,8 @@ class AddPurchaseCodeOrderTable extends Migration
      */
     public function down()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn('purchase_code');
+        Schema::table('payments', function (Blueprint $table) {
+            //
         });
     }
 }

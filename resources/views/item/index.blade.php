@@ -25,8 +25,8 @@
             </div>
           </div>
           <div>
-            <a href="{{ route('orders.index') }}" type="button" class="btn btn-secondary">
-              Back to Order</a> </div>
+            <a href="{{ route('purchases.index') }}" type="button" class="btn btn-secondary">
+              Back to Purchase</a> </div>
         </div>
         <div class="card-body">
           <div class="table-responsive">
