@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Detail Order - Purchasing App')
+@section('title', 'Detail Purchasing - Purchasing App')
 
 @section('content')
 <div class="container">
@@ -8,61 +8,61 @@
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
           <div class="card-title m-0">
-            Detail Order
+            Detail Purchase
           </div>
         </div>
         <div class="card-body">
           <table class="table table-bordered">
             <tr>
               <td>Purchase code</td>
-              <td>{{ $data['purchase_code'] }}</td>
+              <td>{{ $purchase['purchase_code'] }}</td>
             </tr>
             <tr>
               <td>Date</td>
-              <td>{{ $data['date'] }}</td>
+              <td>{{ $purchase['date'] }}</td>
             </tr>
             <tr>
               <td>Marking</td>
-              <td>{{\App\Models\Order::getMarkingName($data['marking']) }}</td>
+              <td>{{\App\Models\Order::getMarkingName($purchase['marking']) }}</td>
             </tr>
             <tr>
               <td>Item</td>
-              <td>{{\App\Models\Order::getItemName($data['items'])}}</td>
+              <td>{{\App\Models\Order::getItemName($purchase['item'])}}</td>
             </tr>
             <tr>
               <td>Quantity</td>
-              <td>{{ $data['qty'] }}</td>
+              <td>{{ $purchase['quantity'] }}</td>
             </tr>
             <tr>
               <td>CTNS</td>
-              <td>{{ $data['ctns'] }}</td>
+              <td>{{ $purchase['ctns'] }}</td>
             </tr>
             <tr>
               <td>Volume</td>
-              <td>{{ $data['volume'] }}</td>
+              <td>{{ $purchase['volume'] }}</td>
             </tr>
             <tr>
               <td>PL</td>
-              <td>{{ $data['PL'] }}</td>
+              <td>{{ $purchase['pl'] }}</td>
             </tr>
             <tr>
               <td>Resi</td>
-              <td>{{ $data['resi'] }}</td>
+              <td>{{ $purchase['resi'] }}</td>
             </tr>
             <tr>
               <td>Expected Date</td>
-              <td>{{ $data['expected_date'] }}</td>
+              <td>{{ $purchase['expected_date'] }}</td>
             </tr>
             <tr>
               <td>Status</td>
-              <td>{{ \App\Helpers\OrderStatus::getString($data['status']) }}</td>
+              <td>{{ \App\Helpers\OrderStatus::getString($purchase['status']) }}</td>
             </tr>
             <tr>
               <td>Remark</td>
-              <td>{{ $data['remarks'] }}</td>
+              <td>{{ $purchase['remarks'] }}</td>
             </tr>
           </table>
-          <a href="{{ route('orders.index') }}" type="button" class="btn btn-secondary mr-2">Back</a>
+          <a href="{{ route('purchases.index') }}" type="button" class="btn btn-secondary mr-2">Back</a>
         </div>
       </div>
     </div>

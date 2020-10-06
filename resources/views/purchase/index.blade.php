@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Data Order - Purchasing App')
+@section('title', 'Data Purchasing - Purchasing App')
 
 @section('content')
 <div class="container-fluid">
@@ -17,25 +17,25 @@
         <div class="card-header d-flex justify-content-between align-items-center">
           <div class="d-flex align-items-center">
             <div class="card-title mr-2">
-              Data Order
+              Data Purchasing
             </div>
             <div class="card-title ml-2">
-              <a href="{{ route('orders.create') }}" type="button" class="btn btn-primary">+
+              <a href="{{ route('purchases.create') }}" type="button" class="btn btn-primary">+
                 Add New Record</a>
             </div>
           </div>
           <div class="d-flex">
             <div class="card-title mr-2">
               <a href="{{ route('payments.index') }}" type="button" class="btn btn-primary text-light">
-                Add Payment</a>
+                Manage Payment</a>
             </div>
             <div class="card-title mr-2 ml-2">
               <a href="{{ route('markings.index') }}" type="button" class="btn btn-info text-light">
-                Marking List</a>
+                Manage Marking</a>
             </div>
             <div class="card-title ml-2">
               <a href="{{ route('items.index') }}" type="button" class="btn btn-info text-light">
-                Item List</a>
+                Manage Item</a>
             </div>
           </div>
         </div>
@@ -87,7 +87,7 @@
             // },
             processing: true,
             serverSide: true,
-            ajax: "{{ route('order-list') }}",
+            ajax: "{{ route('purchase-list') }}",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex'
@@ -105,12 +105,12 @@
                     name: 'marking'
                 },
                 {
-                    data: 'items',
-                    name: 'items'
+                    data: 'item',
+                    name: 'item'
                 },
                 {
-                    data: 'qty',
-                    name: 'qty'
+                    data: 'quantity',
+                    name: 'quantity'
                 },
                 {
                     data: 'status',
@@ -127,13 +127,13 @@
 
         $('body').on('click', '#show-detail', function () {
             let data_id = $(this).data('id');
-            let url = "orders/" + data_id;
+            let url = "purchases/" + data_id;
             $(location).attr('href', url);
         });
 
         $('body').on('click', '#edit', function () {
             let data_id = $(this).data('id');
-            let url = "orders/" + data_id + "/edit";
+            let url = "purchases/" + data_id + "/edit";
             $(location).attr('href', url);
         });
 
@@ -141,7 +141,7 @@
             let data_id = $(this).data("id");
             let confirmation = confirm("Are you sure want to delete the data?");
             if (confirmation) {
-                let url = window.location.origin + "/orders/" + data_id;
+                let url = window.location.origin + "/purchases/" + data_id;
                 $.ajax({
                     url: url,
                     type: 'DELETE',
@@ -161,7 +161,7 @@
                       }, 3000);
                     },
                     error: function (data) {
-                        $(location).attr('href', window.location.origin + "/orders");
+                        $(location).attr('href', window.location.origin + "/purchases");
                     }
                 });
             }
@@ -169,17 +169,16 @@
 
         $('body').on('click', '#duplicate', function () {
             let data_id = $(this).data('id');
-            let confirmation = confirm("Are you sure want to duplicate this data?");
+            let confirmation = confirm("Are you sure want to duplicate this order?");
             if(confirmation){
-              let url = "orders/duplicate/" + data_id;
-              console.log(url);
+              let url = "purchases/duplicate/" + data_id;
               $.ajax({
                 url: url,
                 success: function(data){
-                  $(location).attr('href', window.location.origin + "/orders");
+                  $(location).attr('href', window.location.origin + "/purchases");
                 },
                 error: function(data){
-                  $(location).attr('href', window.location.origin + "/orders");
+                  $(location).attr('href', window.location.origin + "/purchases");
                 }
               })
             }

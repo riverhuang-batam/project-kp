@@ -17,10 +17,10 @@ Route::get('/', 'App\Http\Controllers\Auth\LoginController@showLoginForm');
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
-  Route::resource('orders', 'App\Http\Controllers\Admin\OrderController');
-  Route::get('order-list', 'App\Http\Controllers\Admin\OrderController@orderDataTable')->name('order-list');
-  Route::get('order-select', 'App\Http\Controllers\Admin\OrderController@orderSelect')->name('order-select');
-  Route::get('orders/duplicate/{id}', 'App\Http\Controllers\Admin\OrderController@duplicateOrder');
+  Route::resource('purchases', 'App\Http\Controllers\Admin\PurchaseController');
+  Route::get('purchase-list', 'App\Http\Controllers\Admin\PurchaseController@purchaseDataTable')->name('purchase-list');
+  Route::get('purchase-select', 'App\Http\Controllers\Admin\PurchaseController@purchaseSelect')->name('purchase-select');
+  Route::get('purchases/duplicate/{id}', 'App\Http\Controllers\Admin\PurchaseController@duplicateOrder');
 
   Route::resource('markings', 'App\Http\Controllers\Admin\MarkingController');
   Route::get('marking-list', 'App\Http\Controllers\Admin\MarkingController@markingDataTable')->name('marking-list');
