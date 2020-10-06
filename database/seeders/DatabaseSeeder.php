@@ -18,7 +18,16 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         $faker = Faker::create();
-
+        foreach (range(1, 20) as $index) {
+            DB::table('markings')->insert([
+                'name' => $faker->word,
+            ]);
+        }
+        foreach (range(1, 20) as $index) {
+            DB::table('items')->insert([
+                'name' => $faker->word,
+            ]);
+        }
         foreach (range(1, 20) as $index) {
             DB::table('purchases')->insert([
                 'purchase_code' => 'PC'.$faker->randomNumber($nbDigits = NULL, $strict = false),
@@ -33,18 +42,6 @@ class DatabaseSeeder extends Seeder
                 'expected_date' => $faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now'),
                 'status' => 1,
                 'remarks' => $faker->text($maxNbChars = 200)
-            ]);
-        }
-
-        foreach (range(1, 20) as $index) {
-            DB::table('markings')->insert([
-                'name' => $faker->word,
-            ]);
-        }
-
-        foreach (range(1, 20) as $index) {
-            DB::table('items')->insert([
-                'name' => $faker->word,
             ]);
         }
     }
