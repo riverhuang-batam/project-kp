@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Purchase;
+use App\Models\Payment;
 use App\Models\Marking;
 use App\Models\Item;
 use Illuminate\Http\Request;
@@ -56,7 +57,8 @@ class PurchaseController extends Controller
     public function show(Purchase $purchase)
     {
         $purchase = Purchase::find($purchase->id);
-        return view('purchase.show', compact('purchase'));
+        $payments = Payment::where('order_id','=',$purchase->id)->get();
+        return view('purchase.show', compact('purchase','payments'));
     }
 
     /**
@@ -98,15 +100,18 @@ class PurchaseController extends Controller
     }
 
     public function purchaseDataTable(Request $request){
-        return DataTables::of(Purchase::query()->get())
+        $data = Purchase::query()->get();
+        return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function($data){
               $button = '
-                <a class="btn btn-success text-light btn-sm" id="duplicate" data-id='.$data->id.'>Duplicate</a>
-                <a class="btn btn-info text-light btn-sm" id="show-detail" data-id='.$data->id.'>Show</a>
-                <a class="btn btn-warning btn-sm" id="edit" data-id='.$data->id.'>Edit</a>
                 <meta name="csrf-token" content="{{ csrf_token() }}">
-                <a class="btn btn-danger btn-sm text-light" id="delete" data-id='.$data->id.'>Delete</a>
+                  <a class="btn btn-success text-light btn-sm m-1" id="duplicate" data-id='.$data->id.'>Duplicate</a>
+                  <a class="btn btn-primary text-light btn-sm m-1" id="payment" data-id='.$data->id.'>Add Payment</a>
+                  <a class="btn btn-info text-light btn-sm m-1" id="show-detail" data-id='.$data->id.'>Show</a>
+                  <a class="btn btn-warning btn-sm m-1" id="edit" data-id='.$data->id.'>Edit</a>
+                  <a class="btn btn-danger btn-sm m-1 text-light" id="delete" data-id='.$data->id.'>Delete</a>
+                </div>
               ';
               return $button;
             })
@@ -118,15 +123,15 @@ class PurchaseController extends Controller
               try{
                 return Marking::find($purchase['marking'])->name;
               }catch(\Throwable $th){
-                return "Marking was removed from the list";
+                return null;
               }
             })
             ->editColumn('item', function(Purchase $purchase){
               try {
                 return Item::find($purchase['item'])->name;
               } catch (\Throwable $th) {
-                return "Item was removed from the list";
-              }
+                return null;
+              } 
             })
             ->make(true);
       }

@@ -3,6 +3,11 @@
 
 @section('content')
 <div class="container">
+  @if(session('error'))
+  <div id="alert" class="alert alert-danger">
+    {{ session('error') }}
+  </div>
+  @endif
   <div class="row justify-content-center">
     <div class="col-md-12">
       <div class="card">
@@ -56,7 +61,12 @@
             </div>
             <hr>
             <div class="btn-group">
-              <a href="{{ route('payments.index') }}" type="button" class="btn btn-secondary mr-2">Back</a> 
+              @if(!isset($purchase_code))
+              <a href="{{ route('payments.index') }}" type="button" class="btn btn-secondary mr-2">Back</a>
+              @endif 
+              @if(isset($purchase_code))
+              <a href="{{ route('purchases.index') }}" type="button" class="btn btn-secondary mr-2">Back to Purchase</a> 
+              @endif
               <button type="submit" class="btn btn-primary">Submit</button>
             </>
           </form>
@@ -73,12 +83,18 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script type="text/javascript">    
   $(function(){
+    let alert = $('#alert').length;
+        if (alert > 0) {
+            setTimeout(() => {
+                $('#alert').remove();
+            }, 3000);
+        }
     $('#order_id').select2({
       placeholder: "Search for purchase order...",
       minimumInputLength: 1,
       minimumResultsForSearch: Infinity,
       ajax: {
-        url: "{{route('order-select')}}",
+        url: "{{route('purchase-select')}}",
         dataType: 'json',
         delay: 250,
         data: function(params){
@@ -97,24 +113,37 @@
 
     @if(isset($payment))
       @php
-        $order = \App\Models\Order::find($payment['order_id']);
+        $purchase = \App\Models\Purchase::find($payment['order_id']);
       @endphp
       let order = {
-          id: '{{ $order->id }}',
-          text: '{{ $order->purchase_code }}'
+          id: '{{ $purchase->id }}',
+          text: '{{ $purchase->purchase_code }}'
       };
       
       let orderOption = new Option(order.text, order.id, false, false);
       $('#order_id').append(orderOption).trigger('change');
     @endif
 
+    @if(isset($purchase_code))
+      @php
+        $purchase = \App\Models\Purchase::find($purchase_code['id']);
+      @endphp
+        let order = {
+            id: '{{ $purchase->id }}',
+            text: '{{ $purchase->purchase_code }}'
+        };
+        
+        let orderOption = new Option(order.text, order.id, false, false);
+        $('#order_id').append(orderOption).trigger('change');
+    @endif
+
     @if(old('order_id'))
       @php
-        $order = \App\Models\Order::find($payment['order_id']);
+        $purchase = \App\Models\Purchase::find($payment['order_id']);
       @endphp
       let order = {
-          id: '{{ $order->id }}',
-          text: '{{ $order->purchase_code }}'
+          id: '{{ $purchase->id }}',
+          text: '{{ $purchase->purchase_code }}'
       };
       let orderOption = new Option(order.text, order.id, false, false);
       $('#order_id').append(orderOption).trigger('change');

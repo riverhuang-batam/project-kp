@@ -80,11 +80,11 @@
             }, 3000);
         }
         $table = $('.yajra-datatable').DataTable({
-            // rowCallback: function( row, data, index ) {
-            //   if ( data['items'] === null || data['marking'] === null ) {
-            //     $(row).hide();
-            //   }
-            // },
+            rowCallback: function( row, data, index ) {
+              if ( data['item'] === null || data['marking'] === null ) {
+                $(row).hide();
+              }
+            },
             processing: true,
             serverSide: true,
             ajax: "{{ route('purchase-list') }}",
@@ -137,6 +137,12 @@
             $(location).attr('href', url);
         });
 
+        $('body').on('click', '#payment', function () {
+            let data_id = $(this).data('id');
+            let url = "payments/add-payment/" + data_id;
+            $(location).attr('href', url);
+        });
+
         $('body').on('click', '#delete', function () {
             let data_id = $(this).data("id");
             let confirmation = confirm("Are you sure want to delete the data?");
@@ -175,7 +181,9 @@
               $.ajax({
                 url: url,
                 success: function(data){
-                  $(location).attr('href', window.location.origin + "/purchases");
+                  var table =  $(".yajra-datatable").DataTable();
+                  table.ajax.reload();
+                  // $(location).attr('href', window.location.origin + "/purchases");
                 },
                 error: function(data){
                   $(location).attr('href', window.location.origin + "/purchases");

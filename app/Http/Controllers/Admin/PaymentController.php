@@ -7,7 +7,8 @@ use App\Models\Payment;
 use Illuminate\Http\Request;
 use DataTables;
 use App\Helpers\PaymentType;
-use App\Models\Order;
+use App\Models\Purchase;
+use Illuminate\Support\Facades\Storage;
 
 class PaymentController extends Controller
 {
@@ -41,7 +42,26 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         $request->validate(Payment::rules());
-        Payment::create(request()->all());
+        $file = $request->file('file_name');
+        $validFile = null;
+        if(!empty($file)){
+            $allowedFile = ['jpg', 'jpeg','png', 'pdf', 'doc', 'docx'];
+            $fileName = $file->getClientOriginalName();
+            $fileExt = strtolower(last(explode('.', $fileName)));
+            $isFileValid = in_array($fileExt, $allowedFile);
+            if(!$isFileValid){
+                return redirect()->route('payments.create')->with('error', 'File format not allowed, allowed file is [ jpg, jpeg, png, pdf, doc, docx ]');
+            }
+    
+            $fileSize = $file->getSize();
+            if($fileSize > 2000000){
+                return redirect()->route('payments.create')->with('error', 'Please select file below 2MB');
+            }
+
+            $validFile = date('YmdHHmmss') ."_". $fileName;
+            $path = Storage::disk('public')->putFileAs('attachment', $file, $validFile);
+        }
+        Payment::create(array_merge(request()->all(),['file_name' => $validFile]));
         return redirect()->route('payments.index')->with('status', 'New payment successfully added');
     }
 
@@ -66,6 +86,10 @@ class PaymentController extends Controller
     public function edit($id)
     {
         $payment = Payment::find($id);
+        $purchase = Purchase::find($payment->order_id);
+        if($purchase == null){
+            return redirect()->route('payments.index')->with('error', 'Can not edit deleted record');
+        }
         return view('payment.form', compact('payment'));
     }
 
@@ -79,7 +103,26 @@ class PaymentController extends Controller
     public function update(Request $request, Payment $payment)
     {
         $request->validate(Payment::rules());
-        $payment->update(request()->all());
+        $file = $request->file('file_name');
+        $validFile = null;
+        if(!empty($file)){
+            $allowedFile = ['jpg', 'jpeg','png', 'pdf', 'doc', 'docx'];
+            $fileName = $file->getClientOriginalName();
+            $fileExt = strtolower(last(explode('.', $fileName)));
+            $isFileValid = in_array($fileExt, $allowedFile);
+            if(!$isFileValid){
+                return redirect()->route('payments.create')->with('error', 'File format not allowed, allowed file is [ jpg, jpeg, png, pdf, doc, docx ]');
+            }
+    
+            $fileSize = $file->getSize();
+            if($fileSize > 2000000){
+                return redirect()->route('payments.create')->with('error', 'Please select file below 2MB');
+            }
+
+            $validFile = date('YmdHHmmss') ."_". $fileName;
+            $path = Storage::disk('public')->putFileAs('attachment', $file, $validFile);
+        }
+        $payment->update(array_merge(request()->all(), ['file_name' => $validFile]));
         return redirect()->route('payments.index')->with('status', 'Data successfully updated');
     }
 
@@ -107,13 +150,43 @@ class PaymentController extends Controller
           ';
           return $btn;
         })
-        ->rawColumns(['action'])
+        ->addColumn('attachment', function($data){
+            $link = "No Attachment";
+            if($data->file_name != null){
+                $link = '<a role="button" class="badge badge-primary text-light mr-2" id="download" data-id='.$data->id.'>Download</a>'.$data->file_name;
+            }
+          return $link;
+        })
+        ->rawColumns(['action', 'attachment'])
         ->editColumn('type', function(Payment $payment){
             return PaymentType::getString($payment['type']);
         })
         ->editColumn('purchase_code', function(Payment $payment){
-            return Order::find($payment['order_id'])->purchase_code;
+            try {
+                return Purchase::find($payment['order_id'])->purchase_code;
+            } catch (\Throwable $th) {
+                return "This record was deleted";
+            }
         })
         ->make(true);
+    }
+
+    public function download($id){
+        try {
+            $fileName = Payment::find($id)->file_name;
+            $file = "public/attachment/".$fileName;
+            return Storage::download($file);
+        } catch (\Throwable $th) {
+            return redirect()->route('payments.index')->with('error', 'File not found');
+        }
+    }
+
+    public function addPayment($id)
+    {
+        $purchase = Purchase::find($id);
+        $purchase_code = [
+            'id' => $purchase->id
+        ];
+        return view('payment.form', compact('purchase_code'));
     }
 }

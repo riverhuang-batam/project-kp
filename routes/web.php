@@ -32,4 +32,6 @@ Route::middleware(['auth'])->group(function () {
 
   Route::resource('payments','App\Http\Controllers\Admin\PaymentController');
   Route::get('payment-list', 'App\Http\Controllers\Admin\PaymentController@paymentDataTable')->name('payment-list');
+  Route::get('payments/download/{id}', 'App\Http\Controllers\Admin\PaymentController@download');
+  Route::get('payments/add-payment/{id}', 'App\Http\Controllers\Admin\PaymentController@addPayment');
 });

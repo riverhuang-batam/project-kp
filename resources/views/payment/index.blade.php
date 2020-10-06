@@ -6,6 +6,11 @@
   <div id="delete-alert" class="alert alert-success d-none">
     Data have been removed
    </div>
+   @if(session('error'))
+    <div id="alert" class="alert alert-danger">
+      {{ session('error') }}
+    </div>
+  @endif
   @if(session('status'))
   <div id="alert" class="alert alert-success">
     {{ session('status') }}
@@ -36,7 +41,7 @@
                   <th>No</th>
                   <th>Purchase code</th>
                   <th>Type</th>
-                  <th>File Name</th>
+                  <th>Attachment</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -61,8 +66,15 @@
   $(function () {
         let alert = $('#alert').length;
         if (alert > 0) {
+          setTimeout(() => {
+            $('#alert').remove();
+          }, 3000);
+        }
+
+        let error = $('#error').length;
+        if (error > 0) {
             setTimeout(() => {
-                $('#alert').remove();
+                $('#error').remove();
             }, 3000);
         }
         $table = $('.yajra-datatable').DataTable({
@@ -82,8 +94,8 @@
                     name: 'type'
                 },
                 {
-                    data: 'file_name',
-                    name: 'file_name'
+                    data: 'attachment',
+                    name: 'attachment'
                 },
                 {
                     data: 'action',
@@ -134,6 +146,12 @@
                     }
                 });
             }
+        });
+
+        $('body').on('click', '#download', function () {
+            let data_id = $(this).data("id");
+            let url = "payments/download/" + data_id;
+            $(location).attr('href', url);
         });
     });
 
