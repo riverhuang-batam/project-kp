@@ -80,11 +80,7 @@
             }, 3000);
         }
         $table = $('.yajra-datatable').DataTable({
-            rowCallback: function( row, data, index ) {
-              if ( data['item'] === null || data['marking'] === null ) {
-                $(row).hide();
-              }
-            },
+            
             processing: true,
             serverSide: true,
             ajax: "{{ route('purchase-list') }}",

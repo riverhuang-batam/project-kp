@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Item;
+use App\Models\Purchase;
 use Illuminate\Http\Request;
 use DataTables;
 
@@ -91,6 +92,7 @@ class ItemController extends Controller
     public function destroy(Request $request)
     {
         $id = $request->input('id');
+        Purchase::where('item','=',$id)->delete();
         Item::find($id)->delete();
     }
 

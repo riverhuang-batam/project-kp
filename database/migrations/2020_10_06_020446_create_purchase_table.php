@@ -16,20 +16,19 @@ class CreatePurchaseTable extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->string('purchase_code', 100);
+            $table->foreignId('marking')->references('id')->on('markings')->onDelete('cascade');
+            $table->foreignId('item')->references('id')->on('items')->onDelete('cascade');
             $table->date('date')->nullable();
-            $table->string('marking', 255);
-            $table->string('item', 255);
+            $table->date('expected_date')->nullable();
             $table->integer('quantity')->nullable();
             $table->integer('ctns')->nullable();
             $table->decimal('volume', 10, 2)->nullable();
             $table->string('pl', 100)->nullable();
             $table->string('resi', 100)->nullable();
-            $table->date('expected_date')->nullable();
             $table->tinyInteger('status');
             $table->text('remarks')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 

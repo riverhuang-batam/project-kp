@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Marking;
+use App\Models\Purchase;
 use Illuminate\Http\Request;
 use DataTables;
 
@@ -92,6 +93,7 @@ class MarkingController extends Controller
     public function destroy(Request $request)
     {
         $id = $request->input('id');
+        Purchase::where('marking','=',$id)->delete();
         Marking::find($id)->delete();
     }
 
