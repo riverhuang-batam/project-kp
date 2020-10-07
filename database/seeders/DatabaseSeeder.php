@@ -32,8 +32,8 @@ class DatabaseSeeder extends Seeder
             DB::table('purchases')->insert([
                 'purchase_code' => 'PC'.$faker->randomNumber($nbDigits = NULL, $strict = false),
                 'date' => $faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now'),
-                'marking' => $index,
-                'item' => $index,
+                'marking_id' => $index,
+                'item_id' => $index,
                 'quantity' => 100,
                 'ctns' => 100,
                 'volume' => 1,
