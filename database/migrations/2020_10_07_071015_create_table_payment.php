@@ -15,11 +15,12 @@ class CreateTablePayment extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id');
+            $table->foreignId('purchase_id')->references('id')->on('purchases');
             $table->tinyInteger('type');
-            $table->string('file_name');
+            $table->string('file_name', 255)->nullable();
             $table->timestamps();
             $table->softDeletes();
+
         });
     }
 

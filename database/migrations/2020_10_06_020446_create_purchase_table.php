@@ -16,8 +16,8 @@ class CreatePurchaseTable extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->string('purchase_code', 100);
-            $table->foreignId('marking')->references('id')->on('markings')->onDelete('cascade');
-            $table->foreignId('item')->references('id')->on('items')->onDelete('cascade');
+            $table->foreignId('marking_id')->references('id')->on('markings');
+            $table->foreignId('item_id')->references('id')->on('items');
             $table->date('date')->nullable();
             $table->date('expected_date')->nullable();
             $table->integer('quantity')->nullable();

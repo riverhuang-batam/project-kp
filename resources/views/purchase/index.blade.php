@@ -2,7 +2,7 @@
 @section('title', 'Data Purchasing - Purchasing App')
 
 @section('content')
-<div class="container-fluid">
+<div class="container">
   <div id="delete-alert" class="alert alert-success d-none">
     Data have been removed
    </div>
@@ -14,29 +14,13 @@
   <div class="row justify-content-center">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <div class="d-flex align-items-center">
-            <div class="card-title mr-2">
-              Data Purchasing
-            </div>
-            <div class="card-title ml-2">
-              <a href="{{ route('purchases.create') }}" type="button" class="btn btn-primary">+
-                Add New Record</a>
-            </div>
+        <div class="card-header">
+          <div class="card-title text-center">
+            <h4>Purchase List</h4>
           </div>
-          <div class="d-flex">
-            <div class="card-title mr-2">
-              <a href="{{ route('payments.index') }}" type="button" class="btn btn-primary text-light">
-                Manage Payment</a>
-            </div>
-            <div class="card-title mr-2 ml-2">
-              <a href="{{ route('markings.index') }}" type="button" class="btn btn-info text-light">
-                Manage Marking</a>
-            </div>
-            <div class="card-title ml-2">
-              <a href="{{ route('items.index') }}" type="button" class="btn btn-info text-light">
-                Manage Item</a>
-            </div>
+          <div>
+            <a href="{{ route('purchases.create') }}" type="button" class="btn btn-primary">
+              + Add New Record</a>
           </div>
         </div>
         <div class="card-body">
@@ -68,6 +52,8 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js">
 </script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.3/umd/popper.min.js"></script> --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
@@ -97,12 +83,12 @@
                     name: 'date'
                 },
                 {
-                    data: 'marking',
-                    name: 'marking'
+                    data: 'marking_id',
+                    name: 'marking_id'
                 },
                 {
-                    data: 'item',
-                    name: 'item'
+                    data: 'item_id',
+                    name: 'item_id'
                 },
                 {
                     data: 'quantity',
@@ -163,7 +149,7 @@
                       }, 3000);
                     },
                     error: function (data) {
-                        $(location).attr('href', window.location.origin + "/purchases");
+                        // $(location).attr('href', window.location.origin + "/purchases");
                     }
                 });
             }

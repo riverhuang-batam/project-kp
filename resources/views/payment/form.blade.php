@@ -13,7 +13,9 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title m-0">
+            <h5>
            {{isset($payment) ? 'Edit Existing' : 'Add New'}} Payment
+            </h5>
           </div>
         </div>
         <div class="card-body">
@@ -26,9 +28,9 @@
             <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="order_id">Purchase code</label>
-                    <select id="order_id" name="order_id" class="form-control select2"></select>
-                    @error('order_id')
+                    <label for="purchase_id">Purchase code</label>
+                    <select id="purchase_id" name="purchase_id" class="form-control select2"></select>
+                    @error('purchase_id')
                     <div class="invalid-feedback d-inline-block">
                       {{ $message }}
                     </div>
@@ -89,7 +91,7 @@
                 $('#alert').remove();
             }, 3000);
         }
-    $('#order_id').select2({
+    $('#purchase_id').select2({
       placeholder: "Search for purchase order...",
       minimumInputLength: 1,
       minimumResultsForSearch: Infinity,
@@ -113,7 +115,7 @@
 
     @if(isset($payment))
       @php
-        $purchase = \App\Models\Purchase::find($payment['order_id']);
+        $purchase = \App\Models\Purchase::find($payment['purchase_id']);
       @endphp
       let order = {
           id: '{{ $purchase->id }}',
@@ -121,7 +123,7 @@
       };
       
       let orderOption = new Option(order.text, order.id, false, false);
-      $('#order_id').append(orderOption).trigger('change');
+      $('#purchase_id').append(orderOption).trigger('change');
     @endif
 
     @if(isset($purchase_code))
@@ -134,19 +136,19 @@
         };
         
         let orderOption = new Option(order.text, order.id, false, false);
-        $('#order_id').append(orderOption).trigger('change');
+        $('#purchase_id').append(orderOption).trigger('change');
     @endif
 
-    @if(old('order_id'))
+    @if(old('purchase_id'))
       @php
-        $purchase = \App\Models\Purchase::find($payment['order_id']);
+        $purchase = \App\Models\Purchase::find($payment['purchase_id']);
       @endphp
       let order = {
           id: '{{ $purchase->id }}',
           text: '{{ $purchase->purchase_code }}'
       };
       let orderOption = new Option(order.text, order.id, false, false);
-      $('#order_id').append(orderOption).trigger('change');
+      $('#purchase_id').append(orderOption).trigger('change');
     @endif
 })
 </script>

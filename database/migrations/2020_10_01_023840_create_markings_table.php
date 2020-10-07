@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMarkingTable extends Migration
+class CreateMarkingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,8 +15,9 @@ class CreateMarkingTable extends Migration
     {
         Schema::create('markings', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100);
+            $table->string('name', 255);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
