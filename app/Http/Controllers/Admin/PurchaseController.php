@@ -57,7 +57,7 @@ class PurchaseController extends Controller
     public function show(Purchase $purchase)
     {
         $purchase = Purchase::find($purchase->id);
-        $payments = Payment::where('order_id','=',$purchase->id)->get();
+        $payments = Payment::where('purchase_id','=',$purchase->id)->get();
         return view('purchase.show', compact('purchase','payments'));
     }
 
@@ -104,14 +104,28 @@ class PurchaseController extends Controller
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function($data){
+              // $button = '
+              //   <meta name="csrf-token" content="{{ csrf_token() }}">
+              //     <a class="btn btn-success text-light btn-sm m-1" id="duplicate" data-id='.$data->id.'>Duplicate</a>
+              //     <a class="btn btn-primary text-light btn-sm m-1" id="payment" data-id='.$data->id.'>Add Payment</a>
+              //     <a class="btn btn-info text-light btn-sm m-1" id="show-detail" data-id='.$data->id.'>Show</a>
+              //     <a class="btn btn-warning btn-sm m-1" id="edit" data-id='.$data->id.'>Edit</a>
+              //     <a class="btn btn-danger btn-sm m-1 text-light" id="delete" data-id='.$data->id.'>Delete</a>
+              //   </div>
+              // ';
               $button = '
-                <meta name="csrf-token" content="{{ csrf_token() }}">
-                  <a class="btn btn-success text-light btn-sm m-1" id="duplicate" data-id='.$data->id.'>Duplicate</a>
-                  <a class="btn btn-primary text-light btn-sm m-1" id="payment" data-id='.$data->id.'>Add Payment</a>
-                  <a class="btn btn-info text-light btn-sm m-1" id="show-detail" data-id='.$data->id.'>Show</a>
-                  <a class="btn btn-warning btn-sm m-1" id="edit" data-id='.$data->id.'>Edit</a>
-                  <a class="btn btn-danger btn-sm m-1 text-light" id="delete" data-id='.$data->id.'>Delete</a>
-                </div>
+              <div class="dropdown">
+              <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Options...
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <button class="dropdown-item" type="button" id="duplicate" data-id='.$data->id.'>Duplicate</button>
+                <button class="dropdown-item" type="button" id="payment" data-id='.$data->id.'>Add Payment</button>
+                <button class="dropdown-item" type="button" id="show-detail" data-id='.$data->id.'>Show</button>
+                <button class="dropdown-item" type="button" id="edit" data-id='.$data->id.'>Edit</button>
+                <button class="dropdown-item" type="button" id="delete" data-id='.$data->id.'>Delete</button>
+              </div>
+              </div>
               ';
               return $button;
             })
@@ -119,16 +133,16 @@ class PurchaseController extends Controller
             ->editColumn('status', function(Purchase $purchase){
               return OrderStatus::getString($purchase['status']);
             })
-            ->editColumn('marking', function(Purchase $purchase){
+            ->editColumn('marking_id', function(Purchase $purchase){
               try{
-                return Marking::find($purchase['marking'])->name;
+                return Marking::find($purchase['marking_id'])->name;
               }catch(\Throwable $th){
                 return null;
               }
             })
-            ->editColumn('item', function(Purchase $purchase){
+            ->editColumn('item_id', function(Purchase $purchase){
               try {
-                return Item::find($purchase['item'])->name;
+                return Item::find($purchase['item_id'])->name;
               } catch (\Throwable $th) {
                 return null;
               } 
@@ -142,8 +156,8 @@ class PurchaseController extends Controller
         $newOrder->date = date('Y-m-d');
         $newOrder->purchase_code = 'PC'.date('YmdHis');
         $newOrder->status = 1;
-        $newOrder->marking = $currentOrder->marking;
-        $newOrder->item = $currentOrder->item;
+        $newOrder->marking_id = $currentOrder->marking_id;
+        $newOrder->item_id = $currentOrder->item_id;
         $newOrder->quantity = $currentOrder->quantity;
         $newOrder->ctns = $currentOrder->ctns;
         $newOrder->volume = $currentOrder->volume;

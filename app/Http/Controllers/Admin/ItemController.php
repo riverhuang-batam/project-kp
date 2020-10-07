@@ -92,7 +92,6 @@ class ItemController extends Controller
     public function destroy(Request $request)
     {
         $id = $request->input('id');
-        Purchase::where('item','=',$id)->delete();
         Item::find($id)->delete();
     }
 

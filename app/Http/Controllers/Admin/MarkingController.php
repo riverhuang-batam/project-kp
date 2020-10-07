@@ -93,7 +93,6 @@ class MarkingController extends Controller
     public function destroy(Request $request)
     {
         $id = $request->input('id');
-        Purchase::where('marking','=',$id)->delete();
         Marking::find($id)->delete();
     }
 

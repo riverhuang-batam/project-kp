@@ -22,4 +22,18 @@ class Item extends Model
             $merge
         );
     }
+
+    public function purchase(){
+        return $this->hasMany(Purchase::class);
+    }
+
+    protected static function boot(){
+        parent::boot();
+
+        static::deleting(function($item){
+            foreach ($item->purchase()->get() as $pc){
+                $pc->delete();
+            }
+        });
+    }
 }

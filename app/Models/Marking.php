@@ -22,4 +22,18 @@ class Marking extends Model
             $merge
         );
     }
+
+    public function purchase(){
+        return $this->hasMany(Purchase::class);
+    }
+
+    protected static function boot(){
+        parent::boot();
+
+        static::deleting(function($marking){
+            foreach ($marking->purchase()->get() as $pc){
+                $pc->delete();
+            }
+        });
+    }
 }

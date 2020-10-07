@@ -45,16 +45,17 @@ class PaymentController extends Controller
         $file = $request->file('file_name');
         $validFile = null;
         if(!empty($file)){
-            $allowedFile = ['jpg', 'jpeg','png', 'pdf', 'doc', 'docx'];
+            $maxAllowedSize = env('MAX_ATTACHMENT_SIZE');
+            $allowedFileType = explode(",",env("ALLOWED_ATTACHMENT_TYPE"));
             $fileName = $file->getClientOriginalName();
             $fileExt = strtolower(last(explode('.', $fileName)));
-            $isFileValid = in_array($fileExt, $allowedFile);
+            $isFileValid = in_array($fileExt, $allowedFileType);
             if(!$isFileValid){
-                return redirect()->route('payments.create')->with('error', 'File format not allowed, allowed file is [ jpg, jpeg, png, pdf, doc, docx ]');
+                return redirect()->route('payments.create')->with('error', 'File type not supported!');
             }
     
             $fileSize = $file->getSize();
-            if($fileSize > 2000000){
+            if($fileSize > $maxAllowedSize){
                 return redirect()->route('payments.create')->with('error', 'Please select file below 2MB');
             }
 
@@ -86,10 +87,6 @@ class PaymentController extends Controller
     public function edit($id)
     {
         $payment = Payment::find($id);
-        $purchase = Purchase::find($payment->order_id);
-        if($purchase == null){
-            return redirect()->route('payments.index')->with('error', 'Can not edit deleted record');
-        }
         return view('payment.form', compact('payment'));
     }
 
@@ -106,16 +103,17 @@ class PaymentController extends Controller
         $file = $request->file('file_name');
         $validFile = null;
         if(!empty($file)){
-            $allowedFile = ['jpg', 'jpeg','png', 'pdf', 'doc', 'docx'];
+            $maxAllowedSize = env('MAX_ATTACHMENT_SIZE');
+            $allowedFileType = explode(",",env("ALLOWED_ATTACHMENT_TYPE"));
             $fileName = $file->getClientOriginalName();
             $fileExt = strtolower(last(explode('.', $fileName)));
-            $isFileValid = in_array($fileExt, $allowedFile);
+            $isFileValid = in_array($fileExt, $allowedFileType);
             if(!$isFileValid){
-                return redirect()->route('payments.create')->with('error', 'File format not allowed, allowed file is [ jpg, jpeg, png, pdf, doc, docx ]');
+                return redirect()->route('payments.create')->with('error', 'File type not supported!');
             }
     
             $fileSize = $file->getSize();
-            if($fileSize > 2000000){
+            if($fileSize > $maxAllowedSize){
                 return redirect()->route('payments.create')->with('error', 'Please select file below 2MB');
             }
 
@@ -135,7 +133,12 @@ class PaymentController extends Controller
     public function destroy(Request $request)
     {
       $id = $request->input('id');
-      Payment::find($id)->delete();
+      $payment = Payment::find($id);
+      $fileName = $payment->file_name ?? null;
+      $payment->delete();
+      if($fileName != null){
+          Storage::disk('public')->delete('attachment/' . $fileName);
+      }
     }
 
     public function paymentDataTable(Request $request)
@@ -163,7 +166,7 @@ class PaymentController extends Controller
         })
         ->editColumn('purchase_code', function(Payment $payment){
             try {
-                return Purchase::find($payment['order_id'])->purchase_code;
+                return Purchase::find($payment->purchase_id)->purchase_code;
             } catch (\Throwable $th) {
                 return "This record was deleted";
             }
