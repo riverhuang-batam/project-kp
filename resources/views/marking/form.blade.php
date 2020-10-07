@@ -8,7 +8,9 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title m-0">
+            <h5>
             {{isset($marking) ? 'Edit Existing' : 'Add New'}} Marking
+            </h5>
           </div>
         </div>
         <div class="card-body">

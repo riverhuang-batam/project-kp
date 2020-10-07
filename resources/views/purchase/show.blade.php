@@ -7,8 +7,8 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-          <div class="card-title m-0">
-            Detail Purchase
+          <div class="m-0 text-center">
+           <h4>Detail Purchase</h4>
           </div>
         </div>
         <div class="card-body">
@@ -38,11 +38,11 @@
                 <div class="d-flex justify-content-between mb-4">
                 <div>
                   <h6>Marking:</h6>
-                  <p>{{\App\Models\Purchase::getMarkingName($purchase->marking) }}</p>
+                  <p>{{\App\Models\Purchase::getMarkingName($purchase->marking_id) }}</p>
                 </div>
                 <div>
                   <h6>Item:</h6>
-                  <p>{{\App\Models\Purchase::getItemName($purchase->item)}}</p>
+                  <p>{{\App\Models\Purchase::getItemName($purchase->item_id)}}</p>
                 </div>
                 <div>
                   <h6>Status:</h6>
@@ -84,7 +84,7 @@
               <div class="card">
               <div class="card-header d-flex justify-content-between align-items-center">
                 <div class="card-title m-0">
-                  Attachments
+                  Detail Payment
                 </div>
               </div>
               <div class="card-body">
@@ -96,8 +96,15 @@
                 @endif
                 @foreach ($payments as $payment)
                 <li class="list-group-item">
+                  <h6>Payment type:</h6>
+                  <p>{{\App\Helpers\PaymentType::getString($payment->type) }}</p>
+                  <h6>Attachment:</h6>
+                  @if($payment->file_name != null)
                   <a role="button" class="badge badge-primary text-light mr-3" id="download" data-id={{$payment->id}}>Download</a>
                   <span>{{$payment->file_name}}</span>
+                  @else
+                  <p>No attachment</p>
+                  @endif
                 </li>
                 @endforeach
                 </ul>

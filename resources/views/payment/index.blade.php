@@ -19,19 +19,16 @@
   <div class="row justify-content-center">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <div class="d-flex align-items-center">
-            <div class="card-title mr-2">
-              Data Payment
-            </div>
-            <div class="card-title ml-2">
-              <a href="{{ route('payments.create') }}" type="button" class="btn btn-primary">+
-                Add New Record</a>
-            </div>
+        <div class="card-header">
+          <div class="card-title text-center">
+            <h4>Payment List</h4>
           </div>
           <div>
+            <a href="{{ route('payments.create') }}" type="button" class="btn btn-primary">
+              + Add New Record</a>
             <a href="{{ route('purchases.index') }}" type="button" class="btn btn-secondary">
-              Back to Purchase</a> </div>
+              Back to Purchase</a>
+          </div>
         </div>
         <div class="card-body">
           <div class="table-responsive">

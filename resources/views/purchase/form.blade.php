@@ -8,7 +8,9 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title m-0">
+            <h5>
            {{isset($purchase) ? 'Edit Existing' : 'Add New'}} Order
+            </h5>
           </div>
         </div>
         <div class="card-body">
@@ -60,9 +62,9 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="marking">Marking</label>
-                  <select id="marking" name="marking" class="form-control select2"></select>
-                  @error('marking')
+                  <label for="marking_id">Marking</label>
+                  <select id="marking_id" name="marking_id" class="form-control select2"></select>
+                  @error('marking_id')
                   <div class="invalid-feedback d-inline-block">
                     {{ $message }}
                   </div>
@@ -71,9 +73,9 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="item">Item</label>
-                  <select id="item" name="item" class="form-control"></select>
-                  @error('item')
+                  <label for="item_id">Item</label>
+                  <select id="item_id" name="item_id" class="form-control"></select>
+                  @error('item_id')
                   <div class="invalid-feedback d-inline-block">
                     {{ $message }}
                   </div>
@@ -188,7 +190,7 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script type="text/javascript">    
   $(function(){
-    $('#marking').select2({
+    $('#marking_id').select2({
       placeholder: "Search for marking...",
       minimumInputLength: 1,
       minimumResultsForSearch: Infinity,
@@ -210,7 +212,7 @@
       }
     });
 
-    $('#item').select2({
+    $('#item_id').select2({
       placeholder: "Search for item...",
       minimumInputLength: 1,
       ajax: {
@@ -233,8 +235,8 @@
 
     @if(isset($purchase))
       @php
-        $marking = \App\Models\Marking::find($purchase['marking']);
-        $item = \App\Models\Item::find($purchase['item']);
+        $marking = \App\Models\Marking::find($purchase->marking_id);
+        $item = \App\Models\Item::find($purchase->item_id);
       @endphp
       let marking = {
           id: '{{ $marking->id }}',
@@ -246,32 +248,32 @@
       };
       let markingOption = new Option(marking.text, marking.id, false, false);
       let itemOption = new Option(item.text, item.id, false, false);
-      $('#marking').append(markingOption).trigger('change');
-      $('#item').append(itemOption).trigger('change');
+      $('#marking_id').append(markingOption).trigger('change');
+      $('#item_id').append(itemOption).trigger('change');
     @endif
 
-    @if(old('marking'))
+    @if(old('marking_id'))
       @php
-        $marking = \App\Models\Marking::find(old('marking'));
+        $marking = \App\Models\Marking::find(old('marking_id'));
       @endphp
       let marking = {
           id: '{{ $marking->id }}',
           text: '{{ $marking->name }}'
       };
       let markingOption = new Option(marking.text, marking.id, false, false);
-      $('#marking').append(markingOption).trigger('change');
+      $('#marking_id').append(markingOption).trigger('change');
     @endif
 
-    @if(old('item'))
+    @if(old('item_id'))
       @php
-        $item = \App\Models\Item::find(old('item'));
+        $item = \App\Models\Item::find(old('item_id'));
       @endphp
       let item = {
           id: '{{ $item->id }}',
           text: '{{ $item->name }}'
       };
       let itemOption = new Option(item.text, item.id, false, false);
-      $('#item').append(itemOption).trigger('change');
+      $('#item_id').append(itemOption).trigger('change');
     @endif
 })
 </script>
