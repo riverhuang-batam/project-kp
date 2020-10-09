@@ -100,7 +100,20 @@ class PaymentController extends Controller
     public function update(Request $request, Payment $payment)
     {
         $request->validate(Payment::rules());
+        $attachmentOption = $request->input('attachment_option');
         $file = $request->file('file_name');
+        if($attachmentOption == 'change'){
+            if(empty($file)){
+                return redirect()->route('payments.create')->with([
+                    'error' => 'Change option with no file selected, input the new file or select remove instead!',
+                    'payment' => $payment
+                ]);
+            }
+            Storage::disk('public')->delete('attachment/' . $payment->file_name);
+        }
+        if($attachmentOption == 'remove'){
+            Storage::disk('public')->delete('attachment/' . $payment->file_name);
+        }
         $validFile = null;
         if(!empty($file)){
             $maxAllowedSize = env('MAX_ATTACHMENT_SIZE');
