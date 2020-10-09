@@ -38,6 +38,7 @@
                   <th>No</th>
                   <th>Purchase code</th>
                   <th>Type</th>
+                  <th>Amount (S$)</th>
                   <th>Attachment</th>
                   <th>Action</th>
                 </tr>
@@ -89,6 +90,10 @@
                 {
                     data: 'type',
                     name: 'type'
+                },
+                {
+                    data: 'amount',
+                    name: 'amount'
                 },
                 {
                     data: 'attachment',

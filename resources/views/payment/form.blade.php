@@ -31,7 +31,7 @@
             @method('PUT')
             @endif
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <div class="form-group">
                     <label for="purchase_id">Purchase code</label>
                     <select id="purchase_id" name="purchase_id" class="form-control select2"></select>
@@ -42,7 +42,7 @@
                     @enderror
                   </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <div class="form-group">
                     <label for="type">Payment type</label>
                     <select class="custom-select @error('type') is-invalid @enderror" id="type" name="type">
@@ -57,10 +57,21 @@
                     @enderror
                   </div>
               </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label for="amount">Amount (S$)</label>
+                <input type="number" class="form-control" name="amount" value="{{isset($payment) ? $payment->amount : 0}}" required/>
+                    @error('amount')
+                    <div class="invalid-feedback">
+                      {{ $message }}
+                    </div>
+                    @enderror
+                </div>
+              </div>
             </div>
             <div class="row mt-4">
               <div class="col-md-12">
-                @if(isset($payment->file_name))
+                @if(isset($payment))
                 <div class="mb-4 form-group">
                   <input class="attachment-option" name="attachment_option" type="radio" value="change" required/><span>  Change attachement</span>
                   <div></div>

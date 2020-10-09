@@ -11,14 +11,15 @@ class Payment extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['purchase_id', 'type', 'file_name'];
+    protected $fillable = ['purchase_id', 'type', 'file_name', 'amount'];
 
     public static function rules($merge = [])
     {
         return array_merge(
             [
                 'purchase_id' => 'required',
-                'type' => 'required'
+                'type' => 'required',
+                'amount' => 'required'
             ],
             $merge
             );

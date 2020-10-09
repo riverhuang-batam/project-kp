@@ -17,6 +17,7 @@ class CreateTablePayment extends Migration
             $table->id();
             $table->foreignId('purchase_id')->references('id')->on('purchases');
             $table->tinyInteger('type');
+            $table->double('amount', 8, 2);
             $table->string('file_name', 255)->nullable();
             $table->timestamps();
             $table->softDeletes();
