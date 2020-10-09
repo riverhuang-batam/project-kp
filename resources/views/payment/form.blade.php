@@ -2,6 +2,11 @@
 @section('title', 'Create Payment - Purchasing App')
 
 @section('content')
+@if(session('payment'))
+  <?php
+    $payment = session('payment')
+  ?>
+@endif
 <div class="container">
   @if(session('error'))
   <div id="alert" class="alert alert-danger">
@@ -55,9 +60,21 @@
             </div>
             <div class="row mt-4">
               <div class="col-md-12">
-                <div class="form-group">
+                @if(isset($payment->file_name))
+                <div class="mb-4 form-group">
+                  <input class="attachment-option" name="attachment_option" type="radio" value="change" required/><span>  Change attachement</span>
+                  <div></div>
+                  <input class="attachment-option" name="attachment_option" type="radio" value="remove"/><span>  Remove attachement</span>
+                </div>
+                <div id="current-attachment">
+                  <p>Current attachement: {{$payment->file_name}}</p>
+                </div>
+                @endif
+              <div id="input-attachment"  class="form-group {{isset($payment) ? "d-none" : ""}}">
                   <label for="file_name">Attachment</label>
-                  <input type="file" name="file_name"/>
+                  <div></div>
+                <input type="file" name="file_name"/>
+                <input type="hidden" name="current_file" value="{{isset($payment) ? $payment->file_name : ""}}"/> 
                 </div>
               </div>
             </div>
@@ -86,11 +103,40 @@
 <script type="text/javascript">    
   $(function(){
     let alert = $('#alert').length;
-        if (alert > 0) {
-            setTimeout(() => {
-                $('#alert').remove();
-            }, 3000);
+    if (alert > 0) {
+        setTimeout(() => {
+            $('#alert').remove();
+        }, 3000);
+    }
+
+    $('body').on('click','.attachment-option',function(){
+        let isInputHide = $('#input-attachment').hasClass("d-none");
+        let isInputShow = $('#input-attachment').hasClass("d-block");
+        let isAttachmentHide = $('#current-attachment').hasClass('d-none');
+        switch($(this).val()){
+          case 'change':
+            if(isInputHide){
+              $('#input-attachment').removeClass('d-none');
+              $('#input-attachment').addClass('d-block');
+            }
+            if(isAttachmentHide){
+              $('#current-attachment').removeClass('d-none');
+              $('#current-attachment').addClass('d-block')
+            }
+            break;
+          case 'remove':
+            if(!isInputHide){
+              $('#input-attachment').removeClass('d-block');
+              $('#input-attachment').addClass('d-none');
+            }
+            if(!isAttachmentHide){
+              $('#current-attachment').removeClass('d-block');
+              $('#current-attachment').addClass('d-none')
+            }
+            break;
         }
+    });
+
     $('#purchase_id').select2({
       placeholder: "Search for purchase order...",
       minimumInputLength: 1,
