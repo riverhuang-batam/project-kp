@@ -6,6 +6,9 @@
   <div id="delete-alert" class="alert alert-success d-none">
     Data have been removed
    </div>
+   <div id="duplicate-alert" class="alert alert-success d-none">
+    Data was successfully duplicated
+   </div>
   @if(session('status'))
   <div id="alert" class="alert alert-success">
     {{ session('status') }}
@@ -57,6 +60,7 @@
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="{{asset('js/alerthelper.js')}}"></script>
 <script type="text/javascript">
   $(function () {
         let alert = $('#alert').length;
@@ -125,9 +129,9 @@
             $(location).attr('href', url);
         });
 
-        $('body').on('click', '#delete', function () {
+        $('body').on('click', '#delete',async function () {
             let data_id = $(this).data("id");
-            let confirmation = confirm("Are you sure want to delete the data?");
+            let confirmation = await showDialog("Are you sure?","You want to delete this data!","warning");
             if (confirmation) {
                 let url = window.location.origin + "/purchases/" + data_id;
                 $.ajax({
@@ -155,9 +159,9 @@
             }
         });
 
-        $('body').on('click', '#duplicate', function () {
+        $('body').on('click', '#duplicate', async function () {
             let data_id = $(this).data('id');
-            let confirmation = confirm("Are you sure want to duplicate this order?");
+            let confirmation = await showDialog("Please confirm!","Do you want to duplicate this data?","question");
             if(confirmation){
               let url = "purchases/duplicate/" + data_id;
               $.ajax({
@@ -165,6 +169,11 @@
                 success: function(data){
                   var table =  $(".yajra-datatable").DataTable();
                   table.ajax.reload();
+                  var element = document.getElementById("duplicate-alert");
+                      element.classList.remove("d-none");
+                      setTimeout(()=>{
+                        element.classList.add("d-none");
+                      }, 3000);
                   // $(location).attr('href', window.location.origin + "/purchases");
                 },
                 error: function(data){
