@@ -38,7 +38,7 @@
                 <div class="d-flex justify-content-between mb-4">
                 <div>
                   <h6>Marking:</h6>
-                  <p>{{\App\Models\Purchase::getMarkingName($purchase->marking_id) }}</p>
+                  <p>{{$purchase->marking}}</p>
                 </div>
                 <div>
                   <h6>Item:</h6>
