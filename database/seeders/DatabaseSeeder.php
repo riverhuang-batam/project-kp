@@ -24,6 +24,12 @@ class DatabaseSeeder extends Seeder
             ]);
         }
         foreach (range(1, 20) as $index) {
+            DB::table('suppliers')->insert([
+                'code' => $faker->word,
+                'name' => $faker->word,
+            ]);
+        }
+        foreach (range(1, 20) as $index) {
             DB::table('items')->insert([
                 'name' => $faker->word,
             ]);
@@ -32,7 +38,7 @@ class DatabaseSeeder extends Seeder
             DB::table('purchases')->insert([
                 'purchase_code' => 'PC'.$faker->randomNumber($nbDigits = NULL, $strict = false),
                 'date' => $faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now'),
-                'marking_id' => $index,
+                'marking' => $faker->word,
                 'item_id' => $index,
                 'quantity' => 100,
                 'ctns' => 100,

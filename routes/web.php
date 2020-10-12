@@ -14,11 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'App\Http\Controllers\Auth\LoginController@showLoginForm');
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::middleware(['auth'])->group(function () {
   Route::resource('purchases', 'App\Http\Controllers\Admin\PurchaseController');
-  Route::get('purchase-list', 'App\Http\Controllers\Admin\PurchaseController@purchaseDataTable')->name('purchase-list');
+  Route::get('purchase-list/{status}', 'App\Http\Controllers\Admin\PurchaseController@purchaseDataTable');
   Route::get('purchase-select', 'App\Http\Controllers\Admin\PurchaseController@purchaseSelect')->name('purchase-select');
   Route::get('purchases/duplicate/{id}', 'App\Http\Controllers\Admin\PurchaseController@duplicateOrder');
 
@@ -34,4 +34,8 @@ Route::middleware(['auth'])->group(function () {
   Route::get('payment-list', 'App\Http\Controllers\Admin\PaymentController@paymentDataTable')->name('payment-list');
   Route::get('payments/download/{id}', 'App\Http\Controllers\Admin\PaymentController@download');
   Route::get('payments/add-payment/{id}', 'App\Http\Controllers\Admin\PaymentController@addPayment');
+
+  Route::resource('suppliers', 'App\Http\Controllers\Admin\SupplierController');
+  Route::get('supplier-list', 'App\Http\Controllers\Admin\SupplierController@supplierDataTable')->name('supplier-list');
+  Route::get('supplier-select', 'App\Http\Controllers\Admin\SupplierController@supplierSelect')->name('supplier-select');
 });

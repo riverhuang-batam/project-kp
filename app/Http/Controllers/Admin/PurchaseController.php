@@ -100,7 +100,7 @@ class PurchaseController extends Controller
     }
 
     public function purchaseDataTable(Request $request){
-        $data = Purchase::query()->get();
+        $data = Purchase::query()->where('status', $request->status)->get();
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function($data){
@@ -133,13 +133,13 @@ class PurchaseController extends Controller
             ->editColumn('status', function(Purchase $purchase){
               return OrderStatus::getString($purchase['status']);
             })
-            ->editColumn('marking_id', function(Purchase $purchase){
-              try{
-                return Marking::find($purchase['marking_id'])->name;
-              }catch(\Throwable $th){
-                return null;
-              }
-            })
+            // ->editColumn('marking_id', function(Purchase $purchase){
+            //   try{
+            //     return Marking::find($purchase['marking_id'])->name;
+            //   }catch(\Throwable $th){
+            //     return null;
+            //   }
+            // })
             ->editColumn('item_id', function(Purchase $purchase){
               try {
                 return Item::find($purchase['item_id'])->name;
@@ -156,7 +156,7 @@ class PurchaseController extends Controller
         $newOrder->date = date('Y-m-d');
         $newOrder->purchase_code = 'PC'.date('YmdHis');
         $newOrder->status = 1;
-        $newOrder->marking_id = $currentOrder->marking_id;
+        $newOrder->marking = $currentOrder->marking;
         $newOrder->item_id = $currentOrder->item_id;
         $newOrder->quantity = $currentOrder->quantity;
         $newOrder->ctns = $currentOrder->ctns;
