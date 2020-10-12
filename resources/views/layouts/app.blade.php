@@ -45,6 +45,9 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <!-- Left Side Of Navbar -->
           <div class="d-flex flex-row">
+            <a href="{{ route('suppliers.index') }}" type="button" class="btn border mx-1 nav-link" >
+              Supplier
+            </a>
             <a href="{{ route('purchases.index') }}" type="button" class="btn border mx-1 nav-link" >
               Purchase
             </a>
