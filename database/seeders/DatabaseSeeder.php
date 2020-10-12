@@ -24,6 +24,12 @@ class DatabaseSeeder extends Seeder
             ]);
         }
         foreach (range(1, 20) as $index) {
+            DB::table('suppliers')->insert([
+                'code' => $faker->word,
+                'name' => $faker->word,
+            ]);
+        }
+        foreach (range(1, 20) as $index) {
             DB::table('items')->insert([
                 'name' => $faker->word,
             ]);
