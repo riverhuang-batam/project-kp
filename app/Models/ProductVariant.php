@@ -19,8 +19,17 @@ class ProductVariant extends Model
     {
         return array_merge(
             [
-                ''
+                'product_id' => 'required',
+                'name' => 'required',
+                'unit_price' => 'nullable',
+                'quantity' => 'nullable',
+                'sub_total' => 'nullable',
             ]
         );
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
     }
 }

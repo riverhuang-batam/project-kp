@@ -21,12 +21,12 @@ class Product extends Model
             [
                 'name' => 'required',
                 'sku' => 'nullable',
-                'photo' => 'nullable'
+                'photo' => 'nullable',
             ]
         );
     }
 
-    public function variants()
+    public function variant()
     {
         return $this->hasMany(ProductVariant::class);
     }
