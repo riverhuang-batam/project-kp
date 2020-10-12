@@ -44,47 +44,20 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <!-- Left Side Of Navbar -->
-          <ul class="navbar-nav mr-auto">
-            <div class="dropdown">
-              <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Menu
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <div>
-                  <a href="{{ route('purchases.index') }}" type="button" class="btn" >
-                    Purchase
-                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" d="M6 12.796L11.481 8 6 3.204v9.592zm.659.753l5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-                    </svg>
-                  </a>
-                </div>
-                <div>
-                  <a href="{{ route('markings.index') }}" type="button" class="btn" >
-                    Marking
-                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" d="M6 12.796L11.481 8 6 3.204v9.592zm.659.753l5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-                    </svg>
-                  </a>
-                </div>
-                <div>
-                  <a href="{{ route('items.index') }}" type="button" class="btn" >
-                      Item
-                      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M6 12.796L11.481 8 6 3.204v9.592zm.659.753l5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-                      </svg>
-                  </a>
-                </div>
-                <div>
-                  <a href="{{ route('payments.index') }}" type="button" class="btn" >
-                      Payment
-                      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M6 12.796L11.481 8 6 3.204v9.592zm.659.753l5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753z"/>
-                      </svg>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </ul>
+          <div class="d-flex flex-row">
+            <a href="{{ route('suppliers.index') }}" type="button" class="btn border mx-1 nav-link" >
+              Supplier
+            </a>
+            <a href="{{ route('purchases.index') }}" type="button" class="btn border mx-1 nav-link" >
+              Purchase
+            </a>
+            <a href="{{ route('items.index') }}" type="button" class="btn border mx-1 nav-link" >
+              Item
+            </a>
+            <a href="{{ route('payments.index') }}" type="button" class="btn border mx-1 nav-link" >
+              Payment
+            </a>
+          </div>
 
           <!-- Right Side Of Navbar -->
           <ul class="navbar-nav ml-auto">

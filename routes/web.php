@@ -18,7 +18,7 @@ Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
   Route::resource('purchases', 'App\Http\Controllers\Admin\PurchaseController');
-  Route::get('purchase-list', 'App\Http\Controllers\Admin\PurchaseController@purchaseDataTable')->name('purchase-list');
+  Route::get('purchase-list/{status}', 'App\Http\Controllers\Admin\PurchaseController@purchaseDataTable');
   Route::get('purchase-select', 'App\Http\Controllers\Admin\PurchaseController@purchaseSelect')->name('purchase-select');
   Route::get('purchases/duplicate/{id}', 'App\Http\Controllers\Admin\PurchaseController@duplicateOrder');
 
