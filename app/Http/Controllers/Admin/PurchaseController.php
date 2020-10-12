@@ -100,7 +100,7 @@ class PurchaseController extends Controller
     }
 
     public function purchaseDataTable(Request $request){
-        $data = Purchase::query()->get();
+        $data = Purchase::query()->where('status', $request->status)->get();
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function($data){

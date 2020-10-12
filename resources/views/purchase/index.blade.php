@@ -21,27 +21,51 @@
           <div class="card-title text-center">
             <h4>Purchase List</h4>
           </div>
-          <div>
-            <a href="{{ route('purchases.create') }}" type="button" class="btn btn-primary">
-              + Add New Record</a>
-          </div>
         </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-bordered yajra-datatable">
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Purchase code</th>
-                  <th>Date</th>
-                  <th>Marking</th>
-                  <th>Item</th>
-                  <th>Quantity</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-            </table>
+        <div class="card-header">
+          <div class="nav-item my-1 float-right">
+            <a href="{{ route('purchases.create') }}" type="button" class="btn-primary nav-link rounded">
+              + Add New Record
+            </a>
+          </div>
+          <ul class="nav nav-pills" id="pills-tab" role="tablist">
+            <li class="nav-item ml-2 mr-1 my-1 border rounded" role="presentation" onclick="datatable(1)">
+            <a class="nav-link active" id="pills-all-tab" data-toggle="pill" href="#pills-all" role="tab" aria-controls="pills-all" aria-selected="true">({{count(\App\Models\Purchase::where('status', 1)->get())}}) Waiting</a>
+            </li>
+            <li class="nav-item mx-1 my-1 border rounded" role="presentation" onclick="datatable(2)">
+              <a class="nav-link " id="pills-shippingWH-tab" data-toggle="pill" href="#pills-shippingWH" role="tab" aria-controls="pills-shippingWH" aria-selected="false">({{count(\App\Models\Purchase::where('status', 2)->get())}}) Shipping to Warehouse</a>
+            </li>
+            <li class="nav-item mx-1 my-1 border rounded" role="presentation" onclick="datatable(3)">
+              <a class="nav-link" id="pills-shippingID-tab" data-toggle="pill" href="#pills-shippingID" role="tab" aria-controls="pills-shippingID" aria-selected="false">({{count(\App\Models\Purchase::where('status', 3)->get())}}) Shipping to Indonesia</a>
+            </li>
+            <li class="nav-item mx-1 my-1 border rounded" role="presentation" onclick="datatable(4)">
+              <a class="nav-link" id="pills-arrived-tab" data-toggle="pill" href="#pills-arrived" role="tab" aria-controls="pills-arrived" aria-selected="false">({{count(\App\Models\Purchase::where('status', 4)->get())}}) Arrived</a>
+            </li>
+            <li class="nav-item mx-1 my-1 border rounded" role="presentation" onclick="datatable(5)">
+              <a class="nav-link" id="pills-completed-tab" data-toggle="pill" href="#pills-completed" role="tab" aria-controls="pills-completed" aria-selected="false">({{count(\App\Models\Purchase::where('status', 5)->get())}}) Completed</a>
+            </li>
+          </ul>
+        </div>
+        <div class="tab-content" id="pills-tabContent">
+          <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered yajra-datatable w-100">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Purchase code</th>
+                      <th>Date</th>
+                      <th>Marking</th>
+                      <th>Item</th>
+                      <th>Quantity</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -69,47 +93,8 @@
                 $('#alert').remove();
             }, 3000);
         }
-        $table = $('.yajra-datatable').DataTable({
-            
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('purchase-list') }}",
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex'
-                },
-                {
-                    data: 'purchase_code',
-                    name: 'purchase_code'
-                },
-                {
-                    data: 'date',
-                    name: 'date'
-                },
-                {
-                    data: 'marking',
-                    name: 'marking'
-                },
-                {
-                    data: 'item_id',
-                    name: 'item_id'
-                },
-                {
-                    data: 'quantity',
-                    name: 'quantity'
-                },
-                {
-                    data: 'status',
-                    name: 'status'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    searchable: false
-                },
-            ]
-        });
+        // data table
+        datatable(1);
 
         $('body').on('click', '#show-detail', function () {
             let data_id = $(this).data('id');
@@ -182,7 +167,50 @@
               })
             }
         });
-    });
+  });
 
+  function datatable(status) {
+    $table = $('.yajra-datatable').DataTable({
+      destroy: true,
+      processing: true,
+      serverSide: true,
+      ajax: `{{ url('purchase-list/${status}') }}`,
+      columns: [{
+              data: 'DT_RowIndex',
+              name: 'DT_RowIndex'
+          },
+          {
+              data: 'purchase_code',
+              name: 'purchase_code'
+          },
+          {
+              data: 'date',
+              name: 'date'
+          },
+          {
+              data: 'marking_id',
+              name: 'marking_id'
+          },
+          {
+              data: 'item_id',
+              name: 'item_id'
+          },
+          {
+              data: 'quantity',
+              name: 'quantity'
+          },
+          {
+              data: 'status',
+              name: 'status'
+          },
+          {
+              data: 'action',
+              name: 'action',
+              orderable: false,
+              searchable: false
+          },
+      ]
+    });
+  }
 </script>
 @endsection
