@@ -87,8 +87,8 @@
                     name: 'date'
                 },
                 {
-                    data: 'marking_id',
-                    name: 'marking_id'
+                    data: 'marking',
+                    name: 'marking'
                 },
                 {
                     data: 'item_id',

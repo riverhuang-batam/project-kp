@@ -62,15 +62,17 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="marking_id">Marking</label>
-                  <select id="marking_id" name="marking_id" class="form-control select2"></select>
-                  @error('marking_id')
-                  <div class="invalid-feedback d-inline-block">
+                  <label for="marking">Marking</label>
+                  <input type="text" class="form-control @error('marking') is-invalid @enderror" id="marking" placeholder="marking"
+                    name="marking" value="{{ isset($purchase) ? $purchase['marking'] : old('marking') }}" autocomplete="off">
+                  @error('marking')
+                  <div class="invalid-feedback">
                     {{ $message }}
                   </div>
                   @enderror
                 </div>
               </div>
+              
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="item_id">Item</label>
@@ -190,28 +192,6 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script type="text/javascript">    
   $(function(){
-    $('#marking_id').select2({
-      placeholder: "Search for marking...",
-      minimumInputLength: 1,
-      minimumResultsForSearch: Infinity,
-      ajax: {
-        url: "{{route('marking-select')}}",
-        dataType: 'json',
-        delay: 250,
-        data: function(params){
-          return {
-            q: $.trim(params.term)
-          }
-        },
-        processResults: function (data) {
-            return {
-                results: data
-            };
-        },
-        cache: true
-      }
-    });
-
     $('#item_id').select2({
       placeholder: "Search for item...",
       minimumInputLength: 1,
@@ -235,33 +215,14 @@
 
     @if(isset($purchase))
       @php
-        $marking = \App\Models\Marking::find($purchase->marking_id);
         $item = \App\Models\Item::find($purchase->item_id);
       @endphp
-      let marking = {
-          id: '{{ $marking->id }}',
-          text: '{{ $marking->name }}'
-      };
       let item = {
           id: '{{ $item->id }}',
           text: '{{ $item->name }}'
       };
-      let markingOption = new Option(marking.text, marking.id, false, false);
       let itemOption = new Option(item.text, item.id, false, false);
-      $('#marking_id').append(markingOption).trigger('change');
       $('#item_id').append(itemOption).trigger('change');
-    @endif
-
-    @if(old('marking_id'))
-      @php
-        $marking = \App\Models\Marking::find(old('marking_id'));
-      @endphp
-      let marking = {
-          id: '{{ $marking->id }}',
-          text: '{{ $marking->name }}'
-      };
-      let markingOption = new Option(marking.text, marking.id, false, false);
-      $('#marking_id').append(markingOption).trigger('change');
     @endif
 
     @if(old('item_id'))
