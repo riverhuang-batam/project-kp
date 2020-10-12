@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'App\Http\Controllers\Auth\LoginController@showLoginForm');
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::middleware(['auth'])->group(function () {
   Route::resource('purchases', 'App\Http\Controllers\Admin\PurchaseController');
