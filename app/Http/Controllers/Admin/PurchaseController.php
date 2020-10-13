@@ -43,6 +43,11 @@ class PurchaseController extends Controller
      */
     public function store(Request $request)
     {
+      $quantity = $request->quantity;
+      foreach($quantity as $key => $val){
+        dump($val);
+      }
+      dd();
         $request->validate(Purchase::rules());
         Purchase::create(request()->all());
         return redirect()->route('purchases.index')->with('status', 'New item successfully added');

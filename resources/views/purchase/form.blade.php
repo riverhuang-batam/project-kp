@@ -2,7 +2,7 @@
 @section('title', 'Create Purchase - Purchasing App')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
   <div class="row justify-content-center">
     <div class="col-md-12">
       <div class="card">
@@ -20,164 +20,296 @@
             @if(isset($purchase))
             @method('PUT')
             @endif
-            <div class="row">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label for="purchase_code">Purchase Code</label>
-                  <input type="text" class="form-control @error('purchase_code') is-invalid @enderror" id="purchase_code" name="purchase_code" value="{{ isset($pc) ? $pc : $purchase['purchase_code'] }}" autocomplete="off" readonly>
-                  @error('purchase_code')
-                  <div class="invalid-feedback">
-                    {{ $message }}
+            <div class="card">
+              <div class="card-header">
+                Purchase
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-4">
+                    <h6>Basic Information (Required)</h6>
+                    <hr>
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="form-group input-group-sm">
+                          <label for="code">Code</label>
+                          <input type="text" class="form-control @error('code') is-invalid @enderror" id="code" name="code" value="{{ isset($pc) ? $pc : $purchase['code'] }}" autocomplete="off" readonly>
+                          @error('code')
+                          <div class="invalid-feedback">
+                            {{ $message }}
+                          </div>
+                          @enderror
+                        </div>
+
+                        <div class="form-group input-group-sm">
+                          <label for="order_date">Order Date</label>
+                          <input type="date" class="form-control @error('order_date') is-invalid @enderror" id="order_date" name="order_date" value="{{ isset($purchase) ? $purchase['order_date'] : old('order_date') }}" required>
+                          @error('order_date')
+                          <div class="invalid-feedback">
+                            {{ $message }}
+                          </div>
+                          @enderror
+                        </div>
+
+                        <div class="form-group input-group-sm">
+                          <label for="product_total">Product total (RMB)</label>
+                          <input type="text" class="form-control @error('product_total') is-invalid @enderror" id="product_total" name="product_total"  readonly>
+                          @error('product_total')
+                          <div class="invalid-feedback">
+                            {{ $message }}
+                          </div>
+                          @enderror
+                        </div>
+
+                        <div class="form-group input-group-sm">
+                          <label for="grand_total">Grand total (RMB)</label>
+                          <input type="text" class="form-control @error('grand_total') is-invalid @enderror" id="grand_total" name="grand_total" readonly>
+                          @error('grand_total')
+                          <div class="invalid-feedback">
+                            {{ $message }}
+                          </div>
+                          @enderror
+                        </div>
+
+                        <div class="form-group input-group-sm">
+                          <label for="grand_total(rp)">Grand total (RP)</label>
+                          <input type="text" class="form-control @error('grand_total(rp)') is-invalid @enderror" id="grand_total(rp)" name="grand_total(rp)"  readonly>
+                          @error('grand_total(rp)')
+                          <div class="invalid-feedback">
+                            {{ $message }}
+                          </div>
+                          @enderror
+                        </div>
+
+                      </div>
+                      <div class="col-6">
+                        <div class="form-group input-group-sm">
+                          <label for="status">Status</label>
+                          <select class="custom-select @error('status') is-invalid @enderror" id="status" name="status">
+                            <option value="">Select Status</option>
+                            <option value="1" {{isset($purchase) && $purchase['status'] == 1 || old('status') == 1 ? 'selected="selected"' : ""}}>Waiting</option>
+                            <option value="2" {{isset($purchase) && $purchase['status'] == 2 || old('status') == 2 ? 'selected="selected"' : ""}}>Shipping to Warehouse</option>
+                            <option value="3" {{isset($purchase) && $purchase['status'] == 3 || old('status') == 3 ? 'selected="selected"' : ""}}>Shipping to Indonesia</option>
+                            <option value="4" {{isset($purchase) && $purchase['status'] == 4 || old('status') == 4 ? 'selected="selected"' : ""}}>Arrived</option>
+                            <option value="5" {{isset($purchase) && $purchase['status'] == 5 || old('status') == 5 ? 'selected="selected"' : ""}}>Completed</option>
+                          </select>
+                          @error('status')
+                          <div class="invalid-feedback">
+                            {{ $message }}
+                          </div>
+                          @enderror
+                        </div>
+
+                        <div class="form-group input-group-sm">
+                          <label for="supplier_id">Supplier</label>
+                          <select id="supplier_id" name="supplier_id" class="form-control"></select>
+                          @error('supplier_id')
+                          <div class="invalid-feedback d-inline-block">
+                            {{ $message }}
+                          </div>
+                          @enderror
+                        </div>
+
+                        <div class="form-group input-group-sm">
+                          <label for="transfer_fee">Transfer Fee (RMB)</label>
+                          <input type="number" class="form-control @error('transfer_fee') is-invalid @enderror" id="transfer_fee" name="transfer_fee" value={{old('transfer_fee')}}>
+                          @error('transfer_fee')
+                          <div class="invalid-feedback">
+                            {{ $message }}
+                          </div>
+                          @enderror
+                        </div>
+
+                        <div class="form-group input-group-sm">
+                          <label for="currency_rate">Currency Rate</label>
+                          <input type="number" class="form-control @error('currency_rate') is-invalid @enderror" id="currency_rate" name="currency_rate" value={{old('currency_rate')}} >
+                          @error('currency_rate')
+                          <div class="invalid-feedback">
+                            {{ $message }}
+                          </div>
+                          @enderror
+                        </div>
+
+                      </div>
+                    </div>
                   </div>
-                  @enderror
+                  <div class="col-4">
+                    <h6>
+                      Transport Information (Optional)
+                    </h6>
+                      <hr>
+                      <div class="row">
+                        <div class="col-6">
+                          <div class="form-group input-group-sm">
+                            <label for="transport_company">Transport Company</label>
+                            <input type="text" class="form-control @error('transport_company') is-invalid @enderror" id="transport_company" name="transport_company" value={{old('transport_company')}} >
+                            @error('transport_company')
+                            <div class="invalid-feedback">
+                              {{ $message }}
+                            </div>
+                            @enderror
+                          </div>
+
+                          <div class="form-group input-group-sm">
+                            <label for="transport_cost">Transport Cost (RMB)</label>
+                            <input type="number" class="form-control @error('transport_cost') is-invalid @enderror" id="transport_cost" name="transport_cost" value={{old('transport_cost')}} >
+                            @error('transport_cost')
+                            <div class="invalid-feedback">
+                              {{ $message }}
+                            </div>
+                            @enderror
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="form-group input-group-sm">
+                            <label for="tracking_number">Tracking No</label>
+                            <input type="text" class="form-control @error('tracking_number') is-invalid @enderror" id="tracking_number" name="tracking_number" value={{old('tracking_number')}} >
+                            @error('tracking_number')
+                            <div class="invalid-feedback">
+                              {{ $message }}
+                            </div>
+                            @enderror
+                          </div>
+
+                          <div class="form-group input-group-sm">
+                            <label for="total_pieces_ctn">Total Pieces CTN</label>
+                            <input type="number" class="form-control @error('total_pieces_ctn') is-invalid @enderror" id="total_pieces_ctn" name="total_pieces_ctn" value={{old('total_pieces_ctn')}} >
+                            @error('total_pieces_ctn')
+                            <div class="invalid-feedback">
+                              {{ $message }}
+                            </div>
+                            @enderror
+                          </div>
+                        </div>
+                        <div class="col-12">
+                          <label for="remark">Remark</label>
+                          <textarea class="form-control" id="remark" name="remark" rows="3">{{ isset($purchase) ? $purchase['remark'] : old('remark') }}</textarea>
+                        </div>
+                      </div>
+                    
+                  </div>
+                  <div class="col-4">
+                    <h6>
+                      Shipping Information (Optional)
+                    </h6>
+                      <hr>
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="form-group input-group-sm">
+                            <label for="container_number">Container No</label>
+                            <input type="text" class="form-control @error('container_number') is-invalid @enderror" id="container_number" name="container_number" value={{old('container_number')}} >
+                            @error('container_number')
+                            <div class="invalid-feedback">
+                              {{ $message }}
+                            </div>
+                            @enderror
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="form-group input-group-sm">
+                            <label for="load_date">Load Date</label>
+                            <input type="date" class="form-control @error('load_date') is-invalid @enderror" id="load_date" name="load_date" value="{{ isset($purchase) ? $purchase['load_date'] : old('load_date') }}">
+                            @error('load_date')
+                            <div class="invalid-feedback">
+                              {{ $message }}
+                            </div>
+                            @enderror
+                          </div>
+
+                          <div class="form-group input-group-sm">
+                            <label for="cubication">Cubication</label>
+                            <input type="number" class="form-control @error('cubication') is-invalid @enderror" id="cubication" name="cubication" value={{old('cubication')}} >
+                            @error('cubication')
+                            <div class="invalid-feedback">
+                              {{ $message }}
+                            </div>
+                            @enderror
+                          </div>
+
+
+                        </div>
+                        <div class="col-6">
+                          <div class="form-group input-group-sm">
+                            <label for="estimated_unload">Estimated Unload</label>
+                            <input type="date" class="form-control @error('estimated_unload') is-invalid @enderror" id="estimated_unload" name="estimated_unload" value="{{ isset($purchase) ? $purchase['estimated_unload'] : old('estimated_unload') }}">
+                            @error('estimated_unload')
+                            <div class="invalid-feedback">
+                              {{ $message }}
+                            </div>
+                            @enderror
+                          </div>
+
+                          <div class="form-group input-group-sm">
+                            <label for="shipping_cost">Shippinig Costs (RP)</label>
+                            <input type="number" class="form-control @error('shipping_cost') is-invalid @enderror" id="shipping_cost" name="shipping_cost" value={{old('shipping_cost')}} >
+                            @error('shipping_cost')
+                            <div class="invalid-feedback">
+                              {{ $message }}
+                            </div>
+                            @enderror
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-12">
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                      <a href="{{ route('purchases.index') }}" type="button" class="text-none"><< Back</a> 
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="date">Date</label>
-                  <input type="date" class="form-control @error('date') is-invalid @enderror" id="date" placeholder="Add Date" name="date" value="{{ isset($purchase) ? $purchase['date'] : old('date') }}" autocomplete="off">
-                  @error('date')
-                  <div class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                  @enderror
-                </div>
+
+            <div class="card mt-4">
+              <div class="card-header">
+                Details
               </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="expected_date">Expected Date</label>
-                  <input type="date" class="form-control @error('expected_date') is-invalid @enderror" id="expected_date" placeholder="Expected Date"
-                    name="expected_date" value="{{ isset($purchase) ? $purchase['expected_date'] : old('expected_date') }}" autocomplete="off">
-                  @error('expected_date')
-                  <div class="invalid-feedback">
-                    {{ $message }}
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-4">
+                    <div class="form-group input-group-sm">
+                      <select id="product_id" class="form-control">
+                        <option value="0">Product 1</option>
+                        <option value="1">Product 2</option>
+                        <option value="2">Product 3</option>
+                      </select>
+                      @error('product_id')
+                      <div class="invalid-feedback d-inline-block">
+                        {{ $message }}
+                      </div>
+                      @enderror
+                    </div>
                   </div>
-                  @enderror
-                </div>
-              </div>
-              
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="marking">Marking</label>
-                  <input type="text" class="form-control @error('marking') is-invalid @enderror" id="marking" placeholder="marking"
-                    name="marking" value="{{ isset($purchase) ? $purchase['marking'] : old('marking') }}" autocomplete="off">
-                  @error('marking')
-                  <div class="invalid-feedback">
-                    {{ $message }}
+                  <div class="col-8 d-flex justify-content-between align-items-start">
+                      <a type="button" id="add_product" class="btn btn-primary btn-sm text-light">+ Add</a> 
+                      <a type="button" id="update_product" class="btn btn-success btn-sm text-light">Update</a> 
                   </div>
-                  @enderror
-                </div>
-              </div>
-              
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="item_id">Item</label>
-                  <select id="item_id" name="item_id" class="form-control"></select>
-                  @error('item_id')
-                  <div class="invalid-feedback d-inline-block">
-                    {{ $message }}
-                  </div>
-                  @enderror
+
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <td class="font-weight-bold">Product SKU</td>
+                        <td class="font-weight-bold">Photo</td>
+                        <td class="font-weight-bold">Name</td>
+                        <td class="font-weight-bold">Unit Price (RMB)</td>
+                        <td class="font-weight-bold">Quantity</td>
+                        <td class="font-weight-bold">Sub Total</td>
+                        <td class="font-weight-bold">Option</td>
+                        <hr>
+                      </tr>
+                    </thead>
+                    <tbody id="detail-product-table">
+                    </tbody>
+                  </table>
+
+
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label for="quantity">Quantity</label>
-                  <input type="number" class="form-control @error('quantity') is-invalid @enderror" id="quantity" placeholder="Quantity"
-                    name="quantity" value="{{ isset($purchase) ? $purchase['quantity'] : old('quantity') }}" autocomplete="off">
-                  @error('quantity')
-                  <div class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                  @enderror
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label for="volume">Volume</label>
-                  <input type="number" class="form-control @error('volume') is-invalid @enderror" id="volume" placeholder="Volume"
-                    name="volume" value="{{ isset($purchase) ? $purchase['volume'] : old('volume') }}" step="0.01" autocomplete="off">
-                  @error('volume')
-                  <div class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                  @enderror
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label for="ctns">CTNS</label>
-                  <input type="number" class="form-control @error('ctns') is-invalid @enderror" id="ctns" placeholder="CTNS"
-                    name="ctns" value="{{ isset($purchase) ? $purchase['ctns'] : old('ctns') }}" autocomplete="off">
-                  @error('ctns')
-                  <div class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                  @enderror
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label for="pl">PL</label>
-                  <input type="text" class="form-control @error('pl') is-invalid @enderror" id="pl" placeholder="PL"
-                    name="pl" value="{{ isset($purchase) ? $purchase['pl'] : old('pl') }}" autocomplete="off">
-                  @error('pl')
-                  <div class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                  @enderror
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label for="resi">Resi</label>
-                  <input type="text" class="form-control @error('resi') is-invalid @enderror" id="resi" placeholder="Resi"
-                    name="resi" value="{{ isset($purchase) ? $purchase['resi'] : old('resi') }}" autocomplete="off">
-                  @error('resi')
-                  <div class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                  @enderror
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label for="status">Status</label>
-                  <select class="custom-select @error('status') is-invalid @enderror" id="status" name="status">
-                    <option value="">Select Status</option>
-                    <option value="1" {{isset($purchase) && $purchase['status'] == 1 || old('status') == 1 ? 'selected="selected"' : ""}}>Waiting</option>
-                    <option value="2" {{isset($purchase) && $purchase['status'] == 2 || old('status') == 2 ? 'selected="selected"' : ""}}>Shipping to Warehouse</option>
-                    <option value="3" {{isset($purchase) && $purchase['status'] == 3 || old('status') == 3 ? 'selected="selected"' : ""}}>Shipping to Indonesia</option>
-                    <option value="4" {{isset($purchase) && $purchase['status'] == 4 || old('status') == 4 ? 'selected="selected"' : ""}}>Arrived</option>
-                    <option value="5" {{isset($purchase) && $purchase['status'] == 5 || old('status') == 5 ? 'selected="selected"' : ""}}>Completed</option>
-                  </select>
-                  @error('status')
-                  <div class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                  @enderror
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12 mb-4">
-                <label for="remarks">Remarks</label>
-                <textarea class="form-control" id="remarks" name="remarks" placeholder="Remarks" rows="6">{{ isset($purchase) ? $purchase['remarks'] : old('remarks') }}</textarea>
-              </div>
-            </div>
-            <hr>
-            <div class="btn-group">
-              <a href="{{ route('purchases.index') }}" type="button" class="btn btn-secondary mr-2">Back</a> 
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
+
+
           </form>
         </div>
       </div>
@@ -190,8 +322,179 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-<script type="text/javascript">    
+<script type="text/javascript">
+
   $(function(){
+
+    const productRaw = [
+      {
+      sku: "Product 1",
+      name: "Casual bag",
+      photo: "https://images.pexels.com/photos/87452/flowers-background-butterflies-beautiful-87452.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      variant:[
+        {
+          id: 1,
+          name: "Varaint 1",
+          unit_price: 10
+        },
+        {
+          id: 2,
+          name: "Varaint 2",
+          unit_price: 20
+        },
+        {
+          id: 3,
+          name: "Varaint 3",
+          unit_price: 15
+        }
+      ]
+    },
+    {
+      sku: "Product 2",
+      name: "Casual bag",
+      photo: "https://images.pexels.com/photos/87452/flowers-background-butterflies-beautiful-87452.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      variant:[
+        {
+          id: 4,
+          name: "Varaint 1",
+          unit_price: 10
+        },
+        {
+          id:5,
+          name: "Varaint 2",
+          unit_price: 20
+        },
+        {
+          id:6,
+          name: "Varaint 3",
+          unit_price: 15
+        }
+      ]
+    },
+    {
+      sku: "Product 3",
+      name: "Casual bag",
+      photo: "https://images.pexels.com/photos/87452/flowers-background-butterflies-beautiful-87452.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      variant:[
+        {
+          id:7,
+          name: "Varaint 1",
+          unit_price: 30
+        },
+        {
+          id:8,
+          name: "Varaint 2",
+          unit_price: 20
+        },
+        {
+          id:9,
+          name: "Varaint 3",
+          unit_price: 15
+        },{
+          id:10,
+          name: "Varaint 4",
+          unit_price: 20
+        },
+        {
+          id:11,
+          name: "Varaint 5",
+          unit_price: 15
+        }
+      ]
+    }
+    ]
+
+    $('body').on('click', '#add_product', function () {
+            let refId = 'id' + (new Date()).getTime();
+            let productId = $('#product_id').val();
+            let product = productRaw[productId];
+            let table = document.querySelector('#detail-product-table');
+            let firstRow = document.createElement("tr");
+            let nextRow = document.createElement("tr");
+            let productSKU = document.createElement("td");
+            let productPhoto = document.createElement("td");
+            let productImage = document.createElement("img");
+            let variantData = document.createElement("tr");
+            let variantName = document.createElement("td");
+            let variantUnitPrice = document.createElement("td");
+            let variantQuantity = document.createElement("td");
+            let variantSubTotal = document.createElement("td");
+            let input = document.createElement('input');
+            let removeContainer = document.createElement('td')
+            let remove = document.createElement('a');
+
+            remove.className = "btn btn-primary btn-sm remove-product m-1 text-light";
+            remove.innerHTML = "Remove this product";
+            remove.dataset.ref = `${refId}`;
+            removeContainer.appendChild(remove);
+            removeContainer.rowSpan =product.variant.length;
+            productImage.src = product.photo;
+            productImage.alt = product.name;
+            productImage.width = 150;
+            productImage.height = 150;
+
+            product.variant.map((data, index) => {
+              if(index === 0){
+                productSKU.innerHTML = product.sku;
+                productSKU.rowSpan = product.variant.length;
+                productPhoto.appendChild(productImage);
+                productPhoto.rowSpan = product.variant.length;
+                variantName.innerHTML = data.name;
+                variantUnitPrice.innerHTML = data.unit_price;
+                variantUnitPrice.className = "unit-price";
+                input.type="number";
+                input.className="border border-secondary rounded-lg input-quanity input-group-sm";
+                input.name = `quantity[${data.id}]`;
+                variantQuantity.appendChild(input);
+                variantSubTotal.innerHTML = 0;
+                variantSubTotal.className = "sub-total";
+                firstRow.className = `${refId}`;
+                firstRow.appendChild(productSKU);
+                firstRow.appendChild(productPhoto);
+                firstRow.appendChild(variantName);
+                firstRow.appendChild(variantUnitPrice);
+                firstRow.appendChild(variantQuantity);
+                firstRow.appendChild(variantSubTotal);
+                firstRow.appendChild(removeContainer);
+                table.appendChild(firstRow.cloneNode(true));
+              }else{
+                variantName.innerHTML = data.name;
+                variantUnitPrice.innerHTML = data.unit_price;
+                variantUnitPrice.className = "unit-price";
+                input.type="number";
+                input.className="border border-secondary rounded-lg input-quanity input-group-sm";
+                input.name = `quantity[${data.id}]`;
+                variantQuantity.appendChild(input);
+                variantSubTotal.innerHTML = 0;
+                variantSubTotal.className = "sub-total";
+                nextRow.className = `${refId}`;
+                nextRow.appendChild(variantName);
+                nextRow.appendChild(variantUnitPrice);
+                nextRow.appendChild(variantQuantity);
+                nextRow.appendChild(variantSubTotal);
+                table.appendChild(nextRow.cloneNode(true));
+              }
+            });
+          
+          let inputQuantity = $('.input-quanity');
+          for (var i = 0; i < inputQuantity.length; i++) {
+              inputQuantity[i].addEventListener('change', function(event){
+              let unitPrice = $(this).parent().siblings('.unit-price').text().trim();
+              let subTotal = $(this).parent().siblings('.sub-total');
+              let result = +unitPrice * event.target.value;
+              subTotal.text(result);
+            });
+          }
+        });
+    
+    
+    
+    $('body').on('click', '.remove-product', function(){
+      let ref = $(this).data('ref');
+      let elements = $("."+ref);
+      elements.remove();
+    });
+
     $('#item_id').select2({
       placeholder: "Search for item...",
       minimumInputLength: 1,

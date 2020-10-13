@@ -12,18 +12,22 @@ class Purchase extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'purchase_code', 'date', 'marking', 'item_id', 'quantity', 'ctns', 'volume', 'pl', 'resi', 'expected_date', 'status', 'remarks'
+        'code', 'order_date', 'product_total', 'grand_total', 'grand_total(rp)', 'status', 'supplier_id', 'transfer_fee', 'currency_rate', 'transport_company', 'transport_cost', 'remark', 'tracking_number', 'total_pieces_ctn', 'container_number', 'load_date', 'estimated_unload', 'cubication', 'shipping_cost'
       ];
     
     public static function rules($merge = [])
     {
       return array_merge(
         [
-          'date' => 'required',
-          'marking' => 'required',
-          'item_id' => 'required',
-          'quantity' => 'required',
-          'status' => 'required',
+          'code' => 'required|unique:purchases',
+          'order_date' => 'required|date',
+          'product_total' => 'required|numeric',
+          'grand_total' => 'required|numeric',
+          'grand_total(rp)' => 'required|numeric',
+          'status' => 'required|integer',
+          'supplier_id' => 'required|integer',
+          'transfer_fee' => 'required|numeric',
+          'currency_rate' => 'required|numeric',
         ],
         $merge
       );
@@ -45,13 +49,13 @@ class Purchase extends Model
       }
     }
 
-    public function items(){
-      return $this->belongTo(Item::class);
-    }
+    // public function items(){
+    //   return $this->belongTo(Item::class);
+    // }
 
-    public function marking(){
-      return $this->belongTo(Marking::class);
-    }
+    // public function marking(){
+    //   return $this->belongTo(Marking::class);
+    // }
 
     public function payment(){
       return $this->hasMany(Payment::class);
