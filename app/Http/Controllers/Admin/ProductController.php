@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use DataTables;
 
 class ProductController extends Controller
 {
@@ -14,7 +17,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $product = Product::all();
+        return view('product.index', compact('product'));
     }
 
     /**
@@ -24,7 +28,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('product.form');
     }
 
     /**
@@ -35,7 +39,16 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate(Product::rules());
+        $photo = $request->file('photo') ?? null;
+        $logo = null;
+        $filename = null;
+        if(!empty($photo)) {
+            $filename = $photo->getClientOriginalName();
+            $logo = Storage::disk('public')->putFileAs('product', $photo, $filename);
+        }
+        Product::create(array_merge(Request()->all(), ['photo' => $logo]));
+        return redirect()->route('products.index')->with('status', 'New Product successfully added');
     }
 
     /**
@@ -44,9 +57,10 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Product $product)
     {
-        //
+        $product = Product::find($product->id);
+        return view('product.show', compact('product'));
     }
 
     /**
@@ -55,9 +69,10 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        //
+        $product = Product::find($product->id);
+        return view('product.form', compact('product'));
     }
 
     /**
@@ -67,9 +82,19 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Product $product)
     {
-        //
+        $request->validate(Product::rules($product->id));
+        $photo = $request->file('photo') ?? null;
+        $logo = null;
+        $filename = null;
+        if(!empty($photo)) {
+            Storage::disk('public')->delete($product->photo);
+            $filename = $photo->getClientOriginalName();
+            $logo = Storage::disk('public')->putFileAs('product', $photo, $filename);
+        }
+        $product->update(array_merge(Request()->all(), ['photo' => $logo]));
+        return redirect()->route('products.index')->with('status', 'Prodcut successfully updated');
     }
 
     /**
@@ -78,8 +103,47 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->input('id');
+        $product = Product::find($id);
+        $photo = $product->photo ?? null;
+        if($photo != null) {
+            Storage::disk('public')->delete($photo);
+        }
+        $product->delete();
+    }
+
+    public function productDataTable(Request $request)
+    {
+        return DataTables::of(Product::query()->get())
+            ->addIndexColumn()
+            ->addColumn('action', function ($data) {
+                $btn = '
+            <a class="btn btn-warning btn-sm" id="edit" data-id=' . $data->id . '>Edit</a>
+            <meta name="csrf-token" content="{{ csrf_token() }}">
+            <a class="btn btn-danger btn-sm text-light" id="delete" data-id=' . $data->id . '>Delete</a>
+          ';
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+    }
+
+    public function productSelect(Request $request)
+    {
+        $term = trim($request->q);
+        if(empty($term)){
+            return response()->json([]);
+        }
+
+        $products = Product::select('id','name')->where('name', 'like', '%' .$term . '%')->limit(20)->get();
+
+        $formattedItems= [];
+        foreach($products as $product){
+            $formattedProducts[] = ['id'=>$product->id, 'text'=>$product->name];
+        }
+
+        return response()->json($formattedProducts);
     }
 }
