@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
+use Hash;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,10 +17,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'name' => 'Admin',
-            'email' => 'admin@empire.com',
-            'password' => Hash::make('admin123')
-        ]);
+        User::firstOrCreate(
+            ['email' => 'admin@empire.com'],
+            [
+                'name' => 'Admin',
+                'password' => Hash::make('admin123')
+            ]
+        );
     }
 }
