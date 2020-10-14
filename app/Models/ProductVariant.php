@@ -12,18 +12,15 @@ class ProductVariant extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'product_id', 'name', 'unit_price', 'quantity', 'sub_total'
+        'product_id', 'name', 'unit_price',
     ];
 
     public static function rules($merge = [])
     {
         return array_merge(
             [
-                'product_id' => 'required',
-                'name' => 'required',
-                'unit_price' => 'nullable',
-                'quantity' => 'nullable',
-                'sub_total' => 'nullable',
+                'variants.*.name' => 'required',
+                'variants.*.unit_price' =>'required|numeric|min:0',
             ]
         );
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use DataTables;
@@ -40,6 +41,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate(Product::rules());
+        $request->validate(ProductVariant::rules());
         $photo = $request->file('photo') ?? null;
         $logo = null;
         $filename = null;
@@ -47,7 +49,20 @@ class ProductController extends Controller
             $filename = $photo->getClientOriginalName();
             $logo = Storage::disk('public')->putFileAs('product', $photo, $filename);
         }
-        Product::create(array_merge(Request()->all(), ['photo' => $logo]));
+        $product = Product::create(array_merge(Request()->all(), ['photo' => $logo]));
+
+        // variant add
+        $variants = $request->get('variants');
+        $inputVariant = [];
+        foreach($variants as $variant) {
+            $inputVariant[$variant['name']] = [
+                "product_id" => $product->id,
+                "name" => $variant['name'],
+                "unit_price" => $variant['unit_price'],
+            ];
+        }
+        $product->variants()->createMany($inputVariant);
+
         return redirect()->route('products.index')->with('status', 'New Product successfully added');
     }
 
@@ -71,7 +86,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $product = Product::find($product->id);
+        $product = Product::with('variants')->where('id', $product->id)->first();
         return view('product.form', compact('product'));
     }
 
@@ -85,8 +100,9 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $request->validate(Product::rules($product->id));
+        $request->validate(ProductVariant::rules());
         $photo = $request->file('photo') ?? null;
-        $logo = null;
+        $logo = $product->photo;
         $filename = null;
         if(!empty($photo)) {
             Storage::disk('public')->delete($product->photo);
@@ -94,7 +110,31 @@ class ProductController extends Controller
             $logo = Storage::disk('public')->putFileAs('product', $photo, $filename);
         }
         $product->update(array_merge(Request()->all(), ['photo' => $logo]));
-        return redirect()->route('products.index')->with('status', 'Prodcut successfully updated');
+
+        // variant update
+        $variants = $request->get('variants');
+        $inputVariant = null;
+        $productVariants = ProductVariant::where('product_id', $product->id)->get();
+        $inputId = array();
+        foreach($variants as $variant) {
+            array_push($inputId, $variant['id']);
+            $inputVariant = [
+                "product_id" => $product->id,
+                "name" => $variant['name'],
+                "unit_price" => $variant['unit_price'],
+            ];
+            $id = $variant['id'];
+            $variant = ProductVariant::updateOrCreate(
+                ['id' => $id],
+                $inputVariant,
+            );
+        }
+        foreach($productVariants as $productVariant) {
+            if(!in_array($productVariant->id, $inputId)) {
+                ProductVariant::destroy($productVariant->id);
+            }
+        }
+        return redirect()->route('products.index')->with('status', 'Product successfully updated');
     }
 
     /**
@@ -111,6 +151,7 @@ class ProductController extends Controller
         if($photo != null) {
             Storage::disk('public')->delete($photo);
         }
+        $product->variants()->delete();
         $product->delete();
     }
 
