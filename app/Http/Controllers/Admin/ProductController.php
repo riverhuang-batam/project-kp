@@ -123,9 +123,8 @@ class ProductController extends Controller
                 "name" => $variant['name'],
                 "unit_price" => $variant['unit_price'],
             ];
-            $id = $variant['id'];
             $variant = ProductVariant::updateOrCreate(
-                ['id' => $id],
+                ['id' => $variant['id']],
                 $inputVariant,
             );
         }
@@ -145,8 +144,7 @@ class ProductController extends Controller
      */
     public function destroy(Request $request)
     {
-        $id = $request->input('id');
-        $product = Product::find($id);
+        $product = Product::find($request->input('id'));
         $photo = $product->photo ?? null;
         if($photo != null) {
             Storage::disk('public')->delete($photo);
