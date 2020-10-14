@@ -53,7 +53,8 @@
 
                         <div class="form-group input-group-sm">
                           <label for="product_total">Product total (RMB)</label>
-                          <input type="text" class="form-control @error('product_total') is-invalid @enderror" id="product_total" name="product_total"  readonly>
+                          <input type="text" class="form-control @error('product_total') is-invalid @enderror" id="product_total" name="product_total"
+                          value={{isset($purchase) ? $purchase['product_total'] : (old('product_total') ? old('product_total') : 0) }} readonly>
                           @error('product_total')
                           <div class="invalid-feedback">
                             {{ $message }}
@@ -63,7 +64,8 @@
 
                         <div class="form-group input-group-sm">
                           <label for="grand_total">Grand total (RMB)</label>
-                          <input type="text" class="form-control @error('grand_total') is-invalid @enderror" id="grand_total" name="grand_total" readonly>
+                          <input type="text" class="form-control @error('grand_total') is-invalid @enderror" id="grand_total" name="grand_total"
+                          value={{isset($purchase) ? $purchase['grand_total'] : (old('grand_total') ? old('grand_total') : 0) }} readonly>
                           @error('grand_total')
                           <div class="invalid-feedback">
                             {{ $message }}
@@ -72,9 +74,9 @@
                         </div>
 
                         <div class="form-group input-group-sm">
-                          <label for="grand_total(rp)">Grand total (RP)</label>
-                          <input type="text" class="form-control @error('grand_total(rp)') is-invalid @enderror" id="grand_total(rp)" name="grand_total(rp)"  readonly>
-                          @error('grand_total(rp)')
+                          <label for="grand_total_rp">Grand total (RP)</label>
+                          <input type="text" class="form-control @error('grand_total_rp') is-invalid @enderror" id="grand_total_rp" name="grand_total_rp"   value={{isset($purchase) ? $purchase['grand_total_rp'] : (old('grand_total_rp') ? old('grand_total_rp') : 0) }} readonly>
+                          @error('grand_total_rp')
                           <div class="invalid-feedback">
                             {{ $message }}
                           </div>
@@ -102,7 +104,7 @@
 
                         <div class="form-group input-group-sm">
                           <label for="supplier_id">Supplier</label>
-                          <select id="supplier_id" name="supplier_id" class="form-control"></select>
+                          <select id="supplier_id" name="supplier_id" class="form-control select2"></select>
                           @error('supplier_id')
                           <div class="invalid-feedback d-inline-block">
                             {{ $message }}
@@ -112,7 +114,8 @@
 
                         <div class="form-group input-group-sm">
                           <label for="transfer_fee">Transfer Fee (RMB)</label>
-                          <input type="number" class="form-control @error('transfer_fee') is-invalid @enderror" id="transfer_fee" name="transfer_fee" value={{old('transfer_fee')}}>
+                          <input type="number" class="form-control @error('transfer_fee') is-invalid @enderror" id="transfer_fee" name="transfer_fee" 
+                          value={{isset($purchase) ? $purchase['transfer_fee'] : (old('transfer_fee') ? old('transfer_fee') : 0) }}>
                           @error('transfer_fee')
                           <div class="invalid-feedback">
                             {{ $message }}
@@ -122,7 +125,8 @@
 
                         <div class="form-group input-group-sm">
                           <label for="currency_rate">Currency Rate</label>
-                          <input type="number" class="form-control @error('currency_rate') is-invalid @enderror" id="currency_rate" name="currency_rate" value={{old('currency_rate')}} >
+                          <input type="number" class="form-control @error('currency_rate') is-invalid @enderror" id="currency_rate" name="currency_rate"
+                          value={{isset($purchase) ? $purchase['currency_rate'] : (old('currency_rate') ? old('currency_rate') : 0) }}>
                           @error('currency_rate')
                           <div class="invalid-feedback">
                             {{ $message }}
@@ -142,7 +146,8 @@
                         <div class="col-6">
                           <div class="form-group input-group-sm">
                             <label for="transport_company">Transport Company</label>
-                            <input type="text" class="form-control @error('transport_company') is-invalid @enderror" id="transport_company" name="transport_company" value={{old('transport_company')}} >
+                            <input type="text" class="form-control @error('transport_company') is-invalid @enderror" id="transport_company" name="transport_company"
+                              value={{isset($purchase) ? $purchase['transport_company'] : old('transport_company') }}>
                             @error('transport_company')
                             <div class="invalid-feedback">
                               {{ $message }}
@@ -152,7 +157,8 @@
 
                           <div class="form-group input-group-sm">
                             <label for="transport_cost">Transport Cost (RMB)</label>
-                            <input type="number" class="form-control @error('transport_cost') is-invalid @enderror" id="transport_cost" name="transport_cost" value={{old('transport_cost')}} >
+                            <input type="number" class="form-control @error('transport_cost') is-invalid @enderror" id="transport_cost" name="transport_cost"
+                            value={{isset($purchase) ? $purchase['transport_cost'] : (old('transport_cost') ? old('transport_cost') : 0) }}>
                             @error('transport_cost')
                             <div class="invalid-feedback">
                               {{ $message }}
@@ -163,7 +169,8 @@
                         <div class="col-6">
                           <div class="form-group input-group-sm">
                             <label for="tracking_number">Tracking No</label>
-                            <input type="text" class="form-control @error('tracking_number') is-invalid @enderror" id="tracking_number" name="tracking_number" value={{old('tracking_number')}} >
+                            <input type="text" class="form-control @error('tracking_number') is-invalid @enderror" id="tracking_number" name="tracking_number"
+                            value={{isset($purchase) ? $purchase['tracking_number'] : old('tracking_number') }}>
                             @error('tracking_number')
                             <div class="invalid-feedback">
                               {{ $message }}
@@ -172,9 +179,9 @@
                           </div>
 
                           <div class="form-group input-group-sm">
-                            <label for="total_pieces_ctn">Total Pieces CTN</label>
-                            <input type="number" class="form-control @error('total_pieces_ctn') is-invalid @enderror" id="total_pieces_ctn" name="total_pieces_ctn" value={{old('total_pieces_ctn')}} >
-                            @error('total_pieces_ctn')
+                            <label for="total_piece_ctn">Total Pieces CTN</label>
+                            <input type="number" class="form-control @error('total_piece_ctn') is-invalid @enderror" id="total_piece_ctn" name="total_piece_ctn" value={{isset($purchase) ? $purchase['total_piece_ctn'] : (old('total_piece_ctn') ? old('total_piece_ctn') : 0) }}>
+                            @error('total_piece_ctn')
                             <div class="invalid-feedback">
                               {{ $message }}
                             </div>
@@ -182,8 +189,8 @@
                           </div>
                         </div>
                         <div class="col-12">
-                          <label for="remark">Remark</label>
-                          <textarea class="form-control" id="remark" name="remark" rows="3">{{ isset($purchase) ? $purchase['remark'] : old('remark') }}</textarea>
+                          <label for="remarks">Remarks</label>
+                          <textarea class="form-control" id="remarks" name="remarks" rows="3">{{ isset($purchase) ? $purchase['remarks'] : old('remarks') }}</textarea>
                         </div>
                       </div>
                     
@@ -197,7 +204,7 @@
                         <div class="col-12">
                           <div class="form-group input-group-sm">
                             <label for="container_number">Container No</label>
-                            <input type="text" class="form-control @error('container_number') is-invalid @enderror" id="container_number" name="container_number" value={{old('container_number')}} >
+                            <input type="text" class="form-control @error('container_number') is-invalid @enderror" id="container_number" name="container_number" value={{isset($purchase) ? $purchase['container_number'] : old('container_number') }}>
                             @error('container_number')
                             <div class="invalid-feedback">
                               {{ $message }}
@@ -218,7 +225,8 @@
 
                           <div class="form-group input-group-sm">
                             <label for="cubication">Cubication</label>
-                            <input type="number" class="form-control @error('cubication') is-invalid @enderror" id="cubication" name="cubication" value={{old('cubication')}} >
+                            <input type="number" class="form-control @error('cubication') is-invalid @enderror" id="cubication" name="cubication"
+                            value={{isset($purchase) ? $purchase['cubication'] : (old('cubication') ? old('cubication') : 0) }}>
                             @error('cubication')
                             <div class="invalid-feedback">
                               {{ $message }}
@@ -230,9 +238,9 @@
                         </div>
                         <div class="col-6">
                           <div class="form-group input-group-sm">
-                            <label for="estimated_unload">Estimated Unload</label>
-                            <input type="date" class="form-control @error('estimated_unload') is-invalid @enderror" id="estimated_unload" name="estimated_unload" value="{{ isset($purchase) ? $purchase['estimated_unload'] : old('estimated_unload') }}">
-                            @error('estimated_unload')
+                            <label for="estimated_unload_date">Estimated Unload</label>
+                            <input type="date" class="form-control @error('estimated_unload_date') is-invalid @enderror" id="estimated_unload_date" name="estimated_unload_date" value="{{ isset($purchase) ? $purchase['estimated_unload_date'] : old('estimated_unload_date') }}">
+                            @error('estimated_unload_date')
                             <div class="invalid-feedback">
                               {{ $message }}
                             </div>
@@ -241,7 +249,8 @@
 
                           <div class="form-group input-group-sm">
                             <label for="shipping_cost">Shippinig Costs (RP)</label>
-                            <input type="number" class="form-control @error('shipping_cost') is-invalid @enderror" id="shipping_cost" name="shipping_cost" value={{old('shipping_cost')}} >
+                            <input type="number" class="form-control @error('shipping_cost') is-invalid @enderror" id="shipping_cost" name="shipping_cost"
+                            value={{isset($purchase) ? $purchase['shipping_cost'] : (old('shipping_cost') ? old('shipping_cost') : 0) }}>
                             @error('shipping_cost')
                             <div class="invalid-feedback">
                               {{ $message }}
@@ -325,6 +334,20 @@
 <script type="text/javascript">
 
   $(function(){
+    calculatePrice();
+
+    $('#transfer_fee').on('change', function(){
+      calculatePrice();
+    });
+    $('#currency_rate').on('change', function(){
+      calculatePrice();
+    });
+    $('#transport_cost').on('change', function(){
+      calculatePrice();
+    });
+    $('#shipping_cost').on('change', function(){
+      calculatePrice();
+    });
 
     const productRaw = [
       {
@@ -403,6 +426,30 @@
       ]
     }
     ]
+
+    function calculatePrice(){
+      let productTotal = $('#product_total');
+      let grandTotal = $('#grand_total');
+      let grandTotalRP = $('#grand_total_rp');
+      let transferFee = $('#transfer_fee').val();
+      let currencyRate = $('#currency_rate').val();
+      let shippingCost = $('#shipping_cost').val();
+      let transportCost = $('#transport_cost').val();
+
+      let subTotal = $('.sub-total');
+      let totalProductPrice = 0;
+      for (var i = 0; i < subTotal.length; i++) {
+        let subTotalPrice = subTotal[i].innerHTML;
+        totalProductPrice += parseInt(subTotalPrice);   
+      }
+
+      let grandTotalPrice = totalProductPrice + parseInt(transferFee) + parseInt(shippingCost) + parseInt(transportCost);
+      let grandTotalRPPrice = grandTotalPrice * currencyRate
+
+      productTotal.val(totalProductPrice);
+      grandTotal.val(grandTotalPrice);
+      grandTotalRP.val(grandTotalRPPrice);
+    }
 
     $('body').on('click', '#add_product', function () {
             let refId = 'id' + (new Date()).getTime();
@@ -483,6 +530,7 @@
               let subTotal = $(this).parent().siblings('.sub-total');
               let result = +unitPrice * event.target.value;
               subTotal.text(result);
+              calculatePrice();
             });
           }
         });
@@ -493,13 +541,16 @@
       let ref = $(this).data('ref');
       let elements = $("."+ref);
       elements.remove();
+      setTimeout(()=>{
+        calculatePrice();
+      }, 500)
     });
 
-    $('#item_id').select2({
-      placeholder: "Search for item...",
+    $('#supplier_id').select2({
+      placeholder: "Search for supplier...",
       minimumInputLength: 1,
       ajax: {
-        url: "{{route('item-select')}}",
+        url: "{{route('supplier-select')}}",
         dataType: 'json',
         delay: 250,
         data: function(params){
@@ -518,26 +569,26 @@
 
     @if(isset($purchase))
       @php
-        $item = \App\Models\Item::find($purchase->item_id);
+        $supplier = \App\Models\Supplier::find($purchase->supplier_id);
       @endphp
-      let item = {
-          id: '{{ $item->id }}',
-          text: '{{ $item->name }}'
+      let supplier = {
+          id: '{{ $supplier->id }}',
+          text: '{{$supplier->name }}'
       };
-      let itemOption = new Option(item.text, item.id, false, false);
-      $('#item_id').append(itemOption).trigger('change');
+      let supplierOption = new Option(supplier.text, supplier.id, false, false);
+      $('#supplier_id').append(supplierOption).trigger('change');
     @endif
 
-    @if(old('item_id'))
+    @if(old('supplier_id'))
       @php
-        $item = \App\Models\Item::find(old('item_id'));
+      $supplier = \App\Models\Supplier::find(old('supplier_id'));
       @endphp
-      let item = {
-          id: '{{ $item->id }}',
-          text: '{{ $item->name }}'
+      let supplier = {
+          id: '{{ $supplier->id }}',
+          text: '{{$supplier->name }}'
       };
-      let itemOption = new Option(item.text, item.id, false, false);
-      $('#item_id').append(itemOption).trigger('change');
+      let supplierOption = new Option(supplier.text, supplier.id, false, false);
+      $('#supplier_id').append(supplierOption).trigger('change');
     @endif
 })
 </script>

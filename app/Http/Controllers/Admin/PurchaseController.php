@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Purchase;
+use App\Models\PurchaseDetail;
 use App\Models\Payment;
 use App\Models\Marking;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use DataTables;
 use App\Helpers\OrderStatus;
+use DB;
 
 class PurchaseController extends Controller
 {
@@ -43,13 +45,23 @@ class PurchaseController extends Controller
      */
     public function store(Request $request)
     {
-      $quantity = $request->quantity;
-      foreach($quantity as $key => $val){
-        dump($val);
-      }
-      dd();
+        $quantity = $request->input('quantity');
         $request->validate(Purchase::rules());
-        Purchase::create(request()->all());
+        $purchase = Purchase::create(request()->except('quantity'));
+
+        $purchaseDetail = [];
+        foreach ($quantity as $key => $value) {
+          $unitPrice = PurchaseDetail::find($key)->unit_price;
+          $subTotal = $value * $unitPrice;
+          $purchaseDetail[] = [
+            'purchase_id' => $purchase->id,
+            'product_variant_id' => $key,
+            'quantity' => $value,
+            'sub_total' => $subTotal
+          ];
+        }
+
+        DB::table('purchase_details')->insert($purchaseDetail);
         return redirect()->route('purchases.index')->with('status', 'New item successfully added');
     }
 
@@ -137,20 +149,6 @@ class PurchaseController extends Controller
             ->rawColumns(['action'])
             ->editColumn('status', function(Purchase $purchase){
               return OrderStatus::getString($purchase['status']);
-            })
-            // ->editColumn('marking_id', function(Purchase $purchase){
-            //   try{
-            //     return Marking::find($purchase['marking_id'])->name;
-            //   }catch(\Throwable $th){
-            //     return null;
-            //   }
-            // })
-            ->editColumn('item_id', function(Purchase $purchase){
-              try {
-                return Item::find($purchase['item_id'])->name;
-              } catch (\Throwable $th) {
-                return null;
-              } 
             })
             ->make(true);
       }
