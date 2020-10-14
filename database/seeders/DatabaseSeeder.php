@@ -15,49 +15,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-
-        $faker = Faker::create();
-        foreach (range(1, 20) as $index) {
-            DB::table('markings')->insert([
-                'name' => $faker->word,
-            ]);
-        }
-        foreach (range(1, 20) as $index) {
-            DB::table('suppliers')->insert([
-                'code' => $faker->word,
-                'name' => $faker->word,
-            ]);
-        }
-        foreach (range(1, 10) as $index) {
-            DB::table('products')->insert([
-                'code' => $faker->word,
-                'name' => $faker->word,
-            ]);
-        }
-        $productIds = DB::table('products')->pluck('id');
-        foreach (range(1, 20) as $index) {
-            DB::table('product_variants')->insert([
-                'product_id' => $faker->randomElement($productIds),
-                'name' => $faker->word,
-                'unit_price' => $faker->numberBetween($min = 1, $max = 100),
-            ]);
-        }
-        // foreach (range(1, 20) as $index) {
-        //     DB::table('purchases')->insert([
-        //         'purchase_code' => 'PC'.$faker->randomNumber($nbDigits = NULL, $strict = false),
-        //         'date' => $faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now'),
-        //         'marking' => $faker->word,
-        //         'item_id' => $index,
-        //         'quantity' => 100,
-        //         'ctns' => 100,
-        //         'volume' => 1,
-        //         'pl' => $faker->word,
-        //         'resi' => $faker->word,
-        //         'expected_date' => $faker->dateTimeBetween($startDate = '-1 years', $endDate = 'now'),
-        //         'status' => 1,
-        //         'remarks' => $faker->text($maxNbChars = 200)
-        //     ]);
-        // }
+        DB::table('users')->insert([
+            'name' => 'Admin',
+            'email' => 'admin@empire.com',
+            'password' => Hash::make('admin123')
+        ]);
     }
 }
