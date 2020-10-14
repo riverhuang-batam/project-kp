@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Data Items - Purchasing App')
+@section('title', 'Data Products - Purchasing App')
 
 @section('content')
 <div class="container">
@@ -16,10 +16,10 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title text-center">
-            <h4>Item/Product List</h4>
+            <h4>Product List</h4>
           </div>
           <div>
-            <a href="{{ route('items.create') }}" type="button" class="btn btn-primary">+
+            <a href="{{ route('products.create') }}" type="button" class="btn btn-primary">+
               Add New Record</a>
             <a href="{{ route('purchases.index') }}" type="button" class="btn btn-secondary">
               Back to Purchase</a>
@@ -31,6 +31,7 @@
               <thead>
                 <tr>
                   <th>No</th>
+                  <th>Code</th>
                   <th>Name</th>
                   <th>Action</th>
                 </tr>
@@ -64,10 +65,14 @@
         $('.yajra-datatable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('item-list') }}",
+            ajax: "{{ route('product-list') }}",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex'
+                },
+                {
+                    data: 'code',
+                    name: 'code'
                 },
                 {
                     data: 'name',
@@ -84,7 +89,7 @@
 
         $('body').on('click', '#edit', function () {
             let data_id = $(this).data('id');
-            let url = "items/" + data_id + "/edit";
+            let url = "products/" + data_id + "/edit";
             $(location).attr('href', url);
         });
 
@@ -93,7 +98,7 @@
             let confirmation = await showDialog("Are you sure?","You want to delete this data!","warning");
             if (confirmation) {
               
-                let url = window.location.origin + "/items/" + data_id;
+                let url = window.location.origin + "/products/" + data_id;
                 $.ajax({
                     url: url,
                     type: 'DELETE',
@@ -113,7 +118,7 @@
                       }, 3000);
                     },
                     error: function (data) {
-                        $(location).attr('href', window.location.origin + "/items");
+                        $(location).attr('href', window.location.origin + "/products");
                     }
                 });
             }

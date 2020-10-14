@@ -51,8 +51,8 @@
             <a href="{{ route('purchases.index') }}" type="button" class="btn border mx-1 nav-link" >
               Purchase
             </a>
-            <a href="{{ route('items.index') }}" type="button" class="btn border mx-1 nav-link" >
-              Item
+            <a href="{{ route('products.index') }}" type="button" class="btn border mx-1 nav-link" >
+              Product
             </a>
             <a href="{{ route('payments.index') }}" type="button" class="btn border mx-1 nav-link" >
               Payment

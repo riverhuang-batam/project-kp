@@ -26,9 +26,9 @@ Route::middleware(['auth'])->group(function () {
   Route::get('marking-list', 'App\Http\Controllers\Admin\MarkingController@markingDataTable')->name('marking-list');
   Route::get('marking-select', 'App\Http\Controllers\Admin\MarkingController@markingSelect')->name('marking-select');
 
-  Route::resource('items', 'App\Http\Controllers\Admin\ItemController');
-  Route::get('item-list', 'App\Http\Controllers\Admin\ItemController@itemDataTable')->name('item-list');
-  Route::get('item-select', 'App\Http\Controllers\Admin\ItemController@itemSelect')->name('item-select');
+  Route::resource('products', 'App\Http\Controllers\Admin\ProductController');
+  Route::get('product-list', 'App\Http\Controllers\Admin\ProductController@productDataTable')->name('product-list');
+  Route::get('product-select', 'App\Http\Controllers\Admin\ProductController@productSelect')->name('product-select');
 
   Route::resource('payments','App\Http\Controllers\Admin\PaymentController');
   Route::get('payment-list', 'App\Http\Controllers\Admin\PaymentController@paymentDataTable')->name('payment-list');
