@@ -279,16 +279,15 @@
                 <div class="row">
                   <div class="col-4">
                     <div class="form-group input-group-sm">
-                      <select id="product_id" class="form-control">
-                        <option value="0">Product 1</option>
-                        <option value="1">Product 2</option>
-                        <option value="2">Product 3</option>
-                      </select>
-                      @error('product_id')
-                      <div class="invalid-feedback d-inline-block">
-                        {{ $message }}
+                      <div class="form-group input-group-sm">
+                        <label for="product_id">Product</label>
+                        <select id="product_id" name="product_id" class="form-control select2"></select>
+                        @error('product_id')
+                        <div class="invalid-feedback d-inline-block">
+                          {{ $message }}
+                        </div>
+                        @enderror
                       </div>
-                      @enderror
                     </div>
                   </div>
                   <div class="col-8 d-flex justify-content-between align-items-start">
@@ -334,98 +333,10 @@
 <script type="text/javascript">
 
   $(function(){
+
+    let productRaw;
+
     calculatePrice();
-
-    $('#transfer_fee').on('change', function(){
-      calculatePrice();
-    });
-    $('#currency_rate').on('change', function(){
-      calculatePrice();
-    });
-    $('#transport_cost').on('change', function(){
-      calculatePrice();
-    });
-    $('#shipping_cost').on('change', function(){
-      calculatePrice();
-    });
-
-    const productRaw = [
-      {
-      sku: "Product 1",
-      name: "Casual bag",
-      photo: "https://images.pexels.com/photos/87452/flowers-background-butterflies-beautiful-87452.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-      variant:[
-        {
-          id: 1,
-          name: "Varaint 1",
-          unit_price: 10
-        },
-        {
-          id: 2,
-          name: "Varaint 2",
-          unit_price: 20
-        },
-        {
-          id: 3,
-          name: "Varaint 3",
-          unit_price: 15
-        }
-      ]
-    },
-    {
-      sku: "Product 2",
-      name: "Casual bag",
-      photo: "https://images.pexels.com/photos/87452/flowers-background-butterflies-beautiful-87452.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-      variant:[
-        {
-          id: 4,
-          name: "Varaint 1",
-          unit_price: 10
-        },
-        {
-          id:5,
-          name: "Varaint 2",
-          unit_price: 20
-        },
-        {
-          id:6,
-          name: "Varaint 3",
-          unit_price: 15
-        }
-      ]
-    },
-    {
-      sku: "Product 3",
-      name: "Casual bag",
-      photo: "https://images.pexels.com/photos/87452/flowers-background-butterflies-beautiful-87452.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-      variant:[
-        {
-          id:7,
-          name: "Varaint 1",
-          unit_price: 30
-        },
-        {
-          id:8,
-          name: "Varaint 2",
-          unit_price: 20
-        },
-        {
-          id:9,
-          name: "Varaint 3",
-          unit_price: 15
-        },{
-          id:10,
-          name: "Varaint 4",
-          unit_price: 20
-        },
-        {
-          id:11,
-          name: "Varaint 5",
-          unit_price: 15
-        }
-      ]
-    }
-    ]
 
     function calculatePrice(){
       let productTotal = $('#product_total');
@@ -451,10 +362,9 @@
       grandTotalRP.val(grandTotalRPPrice);
     }
 
-    $('body').on('click', '#add_product', function () {
-            let refId = 'id' + (new Date()).getTime();
-            let productId = $('#product_id').val();
-            let product = productRaw[productId];
+    function drawTable(productRaw){
+      let refId = 'id' + (new Date()).getTime();
+            let product = productRaw;
             let table = document.querySelector('#detail-product-table');
             let firstRow = document.createElement("tr");
             let nextRow = document.createElement("tr");
@@ -474,24 +384,25 @@
             remove.innerHTML = "Remove this product";
             remove.dataset.ref = `${refId}`;
             removeContainer.appendChild(remove);
-            removeContainer.rowSpan =product.variant.length;
-            productImage.src = product.photo;
+            removeContainer.rowSpan =product.variants.length;
+            productImage.src = window.origin+"/storage/"+product.photo;
             productImage.alt = product.name;
             productImage.width = 150;
             productImage.height = 150;
 
-            product.variant.map((data, index) => {
+            product.variants.map((data, index) => {
               if(index === 0){
                 productSKU.innerHTML = product.sku;
-                productSKU.rowSpan = product.variant.length;
+                productSKU.rowSpan = product.variants.length;
                 productPhoto.appendChild(productImage);
-                productPhoto.rowSpan = product.variant.length;
+                productPhoto.rowSpan = product.variants.length;
                 variantName.innerHTML = data.name;
                 variantUnitPrice.innerHTML = data.unit_price;
                 variantUnitPrice.className = "unit-price";
                 input.type="number";
                 input.className="border border-secondary rounded-lg input-quanity input-group-sm";
                 input.name = `quantity[${data.id}]`;
+                input.value = 0;
                 variantQuantity.appendChild(input);
                 variantSubTotal.innerHTML = 0;
                 variantSubTotal.className = "sub-total";
@@ -511,6 +422,7 @@
                 input.type="number";
                 input.className="border border-secondary rounded-lg input-quanity input-group-sm";
                 input.name = `quantity[${data.id}]`;
+                input.value = 0;
                 variantQuantity.appendChild(input);
                 variantSubTotal.innerHTML = 0;
                 variantSubTotal.className = "sub-total";
@@ -533,9 +445,27 @@
               calculatePrice();
             });
           }
-        });
-    
-    
+    }
+
+    $('#transfer_fee').on('change', function(){
+      calculatePrice();
+    });
+
+    $('#currency_rate').on('change', function(){
+      calculatePrice();
+    });
+
+    $('#transport_cost').on('change', function(){
+      calculatePrice();
+    });
+
+    $('#shipping_cost').on('change', function(){
+      calculatePrice();
+    });
+
+    $('body').on('click', '#add_product', function () {
+        drawTable(productRaw);    
+    });
     
     $('body').on('click', '.remove-product', function(){
       let ref = $(this).data('ref');
@@ -561,6 +491,28 @@
         processResults: function (data) {
             return {
                 results: data
+            };
+        },
+        cache: true
+      }
+    });
+
+    $('#product_id').select2({
+      placeholder: "Search for product...",
+      minimumInputLength: 1,
+      ajax: {
+        url: "{{route('product-select')}}",
+        dataType: 'json',
+        delay: 250,
+        data: function(params){
+          return {
+            q: $.trim(params.term)
+          }
+        },
+        processResults: function (data) {
+            productRaw = data[0].product;
+            return {
+                results: data,
             };
         },
         cache: true

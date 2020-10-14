@@ -49,16 +49,28 @@ class Purchase extends Model
       }
     }
 
-    // public function items(){
-    //   return $this->belongTo(Item::class);
-    // }
+    public static function getSupplierName($id){
+      try {
+        return Supplier::find($id)->name;
+      } catch (\Throwable $th) {
+        return "Item was delete from the list";
+      }
+    }
 
-    // public function marking(){
-    //   return $this->belongTo(Marking::class);
-    // }
+    public static function getProductVariantName($id){
+      try {
+        return ProductVariant::find($id)->name;
+      } catch (\Throwable $th) {
+        return "Item was delete from the list";
+      }
+    }
 
     public function payment(){
       return $this->hasMany(Payment::class);
+    }
+
+    public function purchaseDetail(){
+      return $this->hasMany(PurchaseDetail::class);
     }
 
     protected static function boot(){
@@ -67,6 +79,10 @@ class Purchase extends Model
       static::deleting(function($purchase){
         foreach($purchase->payment()->get() as $p){
           $p->delete();
+        }
+
+        foreach($purchase->purchaseDetail()->get() as $pd){
+          $pd->delete();
         }
       });
     }

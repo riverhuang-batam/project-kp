@@ -26,4 +26,8 @@ class PurchaseDetail extends Model
         $merge
       );
     }
+
+    public function purchase(){
+      return $this->belongTo(Purchase::class);
+  }
 }

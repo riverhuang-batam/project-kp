@@ -176,11 +176,11 @@ class ProductController extends Controller
             return response()->json([]);
         }
 
-        $products = Product::select('id','name')->where('name', 'like', '%' .$term . '%')->limit(20)->get();
+        $products = Product::where('name', 'like', '%' .$term . '%')->limit(20)->get();
 
         $formattedItems= [];
         foreach($products as $product){
-            $formattedProducts[] = ['id'=>$product->id, 'text'=>$product->name];
+            $formattedProducts[] = ['id'=>$product->id, 'text'=>$product->name, 'product' => $product->load('variants')];
         }
 
         return response()->json($formattedProducts);
