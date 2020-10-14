@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Purchase;
+use App\Models\PurchaseDetail;
 use App\Models\Payment;
 use App\Models\Marking;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use DataTables;
 use App\Helpers\OrderStatus;
+use DB;
 
 class PurchaseController extends Controller
 {
@@ -43,9 +45,31 @@ class PurchaseController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate(Purchase::rules());
-        Purchase::create(request()->all());
-        return redirect()->route('purchases.index')->with('status', 'New item successfully added');
+      $request->validate(Purchase::rules());
+      try {
+        DB::beginTransaction();
+        $quantity = $request->input('quantity');
+        $purchase = Purchase::create(request()->except('quantity'));
+
+        $purchaseDetail = [];
+        foreach ($quantity as $key => $value) {
+          $unitPrice = DB::table('product_variants')->where('id','=',$key)->first()->unit_price;
+          $subTotal = $value * $unitPrice;
+          $purchaseDetail[] = [
+            'purchase_id' => $purchase->id,
+            'product_variant_id' => $key,
+            'quantity' => $value,
+            'sub_total' => $subTotal
+          ];
+        }
+
+        DB::table('purchase_details')->insert($purchaseDetail);
+        DB::commit();
+      } catch (\Throwable $th) {
+        DB::rollback();
+      }
+      return redirect()->route('purchases.index')->with('status', 'New item successfully added');
+        
     }
 
     /**
@@ -58,7 +82,8 @@ class PurchaseController extends Controller
     {
         $purchase = Purchase::find($purchase->id);
         $payments = Payment::where('purchase_id','=',$purchase->id)->get();
-        return view('purchase.show', compact('purchase','payments'));
+        $purchaseItems = PurchaseDetail::where('purchase_id','=', $purchase->id)->get();
+        return view('purchase.show', compact('purchase','payments','purchaseItems'));
     }
 
     /**
@@ -133,39 +158,35 @@ class PurchaseController extends Controller
             ->editColumn('status', function(Purchase $purchase){
               return OrderStatus::getString($purchase['status']);
             })
-            // ->editColumn('marking_id', function(Purchase $purchase){
-            //   try{
-            //     return Marking::find($purchase['marking_id'])->name;
-            //   }catch(\Throwable $th){
-            //     return null;
-            //   }
-            // })
-            ->editColumn('item_id', function(Purchase $purchase){
-              try {
-                return Item::find($purchase['item_id'])->name;
-              } catch (\Throwable $th) {
-                return null;
-              } 
-            })
             ->make(true);
       }
 
       public function duplicateOrder($id){
-        $currentOrder = Purchase::find($id);
-        $newOrder = new Purchase;
-        $newOrder->date = date('Y-m-d');
-        $newOrder->purchase_code = 'PC'.date('YmdHis');
-        $newOrder->status = 1;
-        $newOrder->marking = $currentOrder->marking;
-        $newOrder->item_id = $currentOrder->item_id;
-        $newOrder->quantity = $currentOrder->quantity;
-        $newOrder->ctns = $currentOrder->ctns;
-        $newOrder->volume = $currentOrder->volume;
-        $newOrder->pl = null;
-        $newOrder->resi = null;
-        $newOrder->remarks = null;
-        $newOrder->save();
-        return response()->json(['status'=>'success']);
+       try {
+          $currentOrder = Purchase::find($id);
+          $purchaseDetails = $currentOrder->purchaseDetail()->get();
+          $newOrder = $currentOrder->replicate();
+          $newOrder->code = 'PC'.date('YmdHis');
+          $newOrder->order_date = date('Y-m-d');
+          $newOrder->status = 1;
+          DB::beginTransaction();
+          $newOrder->save();
+
+          $newPurchaseDetails = [];
+          foreach ($purchaseDetails as $pd) {
+            $newPurchaseDetails[] = [
+              'purchase_id' => $newOrder->id,
+              'product_variant_id' => $pd->product_variant_id,
+              'quantity' => $pd->quantity,
+              'sub_total' => $pd->sub_total
+            ];
+          }
+          DB::table('purchase_details')->insert($newPurchaseDetails);
+          DB::commit();
+        } catch (\Throwable $th) {
+          DB::rollback();
+        }
+        return response()->json(['status', 'success']);
       }
 
       public function purchaseSelect(Request $request){
@@ -174,11 +195,11 @@ class PurchaseController extends Controller
             return response()->json([]);
         }
     
-        $purchases = Purchase::select('id','purchase_code')->where('purchase_code', 'like', '%' .$term . '%')->limit(20)->get();
+        $purchases = Purchase::select('id','code')->where('code', 'like', '%' .$term . '%')->limit(20)->get();
     
         $formattedOrders= [];
         foreach($purchases as $purchase){
-            $formattedOrders[] = ['id'=>$purchase->id, 'text'=>$purchase->purchase_code];
+            $formattedOrders[] = ['id'=>$purchase->id, 'text'=>$purchase->code];
         }
     
         return response()->json($formattedOrders);

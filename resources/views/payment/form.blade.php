@@ -189,7 +189,7 @@
       @endphp
         let order = {
             id: '{{ $purchase->id }}',
-            text: '{{ $purchase->purchase_code }}'
+            text: '{{ $purchase->code }}'
         };
         
         let orderOption = new Option(order.text, order.id, false, false);

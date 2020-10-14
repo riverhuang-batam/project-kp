@@ -2,7 +2,7 @@
 @section('title', 'Detail Purchasing - Purchasing App')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
   <div class="row justify-content-center">
     <div class="col-md-12">
       <div class="card">
@@ -13,71 +13,137 @@
         </div>
         <div class="card-body">
           <div class="row">
+                  <div class="col-4">
+                    <h6>Basic Information (Required)</h6>
+                    <hr>
+                    <div class="row">
+                      <div class="col-6">
+                        <div>
+                          <h6>Purchase Code:</h6>
+                          <p>{{$purchase->code}}</p>
+                        </div>
+                        <div>
+                          <h6>Order Date:</h6>
+                          <p>{{$purchase->order_date}}</p>
+                        </div>
+                        <div>
+                          <h6>Product total (RMB):</h6>
+                          <p>{{$purchase->product_total}}</p>
+                        </div>
+                        <div>
+                          <h6>Grand total (RMB):</h6>
+                          <p>{{$purchase->grand_total}}</p>
+                        </div>
+                        <div>
+                          <h6>Grand total (RP):</h6>
+                          <p>{{$purchase->grand_total_rp}}</p>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div>
+                          <h6>Status:</h6>
+                          <p>{{$purchase->status}}</p>
+                        </div>
+                        <div>
+                          <h6>Supplier:</h6>
+                          <p>{{\App\Models\Purchase::getSupplierName($purchase->supplier_id)}}</p>
+                        </div>
+                        <div>
+                          <h6>Transfer Fee (RMB):</h6>
+                          <p>{{$purchase->transfer_fee}}</p>
+                        </div>
+                        <div>
+                          <h6>Currency Rate:</h6>
+                          <p>{{$purchase->currency_rate}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <h6>
+                      Transport Information (Optional)
+                    </h6>
+                      <hr>
+                      <div class="row">
+                        <div class="col-6">
+                          <div>
+                            <h6>Transport Company:</h6>
+                            <p>{{$purchase->transport_company}}</p>
+                          </div>
+                          <div>
+                            <h6>Transport Cost (RMB):</h6>
+                            <p>{{$purchase->transport_cost}}</p>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div>
+                            <h6>Tracking No:</h6>
+                            <p>{{$purchase->tracking_number}}</p>
+                          </div>
+                          <div>
+                            <h6>Total pieces CTN:</h6>
+                            <p>{{$purchase->total_piece_ctn}}</p>
+                          </div>
+                        </div>
+                        <div class="col-12">
+                          <div>
+                            <h6>Remark:</h6>
+                            <p>{{$purchase->remarks}}</p>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-4">
+                    <h6>
+                      Shipping Information (Optional)
+                    </h6>
+                      <hr>
+                      <div class="row">
+                        <div class="col-12">
+                          <div>
+                            <h6>Container No:</h6>
+                            <p>{{$purchase->container_number}}</p>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div>
+                            <h6>Load Date:</h6>
+                            <p>{{$purchase->load_date}}</p>
+                          </div>
+                          <div>
+                            <h6>Cubication:</h6>
+                            <p>{{$purchase->cubication}}</p>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div>
+                            <h6>Estimated Unload Date:</h6>
+                            <p>{{$purchase->estimated_unload_date}}</p>
+                          </div>
+                          <div>
+                            <h6>Shipping Cost (RP):</h6>
+                            <p>{{$purchase->shipping_cost}}</p>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+            
+               
+
             <div class="col-md-6">
               <div class="card mb-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
                   <div class="card-title m-0">
-                    Descriptions
+                    Purchase Items
                   </div>
                 </div>
                 <div class="card-body">
-                <div>
-                  <h6>Purchase Code:</h6>
-                  <p>{{$purchase->purchase_code}}</p>
+                  @foreach($purchaseItems as $item)
+                  <li class="list-group-item">
+                  <p>{{\App\Models\Purchase::getProductVariantName($item->product_variant_id)}} - {{$item->quantity}} pcs - {{$item->sub_total}} RMB</p>
+                  </li>
+                  @endforeach
                 </div>
-                <div class="d-flex justify-content-between mb-4">
-                  <div>
-                    <h6>Date:</h6>
-                    <p>{{$purchase->date}}</p>
-                  </div>
-                  <div>
-                    <h6>Expected date:</h6>
-                    <p>{{$purchase->expected_date}}</p>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-between mb-4">
-                <div>
-                  <h6>Marking:</h6>
-                  <p>{{$purchase->marking}}</p>
-                </div>
-                <div>
-                  <h6>Item:</h6>
-                  <p>{{\App\Models\Purchase::getItemName($purchase->item_id)}}</p>
-                </div>
-                <div>
-                  <h6>Status:</h6>
-                  <p>{{\App\Helpers\OrderStatus::getString($purchase->status) }}</p>
-                </div>
-                </div>
-                <div class="d-flex justify-content-between mb-4">
-                <div>
-                  <h6>Quantity:</h6>
-                  <p>{{$purchase->quantity}}</p>
-                </div>
-                <div>
-                  <h6>Volume:</h6>
-                  <p>{{$purchase->volume}}</p>
-                </div>
-                <div>
-                  <h6>CTNS:</h6>
-                  <p>{{$purchase->ctns}}</p>
-                </div>
-              </div>
-              <div class="d-flex justify-content-between mb-4">
-                <div>
-                  <h6>PL:</h6>
-                  <p>{{$purchase->pl}}</p>
-                </div>
-                <div>
-                  <h6>Resi:</h6>
-                  <p>{{$purchase->resi}}</p>
-                </div>
-              </div>
-                <div>
-                  <h6>Remarks:</h6>
-                  <p>{{$purchase->remarks}}</p>
-                </div>
-              </div>
               </div>
             </div>
             <div class="col-md-6">
@@ -98,6 +164,8 @@
                 <li class="list-group-item">
                   <h6>Payment type:</h6>
                   <p>{{\App\Helpers\PaymentType::getString($payment->type) }}</p>
+                  <h6>Payment amount:</h6>
+                  <p>{{$payment->amount}}</p>
                   <h6>Attachment:</h6>
                   @if($payment->file_name != null)
                   <a role="button" class="badge badge-primary text-light mr-3" id="download" data-id={{$payment->id}}>Download</a>

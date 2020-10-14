@@ -177,9 +177,9 @@ class PaymentController extends Controller
         ->editColumn('type', function(Payment $payment){
             return PaymentType::getString($payment['type']);
         })
-        ->editColumn('purchase_code', function(Payment $payment){
+        ->editColumn('code', function(Payment $payment){
             try {
-                return Purchase::find($payment->purchase_id)->purchase_code;
+                return Purchase::find($payment->purchase_id)->code;
             } catch (\Throwable $th) {
                 return "This record was deleted";
             }

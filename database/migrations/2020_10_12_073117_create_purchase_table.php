@@ -19,7 +19,7 @@ class CreatePurchaseTable extends Migration
             $table->date('order_date')->nullable();
             $table->double('product_total', 8, 2)->nullable();
             $table->double('grand_total', 8, 2)->nullable();
-            $table->double('grand_total(rp)', 8, 2)->nullable();
+            $table->double('grand_total_rp', 8, 2)->nullable();
             $table->tinyInteger('status');
             $table->foreignId('supplier_id')->references('id')->on('suppliers');
             $table->double('transfer_fee', 8, 2)->nullable();

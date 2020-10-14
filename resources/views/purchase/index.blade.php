@@ -56,9 +56,6 @@
                       <th>No</th>
                       <th>Purchase code</th>
                       <th>Date</th>
-                      <th>Marking</th>
-                      <th>Item</th>
-                      <th>Quantity</th>
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
@@ -180,24 +177,12 @@
               name: 'DT_RowIndex'
           },
           {
-              data: 'purchase_code',
-              name: 'purchase_code'
+              data: 'code',
+              name: 'code'
           },
           {
-              data: 'date',
-              name: 'date'
-          },
-          {
-              data: 'marking_id',
-              name: 'marking_id'
-          },
-          {
-              data: 'item_id',
-              name: 'item_id'
-          },
-          {
-              data: 'quantity',
-              name: 'quantity'
+              data: 'order_date',
+              name: 'order_date'
           },
           {
               data: 'status',

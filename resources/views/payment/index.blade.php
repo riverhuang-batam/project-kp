@@ -85,8 +85,8 @@
                     name: 'DT_RowIndex'
                 },
                 {
-                    data: 'purchase_code',
-                    name: 'purchase_code'
+                    data: 'code',
+                    name: 'code'
                 },
                 {
                     data: 'type',
