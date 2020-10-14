@@ -28,7 +28,7 @@ Route::middleware(['auth'])->group(function () {
 
   Route::resource('products', 'App\Http\Controllers\Admin\ProductController');
   Route::get('product-list', 'App\Http\Controllers\Admin\ProductController@productDataTable')->name('product-list');
-  Route::get('product-select', 'App\Http\Controllers\Admin\ProductController@itemSelect')->name('product-select');
+  Route::get('product-select', 'App\Http\Controllers\Admin\ProductController@productSelect')->name('product-select');
 
   Route::resource('payments','App\Http\Controllers\Admin\PaymentController');
   Route::get('payment-list', 'App\Http\Controllers\Admin\PaymentController@paymentDataTable')->name('payment-list');
