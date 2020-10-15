@@ -21,6 +21,7 @@ Route::middleware(['auth'])->group(function () {
   Route::get('purchase-list/{status}', 'App\Http\Controllers\Admin\PurchaseController@purchaseDataTable');
   Route::get('purchase-select', 'App\Http\Controllers\Admin\PurchaseController@purchaseSelect')->name('purchase-select');
   Route::get('purchases/duplicate/{id}', 'App\Http\Controllers\Admin\PurchaseController@duplicateOrder');
+  Route::get('purchases/details/{id}', 'App\Http\Controllers\Admin\PurchaseController@getPurchaseDetails');
 
   Route::resource('markings', 'App\Http\Controllers\Admin\MarkingController');
   Route::get('marking-list', 'App\Http\Controllers\Admin\MarkingController@markingDataTable')->name('marking-list');
@@ -29,6 +30,8 @@ Route::middleware(['auth'])->group(function () {
   Route::resource('products', 'App\Http\Controllers\Admin\ProductController');
   Route::get('product-list', 'App\Http\Controllers\Admin\ProductController@productDataTable')->name('product-list');
   Route::get('product-select', 'App\Http\Controllers\Admin\ProductController@productSelect')->name('product-select');
+  Route::get('product/selected/{id}', 'App\Http\Controllers\Admin\ProductController@productSelected');
+  Route::get('product/details/{id}', 'App\Http\Controllers\Admin\ProductController@productDetail');
 
   Route::resource('payments','App\Http\Controllers\Admin\PaymentController');
   Route::get('payment-list', 'App\Http\Controllers\Admin\PaymentController@paymentDataTable')->name('payment-list');

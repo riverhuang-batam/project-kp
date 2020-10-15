@@ -14,6 +14,11 @@
     {{ session('status') }}
   </div>
   @endif
+  @if(session('error'))
+  <div id="alert" class="alert alert-danger">
+    {{ session('error') }}
+  </div>
+  @endif
   <div class="row justify-content-center">
     <div class="col-md-12">
       <div class="card">

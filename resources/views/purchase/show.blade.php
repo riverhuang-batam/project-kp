@@ -42,7 +42,7 @@
                       <div class="col-6">
                         <div>
                           <h6>Status:</h6>
-                          <p>{{$purchase->status}}</p>
+                          <p>{{\App\Helpers\OrderStatus::getString($purchase->status)}}</p>
                         </div>
                         <div>
                           <h6>Supplier:</h6>

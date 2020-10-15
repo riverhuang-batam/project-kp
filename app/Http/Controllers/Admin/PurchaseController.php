@@ -53,9 +53,12 @@ class PurchaseController extends Controller
 
         $purchaseDetail = [];
         foreach ($quantity as $key => $value) {
-          $unitPrice = DB::table('product_variants')->where('id','=',$key)->first()->unit_price;
+          $variant = DB::table('product_variants')->where('id','=',$key)->first();
+          $unitPrice = $variant->unit_price;
+          $productId = $variant->product_id;
           $subTotal = $value * $unitPrice;
           $purchaseDetail[] = [
+            'product_id' => $productId,
             'purchase_id' => $purchase->id,
             'product_variant_id' => $key,
             'quantity' => $value,
@@ -65,11 +68,11 @@ class PurchaseController extends Controller
 
         DB::table('purchase_details')->insert($purchaseDetail);
         DB::commit();
+        return redirect()->route('purchases.index')->with('status', 'New item successfully added');
       } catch (\Throwable $th) {
         DB::rollback();
+        return redirect()->route('purchases.index')->with('error', 'Fail to add item, please try again!');
       }
-      return redirect()->route('purchases.index')->with('status', 'New item successfully added');
-        
     }
 
     /**
@@ -108,8 +111,53 @@ class PurchaseController extends Controller
     public function update(Request $request, Purchase $purchase)
     {
         $request->validate(Purchase::rules());
-        $purchase->update(request()->all());
-        return redirect()->route('purchases.index')->with('status', 'Data successfully updated');
+        $currentDetails = Purchase::where('id','=', $purchase->id)->with('purchaseDetail')->first()->purchaseDetail->toArray();
+        $currentDetailIdList = [];
+        $newDetailIdList = [];
+
+        try{
+          DB::beginTransaction();
+          $quantity = $request->input('quantity');
+          $purchase->update(request()->except('quantity'));
+
+          foreach ($quantity as $key => $value) {
+            $newDetailIdList[] = $key;
+            $variant = DB::table('product_variants')->where('id','=',$key)->first();
+            $unitPrice = $variant->unit_price;
+            $productId = $variant->product_id;
+            $subTotal = $value * $unitPrice;
+            $newDetail = [
+              'product_id' => $productId,
+              'purchase_id' => $purchase->id,
+              'product_variant_id' => $key,
+              'quantity' => $value,
+              'sub_total' => $subTotal
+            ];
+
+            $existingDetail = PurchaseDetail::where([['purchase_id','=', $purchase->id],['product_variant_id','=', $key]])->first();
+            if($existingDetail){
+              PurchaseDetail::where([['purchase_id','=', $purchase->id],['product_variant_id','=', $key]])->update($newDetail);
+            }else{
+              PurchaseDetail::create($newDetail);
+            }
+          }
+
+          foreach ($currentDetails as $currentDetail) {
+            $currentDetailIdList[] = $currentDetail['product_variant_id'];
+          }
+
+          foreach ($currentDetailIdList as $currentDetailId) {
+            if(!in_array($currentDetailId, $newDetailIdList)){
+             PurchaseDetail::where([['purchase_id','=', $purchase->id],['product_variant_id','=', $currentDetailId]])->delete();
+            }
+          }
+          DB::commit();
+          return redirect()->route('purchases.index')->with('status', 'Data successfully updated');
+        }catch(\Throwable $th){
+          dd($th);
+          DB::rollback();
+          return redirect()->route('purchases.index')->with('error', 'Fail to update the data, please try again!');
+        }
     }
 
     /**
@@ -176,6 +224,7 @@ class PurchaseController extends Controller
           foreach ($purchaseDetails as $pd) {
             $newPurchaseDetails[] = [
               'purchase_id' => $newOrder->id,
+              'product_id' => $pd->product_id,
               'product_variant_id' => $pd->product_variant_id,
               'quantity' => $pd->quantity,
               'sub_total' => $pd->sub_total
@@ -203,5 +252,10 @@ class PurchaseController extends Controller
         }
     
         return response()->json($formattedOrders);
+     }
+
+     public function getPurchaseDetails($id){
+       $purchaseDetails = PurchaseDetail::where('purchase_id', '=', $id)->get();
+       return response()->json($purchaseDetails);
      }
 }
