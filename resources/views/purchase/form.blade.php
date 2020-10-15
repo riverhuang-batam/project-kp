@@ -170,7 +170,7 @@
                           <div class="form-group input-group-sm">
                             <label for="tracking_number">Tracking No</label>
                             <input type="text" class="form-control @error('tracking_number') is-invalid @enderror" id="tracking_number" name="tracking_number"
-                            value="{{isset($purchase) ? $purchase['tracking_number'] : (old('tracking_number') ? old('tracking_number') : 0) }}">
+                            value="{{isset($purchase) ? $purchase['tracking_number'] : old('tracking_number') }}">
                             @error('tracking_number')
                             <div class="invalid-feedback">
                               {{ $message }}
