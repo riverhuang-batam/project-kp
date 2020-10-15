@@ -185,4 +185,16 @@ class ProductController extends Controller
 
         return response()->json($formattedProducts);
     }
+
+    public function productSelected($id)
+    {
+        $products = Product::find($id)->load('variants');
+        return response()->json($products);
+    }
+
+    public function productDetail($id)
+    {
+        $product = Product::where('id', '=', $id)->with('variants')->first();
+        return response()->json($product);
+    }
 }

@@ -54,7 +54,7 @@
                         <div class="form-group input-group-sm">
                           <label for="product_total">Product total (RMB)</label>
                           <input type="text" class="form-control @error('product_total') is-invalid @enderror" id="product_total" name="product_total"
-                          value={{isset($purchase) ? $purchase['product_total'] : (old('product_total') ? old('product_total') : 0) }} readonly>
+                          value="{{isset($purchase) ? $purchase['product_total'] : (old('product_total') ? old('product_total') : 0) }}" readonly>
                           @error('product_total')
                           <div class="invalid-feedback">
                             {{ $message }}
@@ -65,7 +65,7 @@
                         <div class="form-group input-group-sm">
                           <label for="grand_total">Grand total (RMB)</label>
                           <input type="text" class="form-control @error('grand_total') is-invalid @enderror" id="grand_total" name="grand_total"
-                          value={{isset($purchase) ? $purchase['grand_total'] : (old('grand_total') ? old('grand_total') : 0) }} readonly>
+                          value="{{isset($purchase) ? $purchase['grand_total'] : (old('grand_total') ? old('grand_total') : 0) }}" readonly>
                           @error('grand_total')
                           <div class="invalid-feedback">
                             {{ $message }}
@@ -75,7 +75,7 @@
 
                         <div class="form-group input-group-sm">
                           <label for="grand_total_rp">Grand total (RP)</label>
-                          <input type="text" class="form-control @error('grand_total_rp') is-invalid @enderror" id="grand_total_rp" name="grand_total_rp"   value={{isset($purchase) ? $purchase['grand_total_rp'] : (old('grand_total_rp') ? old('grand_total_rp') : 0) }} readonly>
+                          <input type="text" class="form-control @error('grand_total_rp') is-invalid @enderror" id="grand_total_rp" name="grand_total_rp"   value="{{isset($purchase) ? $purchase['grand_total_rp'] : (old('grand_total_rp') ? old('grand_total_rp') : 0) }}" readonly>
                           @error('grand_total_rp')
                           <div class="invalid-feedback">
                             {{ $message }}
@@ -115,7 +115,7 @@
                         <div class="form-group input-group-sm">
                           <label for="transfer_fee">Transfer Fee (RMB)</label>
                           <input type="number" class="form-control @error('transfer_fee') is-invalid @enderror" id="transfer_fee" name="transfer_fee" 
-                          value={{isset($purchase) ? $purchase['transfer_fee'] : (old('transfer_fee') ? old('transfer_fee') : 0) }}>
+                          value="{{isset($purchase) ? $purchase['transfer_fee'] : (old('transfer_fee') ? old('transfer_fee') : 0) }}">
                           @error('transfer_fee')
                           <div class="invalid-feedback">
                             {{ $message }}
@@ -126,7 +126,7 @@
                         <div class="form-group input-group-sm">
                           <label for="currency_rate">Currency Rate</label>
                           <input type="number" class="form-control @error('currency_rate') is-invalid @enderror" id="currency_rate" name="currency_rate"
-                          value={{isset($purchase) ? $purchase['currency_rate'] : (old('currency_rate') ? old('currency_rate') : 0) }}>
+                          value="{{isset($purchase) ? $purchase['currency_rate'] : (old('currency_rate') ? old('currency_rate') : 0) }}">
                           @error('currency_rate')
                           <div class="invalid-feedback">
                             {{ $message }}
@@ -147,7 +147,7 @@
                           <div class="form-group input-group-sm">
                             <label for="transport_company">Transport Company</label>
                             <input type="text" class="form-control @error('transport_company') is-invalid @enderror" id="transport_company" name="transport_company"
-                              value={{isset($purchase) ? $purchase['transport_company'] : old('transport_company') }}>
+                              value="{{isset($purchase) ? $purchase['transport_company'] : old('transport_company') }}">
                             @error('transport_company')
                             <div class="invalid-feedback">
                               {{ $message }}
@@ -158,7 +158,7 @@
                           <div class="form-group input-group-sm">
                             <label for="transport_cost">Transport Cost (RMB)</label>
                             <input type="number" class="form-control @error('transport_cost') is-invalid @enderror" id="transport_cost" name="transport_cost"
-                            value={{isset($purchase) ? $purchase['transport_cost'] : (old('transport_cost') ? old('transport_cost') : 0) }}>
+                            value="{{isset($purchase) ? $purchase['transport_cost'] : (old('transport_cost') ? old('transport_cost') : 0) }}">
                             @error('transport_cost')
                             <div class="invalid-feedback">
                               {{ $message }}
@@ -170,7 +170,7 @@
                           <div class="form-group input-group-sm">
                             <label for="tracking_number">Tracking No</label>
                             <input type="text" class="form-control @error('tracking_number') is-invalid @enderror" id="tracking_number" name="tracking_number"
-                            value={{isset($purchase) ? $purchase['tracking_number'] : old('tracking_number') }}>
+                            value="{{isset($purchase) ? $purchase['tracking_number'] : (old('tracking_number') ? old('tracking_number') : 0) }}">
                             @error('tracking_number')
                             <div class="invalid-feedback">
                               {{ $message }}
@@ -180,7 +180,7 @@
 
                           <div class="form-group input-group-sm">
                             <label for="total_piece_ctn">Total Pieces CTN</label>
-                            <input type="number" class="form-control @error('total_piece_ctn') is-invalid @enderror" id="total_piece_ctn" name="total_piece_ctn" value={{isset($purchase) ? $purchase['total_piece_ctn'] : (old('total_piece_ctn') ? old('total_piece_ctn') : 0) }}>
+                            <input type="number" class="form-control @error('total_piece_ctn') is-invalid @enderror" id="total_piece_ctn" name="total_piece_ctn" value="{{isset($purchase) ? $purchase['total_piece_ctn'] : (old('total_piece_ctn') ? old('total_piece_ctn') : 0) }}">
                             @error('total_piece_ctn')
                             <div class="invalid-feedback">
                               {{ $message }}
@@ -204,7 +204,7 @@
                         <div class="col-12">
                           <div class="form-group input-group-sm">
                             <label for="container_number">Container No</label>
-                            <input type="text" class="form-control @error('container_number') is-invalid @enderror" id="container_number" name="container_number" value={{isset($purchase) ? $purchase['container_number'] : old('container_number') }}>
+                            <input type="text" class="form-control @error('container_number') is-invalid @enderror" id="container_number" name="container_number" value="{{isset($purchase) ? $purchase['container_number'] : old('container_number') }}">
                             @error('container_number')
                             <div class="invalid-feedback">
                               {{ $message }}
@@ -226,7 +226,7 @@
                           <div class="form-group input-group-sm">
                             <label for="cubication">Cubication</label>
                             <input type="number" class="form-control @error('cubication') is-invalid @enderror" id="cubication" name="cubication"
-                            value={{isset($purchase) ? $purchase['cubication'] : (old('cubication') ? old('cubication') : 0) }}>
+                            value="{{isset($purchase) ? $purchase['cubication'] : (old('cubication') ? old('cubication') : 0) }}">
                             @error('cubication')
                             <div class="invalid-feedback">
                               {{ $message }}
@@ -250,7 +250,7 @@
                           <div class="form-group input-group-sm">
                             <label for="shipping_cost">Shippinig Costs (RP)</label>
                             <input type="number" class="form-control @error('shipping_cost') is-invalid @enderror" id="shipping_cost" name="shipping_cost"
-                            value={{isset($purchase) ? $purchase['shipping_cost'] : (old('shipping_cost') ? old('shipping_cost') : 0) }}>
+                            value="{{isset($purchase) ? $purchase['shipping_cost'] : (old('shipping_cost') ? old('shipping_cost') : 0) }}">
                             @error('shipping_cost')
                             <div class="invalid-feedback">
                               {{ $message }}
@@ -402,9 +402,9 @@
                 input.type="number";
                 input.className="border border-secondary rounded-lg input-quanity input-group-sm";
                 input.name = `quantity[${data.id}]`;
-                input.value = 0;
+                input.value = data.quantity ?? 0;
                 variantQuantity.appendChild(input);
-                variantSubTotal.innerHTML = 0;
+                variantSubTotal.innerHTML = data.sub_total ?? 0;
                 variantSubTotal.className = "sub-total";
                 firstRow.className = `${refId}`;
                 firstRow.appendChild(productSKU);
@@ -422,9 +422,9 @@
                 input.type="number";
                 input.className="border border-secondary rounded-lg input-quanity input-group-sm";
                 input.name = `quantity[${data.id}]`;
-                input.value = 0;
+                input.value = data.quantity ?? 0;;
                 variantQuantity.appendChild(input);
-                variantSubTotal.innerHTML = 0;
+                variantSubTotal.innerHTML = data.sub_total ?? 0;
                 variantSubTotal.className = "sub-total";
                 nextRow.className = `${refId}`;
                 nextRow.appendChild(variantName);
@@ -445,6 +445,7 @@
               calculatePrice();
             });
           }
+          calculatePrice();
     }
 
     $('#transfer_fee').on('change', function(){
@@ -464,7 +465,14 @@
     });
 
     $('body').on('click', '#add_product', function () {
-        drawTable(productRaw);    
+        let productId = $('#product_id').val();
+        let productURL = window.location.origin + "/product/selected/" + productId;
+        $.ajax({
+          url: productURL,
+          success: function(product){
+            drawTable(product); 
+          }
+        });
     });
     
     $('body').on('click', '.remove-product', function(){
@@ -510,12 +518,11 @@
           }
         },
         processResults: function (data) {
-            productRaw = data[0].product;
             return {
                 results: data,
             };
         },
-        cache: true
+        cache: false
       }
     });
 
@@ -529,6 +536,8 @@
       };
       let supplierOption = new Option(supplier.text, supplier.id, false, false);
       $('#supplier_id').append(supplierOption).trigger('change');
+      let purchaseId = '{{$purchase->id}}';
+      getpurchaseDetails(purchaseId);
     @endif
 
     @if(old('supplier_id'))
@@ -542,6 +551,80 @@
       let supplierOption = new Option(supplier.text, supplier.id, false, false);
       $('#supplier_id').append(supplierOption).trigger('change');
     @endif
+
+    function getpurchaseDetails(id){
+        let purchaseDetailURL = window.location.origin + "/purchases/details/";
+        let pruductDetailURL = window.location.origin + "/product/details/";
+        let purchaseDetails;
+        let productList = [];
+        let productRaw = [];
+
+        // request purchase detail
+        $.ajax({
+          url: purchaseDetailURL + id,
+          success: function(purchaseDetails){
+            purchaseDetails = purchaseDetails;
+            // productGrouping
+            purchaseDetails.map(purchaseDetail => {
+              if(!productList.includes(purchaseDetail.product_id)){
+                productList.push(purchaseDetail.product_id);
+              }
+            });
+            
+            // create model
+            productList.forEach(productId => {
+              $.ajax({
+                url: pruductDetailURL + productId,
+                success: function(product){
+                  let variants = [];
+                  let productVariants = [];
+                  let newProduct = {
+                    name: product.name,
+                    sku: product.sku,
+                    photo: product.photo
+                  }
+                  product.variants.forEach(variant => {
+                    let newProductVariant = {
+                      variant_id: variant.id,
+                      name: variant.name,
+                      unit_price: variant.unit_price
+                    }
+                    productVariants.push(newProductVariant);
+                  })
+                  let thisPurchaseDetail = purchaseDetails.filter(purchase => {
+                    return purchase.product_id == productId;
+                  });
+                  thisPurchaseDetail.forEach(purchaseDetail => {
+                    let newVariant = {};
+                    productVariants.map(variant =>{
+                      if(variant.variant_id == purchaseDetail.product_variant_id){
+                        newVariant.name = variant.name,
+                        newVariant.unit_price = variant.unit_price
+                      }
+                    });
+                    newVariant.id = purchaseDetail.product_variant_id,
+                    newVariant.purchase_id = purchaseDetail.purchase_id,
+                    newVariant.quantity = purchaseDetail.quantity,
+                    newVariant.sub_total = purchaseDetail.sub_total
+                    variants.push(newVariant);
+                  })
+                  newProduct.variants = variants;
+
+                  // draw table
+                  drawTable(newProduct);
+                },
+                error: function(){
+                  return;
+                }
+              });
+
+            });
+          },
+          error: function(data){
+            return;
+          }
+        });
+    }
 })
 </script>
 @endsection
