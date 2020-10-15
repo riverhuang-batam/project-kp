@@ -35,19 +35,19 @@
           </div>
           <ul class="nav nav-pills" id="pills-tab" role="tablist">
             <li class="nav-item ml-2 mr-1 my-1 border rounded" role="presentation" onclick="datatable(1)">
-            <a class="nav-link active" id="pills-all-tab" data-toggle="pill" href="#pills-all" role="tab" aria-controls="pills-all" aria-selected="true">({{count(\App\Models\Purchase::where('status', 1)->get())}}) Waiting</a>
+            <a class="nav-link active" id="pills-all-tab" data-toggle="pill" href="#pills-all" role="tab" aria-controls="pills-all" aria-selected="true">(<span id="waiting-badge" >{{count(\App\Models\Purchase::where('status', 1)->get())}}</span>) Waiting</a>
             </li>
             <li class="nav-item mx-1 my-1 border rounded" role="presentation" onclick="datatable(2)">
-              <a class="nav-link " id="pills-shippingWH-tab" data-toggle="pill" href="#pills-shippingWH" role="tab" aria-controls="pills-shippingWH" aria-selected="false">({{count(\App\Models\Purchase::where('status', 2)->get())}}) Shipping to Warehouse</a>
+              <a class="nav-link " id="pills-shippingWH-tab" data-toggle="pill" href="#pills-shippingWH" role="tab" aria-controls="pills-shippingWH" aria-selected="false">(<span id="warehouse-badge" >{{count(\App\Models\Purchase::where('status', 2)->get())}}</span>) Shipping to Warehouse</a>
             </li>
             <li class="nav-item mx-1 my-1 border rounded" role="presentation" onclick="datatable(3)">
-              <a class="nav-link" id="pills-shippingID-tab" data-toggle="pill" href="#pills-shippingID" role="tab" aria-controls="pills-shippingID" aria-selected="false">({{count(\App\Models\Purchase::where('status', 3)->get())}}) Shipping to Indonesia</a>
+              <a class="nav-link" id="pills-shippingID-tab" data-toggle="pill" href="#pills-shippingID" role="tab" aria-controls="pills-shippingID" aria-selected="false">(<span id="indonesia-badge" >{{count(\App\Models\Purchase::where('status', 3)->get())}}</span>) Shipping to Indonesia</a>
             </li>
             <li class="nav-item mx-1 my-1 border rounded" role="presentation" onclick="datatable(4)">
-              <a class="nav-link" id="pills-arrived-tab" data-toggle="pill" href="#pills-arrived" role="tab" aria-controls="pills-arrived" aria-selected="false">({{count(\App\Models\Purchase::where('status', 4)->get())}}) Arrived</a>
+              <a class="nav-link" id="pills-arrived-tab" data-toggle="pill" href="#pills-arrived" role="tab" aria-controls="pills-arrived" aria-selected="false">(<span id="arrived-badge" >{{count(\App\Models\Purchase::where('status', 4)->get())}}</span>) Arrived</a>
             </li>
             <li class="nav-item mx-1 my-1 border rounded" role="presentation" onclick="datatable(5)">
-              <a class="nav-link" id="pills-completed-tab" data-toggle="pill" href="#pills-completed" role="tab" aria-controls="pills-completed" aria-selected="false">({{count(\App\Models\Purchase::where('status', 5)->get())}}) Completed</a>
+              <a class="nav-link" id="pills-completed-tab" data-toggle="pill" href="#pills-completed" role="tab" aria-controls="pills-completed" aria-selected="false">(<span id="completed-badge" >{{count(\App\Models\Purchase::where('status', 5)->get())}}</span>) Completed</a>
             </li>
           </ul>
         </div>
@@ -89,6 +89,7 @@
 <script type="text/javascript" src="{{asset('js/alerthelper.js')}}"></script>
 <script type="text/javascript">
   $(function () {
+   
         let alert = $('#alert').length;
         if (alert > 0) {
             setTimeout(() => {
@@ -138,9 +139,15 @@
                       setTimeout(()=>{
                         element.classList.add("d-none");
                       }, 3000);
+                      $.ajax({
+                        url: window.location.origin + "/purchases-counter",
+                        success: function(data){
+                          updateBadge(data);
+                        }
+                      });
                     },
                     error: function (data) {
-                        // $(location).attr('href', window.location.origin + "/purchases");
+                        $(location).attr('href', window.location.origin + "/purchases");
                     }
                 });
             }
@@ -161,7 +168,12 @@
                       setTimeout(()=>{
                         element.classList.add("d-none");
                       }, 3000);
-                  // $(location).attr('href', window.location.origin + "/purchases");
+                  $.ajax({
+                    url: window.location.origin + "/purchases-counter",
+                    success: function(data){
+                      updateBadge(data);
+                    }
+                  });
                 },
                 error: function(data){
                   $(location).attr('href', window.location.origin + "/purchases");
@@ -170,6 +182,20 @@
             }
         });
   });
+
+  function updateBadge(data){
+    let waiting = $('#waiting-badge');
+    let warehouse = $('#warehouse-badge');
+    let indonesia = $('#indonesia-badge');
+    let arrived = $('#arrived-badge');
+    let completed = $('#completed-badge');
+
+    waiting.text(data.waiting);
+    warehouse.text(data.warehouse);
+    indonesia.text(data.indonesia);
+    arrived.text(data.arrived);
+    completed.text(data.completed);
+  }
 
   function datatable(status) {
     $table = $('.yajra-datatable').DataTable({

@@ -258,4 +258,20 @@ class PurchaseController extends Controller
        $purchaseDetails = PurchaseDetail::where('purchase_id', '=', $id)->get();
        return response()->json($purchaseDetails);
      }
+
+     public function countBadge(){
+      $purchases = Purchase::all();
+      $waiting = count($purchases->where('status', 1));
+      $warehouse = count($purchases->where('status', 2));
+      $indonesia = count($purchases->where('status', 3));
+      $arrived = count($purchases->where('status', 4));
+      $completed = count($purchases->where('status', 5));
+      return response()->json([
+        'waiting'=> $waiting, 
+        'warehouse' => $warehouse, 
+        'indonesia' => $indonesia,
+        'arrived' => $arrived,
+        'completed' => $completed
+      ]);
+     }
 }

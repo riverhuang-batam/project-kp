@@ -22,6 +22,7 @@ Route::middleware(['auth'])->group(function () {
   Route::get('purchase-select', 'App\Http\Controllers\Admin\PurchaseController@purchaseSelect')->name('purchase-select');
   Route::get('purchases/duplicate/{id}', 'App\Http\Controllers\Admin\PurchaseController@duplicateOrder');
   Route::get('purchases/details/{id}', 'App\Http\Controllers\Admin\PurchaseController@getPurchaseDetails');
+  Route::get('purchases-counter', 'App\Http\Controllers\Admin\PurchaseController@countBadge');
 
   Route::resource('markings', 'App\Http\Controllers\Admin\MarkingController');
   Route::get('marking-list', 'App\Http\Controllers\Admin\MarkingController@markingDataTable')->name('marking-list');
