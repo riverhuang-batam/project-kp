@@ -22,8 +22,11 @@
             @endif
             <div class="row">
               <div class="col-md-12">
+                <div class="mb-3">
+                  <small>* is required</small>
+                </div>
                 <div class="form-group">
-                  <label for="code">Supplier Code</label>
+                  <label for="code">Supplier Code *</label>
                   <input type="text" class="form-control @error('code') is-invalid @enderror" id="code"
                     placeholder="Add supplier code" name="code" value="{{ isset($supplier) ? $supplier['code'] : old('code') }}"
                     autocomplete="off">
@@ -34,7 +37,7 @@
                   @enderror
                 </div>
                 <div class="form-group">
-                  <label for="name">Supplier Name</label>
+                  <label for="name">Supplier Name *</label>
                   <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
                     placeholder="Add supplier name" name="name" value="{{ isset($supplier) ? $supplier['name'] : old('name') }}"
                     autocomplete="off">
