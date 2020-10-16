@@ -14,7 +14,7 @@
           </div>
         </div>
         <div class="card-body">
-          <form method="POST"
+         <form method="POST"
             action="{{ isset($purchase) ? route('purchases.update', $purchase['id']) : route('purchases.store') }}">
             @csrf
             @if(isset($purchase))
@@ -292,7 +292,7 @@
                   </div>
                   <div class="col-8 d-flex justify-content-between align-items-start">
                       <a type="button" id="add_product" class="btn btn-primary btn-sm text-light">+ Add</a> 
-                      <a type="button" id="update_product" class="btn btn-success btn-sm text-light">Update</a> 
+                      {{-- <a type="button" id="update_product" class="btn btn-success btn-sm text-light">Update</a>  --}}
                   </div>
 
                   <table class="table">
@@ -335,8 +335,6 @@
   $(function(){
 
     let productRaw;
-
-    calculatePrice();
 
     function calculatePrice(){
       let productTotal = $('#product_total');
@@ -408,6 +406,7 @@
                 input.className="border border-secondary rounded-lg input-quanity input-group-sm";
                 input.name = `quantity[${data.id}]`;
                 input.value = data.quantity ?? 0;
+                input.min = 0;
                 variantQuantity.appendChild(input);
                 variantSubTotal.innerHTML = data.sub_total ?? 0;
                 variantSubTotal.className = "sub-total";
@@ -427,7 +426,8 @@
                 input.type="number";
                 input.className="border border-secondary rounded-lg input-quanity input-group-sm";
                 input.name = `quantity[${data.id}]`;
-                input.value = data.quantity ?? 0;;
+                input.value = data.quantity ?? 0;
+                input.min = 0;
                 variantQuantity.appendChild(input);
                 variantSubTotal.innerHTML = data.sub_total ?? 0;
                 variantSubTotal.className = "sub-total";
@@ -452,6 +452,82 @@
           }
           calculatePrice();
     }
+
+    function getpurchaseDetails(id){
+        let purchaseDetailURL = window.location.origin + "/purchases/details/";
+        let pruductDetailURL = window.location.origin + "/product/details/";
+        let purchaseDetails;
+        let productList = [];
+        let productRaw = [];
+
+        // request purchase detail
+        $.ajax({
+          url: purchaseDetailURL + id,
+          success: function(purchaseDetails){
+            purchaseDetails = purchaseDetails;
+            // productGrouping
+            purchaseDetails.map(purchaseDetail => {
+              if(!productList.includes(purchaseDetail.product_id)){
+                productList.push(purchaseDetail.product_id);
+              }
+            });
+            
+            // create model
+            productList.forEach(productId => {
+              $.ajax({
+                url: pruductDetailURL + productId,
+                success: function(product){
+                  let variants = [];
+                  let productVariants = [];
+                  let newProduct = {
+                    name: product.name,
+                    sku: product.sku,
+                    photo: product.photo
+                  }
+                  product.variants.forEach(variant => {
+                    let newProductVariant = {
+                      variant_id: variant.id,
+                      name: variant.name,
+                      unit_price: variant.unit_price
+                    }
+                    productVariants.push(newProductVariant);
+                  })
+                  let thisPurchaseDetail = purchaseDetails.filter(purchase => {
+                    return purchase.product_id == productId;
+                  });
+                  thisPurchaseDetail.forEach(purchaseDetail => {
+                    let newVariant = {};
+                    productVariants.map(variant =>{
+                      if(variant.variant_id == purchaseDetail.product_variant_id){
+                        newVariant.name = variant.name,
+                        newVariant.unit_price = variant.unit_price
+                      }
+                    });
+                    newVariant.id = purchaseDetail.product_variant_id,
+                    newVariant.purchase_id = purchaseDetail.purchase_id,
+                    newVariant.quantity = purchaseDetail.quantity,
+                    newVariant.sub_total = purchaseDetail.sub_total
+                    variants.push(newVariant);
+                  })
+                  newProduct.variants = variants;
+
+                  // draw table
+                  drawTable(newProduct);
+                },
+                error: function(){
+                  return;
+                }
+              });
+
+            });
+          },
+          error: function(data){
+            return;
+          }
+        });
+    }
+
+    calculatePrice();
 
     $('#transfer_fee').on('change', function(){
       calculatePrice();
@@ -557,79 +633,72 @@
       $('#supplier_id').append(supplierOption).trigger('change');
     @endif
 
-    function getpurchaseDetails(id){
-        let purchaseDetailURL = window.location.origin + "/purchases/details/";
-        let pruductDetailURL = window.location.origin + "/product/details/";
-        let purchaseDetails;
-        let productList = [];
-        let productRaw = [];
+    @if(old('quantity'))
+      let productIds = [];
+      let validProductIds = [];
+      let oldVariants = [];
+      let pruductDetailURL = window.location.origin + "/product/details/";
 
-        // request purchase detail
+      @foreach(old('quantity') as $key => $value)
+        // colecting data
+        @php
+          $variant = \App\Models\ProductVariant::find($key);
+          // dd($variant);
+        @endphp
+        productIds.push(parseInt('{{$variant->product_id}}'));
+        oldVariants.push({
+          id: parseInt('{{$key}}'),
+          quantity: parseInt('{{$value}}')
+        });
+      @endforeach
+      
+      // product grouping
+      productIds.forEach(id => {
+        if(!validProductIds.includes(id)){
+          validProductIds.push(id);
+        }
+      });
+
+      // creating model
+      validProductIds.forEach(id => {
         $.ajax({
-          url: purchaseDetailURL + id,
-          success: function(purchaseDetails){
-            purchaseDetails = purchaseDetails;
-            // productGrouping
-            purchaseDetails.map(purchaseDetail => {
-              if(!productList.includes(purchaseDetail.product_id)){
-                productList.push(purchaseDetail.product_id);
+          url: pruductDetailURL + id,
+          success: function(product){
+            let variants = [];
+            let productVariants = [];
+            let newProduct = {
+              name: product.name,
+              sku: product.sku,
+              photo: product.photo
+            };
+
+            product.variants.forEach(variant => {
+              let newProductVariant = {
+                id: variant.id,
+                name: variant.name,
+                unit_price: variant.unit_price
               }
-            });
-            
-            // create model
-            productList.forEach(productId => {
-              $.ajax({
-                url: pruductDetailURL + productId,
-                success: function(product){
-                  let variants = [];
-                  let productVariants = [];
-                  let newProduct = {
-                    name: product.name,
-                    sku: product.sku,
-                    photo: product.photo
-                  }
-                  product.variants.forEach(variant => {
-                    let newProductVariant = {
-                      variant_id: variant.id,
-                      name: variant.name,
-                      unit_price: variant.unit_price
-                    }
-                    productVariants.push(newProductVariant);
-                  })
-                  let thisPurchaseDetail = purchaseDetails.filter(purchase => {
-                    return purchase.product_id == productId;
-                  });
-                  thisPurchaseDetail.forEach(purchaseDetail => {
-                    let newVariant = {};
-                    productVariants.map(variant =>{
-                      if(variant.variant_id == purchaseDetail.product_variant_id){
-                        newVariant.name = variant.name,
-                        newVariant.unit_price = variant.unit_price
-                      }
-                    });
-                    newVariant.id = purchaseDetail.product_variant_id,
-                    newVariant.purchase_id = purchaseDetail.purchase_id,
-                    newVariant.quantity = purchaseDetail.quantity,
-                    newVariant.sub_total = purchaseDetail.sub_total
-                    variants.push(newVariant);
-                  })
-                  newProduct.variants = variants;
-
-                  // draw table
-                  drawTable(newProduct);
-                },
-                error: function(){
-                  return;
+              oldVariants.forEach(oldVariant => {
+                if(oldVariant.id == variant.id){
+                  newProductVariant.quantity = oldVariant.quantity;
+                  newProductVariant.sub_total = oldVariant.quantity * variant.unit_price;
                 }
-              });
-
+              })
+              productVariants.push(newProductVariant);
             });
+          
+            newProduct.variants = productVariants;
+
+            // draw table
+            drawTable(newProduct);
           },
-          error: function(data){
+          error: function(){
             return;
           }
         });
-    }
+      })
+      calculatePrice();
+    @endif
 })
 </script>
 @endsection

@@ -28,6 +28,10 @@ class Purchase extends Model
           'supplier_id' => 'required',
           'transfer_fee' => 'required|numeric|min:0',
           'currency_rate' => 'required|numeric|gt:0',
+          'transport_cost' => 'numeric|min:0',
+          'total_piece_ctn' => 'numeric|min:0',
+          'cubication' => 'numeric|min:0',
+          'shipping_cost' => 'numeric|min:0'
         ],
         $merge
       );
