@@ -60,7 +60,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="amount">Amount (S$)</label>
-                <input type="number" class="form-control" name="amount" value="{{isset($payment) ? $payment->amount : 0}}" required/>
+                  <input type="number" class="form-control" name="amount" value="{{isset($payment) ? $payment->amount : (old('amount') ? old('amount') : 0)}}" min="1"/>
                     @error('amount')
                     <div class="invalid-feedback">
                       {{ $message }}
@@ -176,7 +176,7 @@
       @endphp
       let order = {
           id: '{{ $purchase->id }}',
-          text: '{{ $purchase->purchase_code }}'
+          text: '{{ $purchase->code }}'
       };
       
       let orderOption = new Option(order.text, order.id, false, false);
@@ -198,11 +198,11 @@
 
     @if(old('purchase_id'))
       @php
-        $purchase = \App\Models\Purchase::find($payment['purchase_id']);
+        $purchase = \App\Models\Purchase::find(old('purchase_id'));
       @endphp
       let order = {
           id: '{{ $purchase->id }}',
-          text: '{{ $purchase->purchase_code }}'
+          text: '{{ $purchase->code }}'
       };
       let orderOption = new Option(order.text, order.id, false, false);
       $('#purchase_id').append(orderOption).trigger('change');
