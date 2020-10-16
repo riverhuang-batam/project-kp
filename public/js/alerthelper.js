@@ -1,4 +1,4 @@
-async function showDialog(title, text, icon, handler){
+async function showDialog(title, text, icon){
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
       confirmButton: 'btn btn-primary m-2',
@@ -20,4 +20,12 @@ async function showDialog(title, text, icon, handler){
   }else{
     return false;
   }
+}
+
+function showAlert(title, text){
+  Swal.fire(
+    title,
+    text,
+    'info'
+  )
 }

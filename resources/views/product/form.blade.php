@@ -13,7 +13,7 @@
             </h5>
           </div>
         </div>
-        @if ($errors->any())
+        {{-- @if ($errors->any())
 					<div class="alert alert-danger">
 						<ul>
 							@foreach ($errors->all() as $error)
@@ -21,7 +21,7 @@
 							@endforeach
 						</ul>
 					</div>
-				@endif
+				@endif --}}
         <div class="card-body">
           <form method="POST" enctype="multipart/form-data"
             action="{{ isset($product) ? route('products.update', $product['id']) : route('products.store') }}">
@@ -31,6 +31,9 @@
             @endif
             <div class="row">
               <div class="col-md-12">
+                <div class="mb-3">
+                  <small>* is required</small>
+                </div>
                 <div class="form-group">
                   <label for="code">Code *</label>
                   <input type="text" class="form-control @error('code') is-invalid @enderror" id="code"
@@ -98,34 +101,35 @@
                       <td class="d-none">
                         <input 
                           type="text" 
-                          class="form-control @if(false) is-invalid @endif"
+                          class="form-control mb-1 @if(false) is-invalid @endif"
                           id="variant_id_0"
-                          name="variants[0][id]" />
+                          name="variants[0][id]"/>
                       </td>
                       <td>
                         <input 
                           type="text" 
-                          class="form-control @if(false) is-invalid @endif"
+                          class="form-control mb-1 @if(false) is-invalid @endif"
                           id="variant_name_0"
-                          name="variants[0][name]" />
+                          name="variants[0][name]" required />
                       </td>
                       <td>
-                        <input class="form-control"
+                        <input class="form-control mb-1"
                           type="number"
                           step="0.01"
-                          min="0"
+                          min="1"
                           value="0"
                           id="unit_price_0"
-                          name="variants[0][unit_price]" />
+                          name="variants[0][unit_price]"
+                          />
                       </td>
                       <td>
-                        <button class="btn btn-primary btn-delete-row" type="button">
+                        <button class="btn btn-danger btn-delete-row mb-1" type="button">
                           Delete
                         </button>
                       </td>
                     </tr>
                   </table>
-                  <button type="button" class="btn btn-warning btn-add-row">Add Row</button>
+                  <button type="button" class="btn btn-info btn-add-row mt-2">Add Variant</button>
                 </div>
               </div>
               <hr>
@@ -144,11 +148,12 @@
 @section('scripts')
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
   <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="{{asset('js/alerthelper.js')}}"></script>
   <script type="text/javascript">
     $(function () {
       function deleteRow(event) {
         if($("#variant_table tr").length === 2) {
-          alert("You cannot delete the last product!");
+          showAlert("", "The product must have at least 1 variant")
           return;
         }
         $(event.target).closest("tr").remove();
