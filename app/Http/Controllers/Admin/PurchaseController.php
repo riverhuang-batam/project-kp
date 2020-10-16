@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Purchase;
 use App\Models\PurchaseDetail;
+use App\Models\Product;
 use App\Models\Payment;
 use App\Models\Marking;
 use App\Models\Item;
@@ -86,7 +87,22 @@ class PurchaseController extends Controller
         $purchase = Purchase::find($purchase->id);
         $payments = Payment::where('purchase_id','=',$purchase->id)->get();
         $purchaseItems = PurchaseDetail::where('purchase_id','=', $purchase->id)->get();
-        return view('purchase.show', compact('purchase','payments','purchaseItems'));
+        $productList = [];
+
+        $productIds = [];
+        foreach($purchaseItems as $item){
+          if(!in_array($item->product_id, $productIds)){
+            $productIds[] = $item->product_id;
+          };
+        }
+
+        foreach($productIds as $id){
+          $product = Product::find($id);
+          $product->variants = $purchaseItems->where('product_id','=', $id);
+          $productList[] = $product;
+        }
+
+        return view('purchase.show', compact('purchase','payments','productList'));
     }
 
     /**

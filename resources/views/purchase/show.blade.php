@@ -138,10 +138,36 @@
                   </div>
                 </div>
                 <div class="card-body">
-                  @foreach($purchaseItems as $item)
-                  <li class="list-group-item">
-                  <p>{{\App\Models\Purchase::getProductVariantName($item->product_variant_id)}} - {{$item->quantity}} pcs - {{$item->sub_total}} RMB</p>
-                  </li>
+                  @foreach($productList as $product)
+                  <div class="card mb-3">
+                    <div class="card-header">
+                      <h5>{{$product->name}} <small> - {{$product->sku}}</small> </h5>
+                    </div>
+                    <div class="card-body">
+                      <div class="d-flex flex-row justify-content-around">
+                        <div class="mr-4">
+                          @if($product->photo != null)
+                          <img src="{{Storage::disk('public')->url($product->photo)}}" alt="" width="150" height="150">
+                          @endif
+                          @if($product->photo == null)
+                            <p>No Photo Available</p>
+                          @endif
+                        </div>
+                        <div>
+                          <strong>Varint items:</strong>
+                          <ul class="list-group list-group-flush">
+                          @foreach ($product->variants as $variant)
+                            @if($variant->quantity != 0)
+                              <li class="list-group-item">
+                                <p>{{\App\Models\Purchase::getProductVariantName($variant->product_variant_id)}} - {{$variant->quantity}} pcs - {{$variant->sub_total}} RMB</p>
+                              </li>
+                            @endif
+                          @endforeach
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   @endforeach
                 </div>
               </div>
