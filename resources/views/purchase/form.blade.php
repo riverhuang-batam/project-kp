@@ -379,22 +379,27 @@
             let input = document.createElement('input');
             let removeContainer = document.createElement('td')
             let remove = document.createElement('a');
+            let imageURL = (product.photo ? window.location.origin+"/storage/"+product.photo : "");
 
             remove.className = "btn btn-primary btn-sm remove-product m-1 text-light";
             remove.innerHTML = "Remove this product";
             remove.dataset.ref = `${refId}`;
             removeContainer.appendChild(remove);
-            removeContainer.rowSpan =product.variants.length;
-            productImage.src = window.origin+"/storage/"+product.photo;
+            removeContainer.rowSpan = product.variants.length;
+            productImage.src = imageURL;
             productImage.alt = product.name;
-            productImage.width = 150;
-            productImage.height = 150;
+            productImage.width = 100;
+            productImage.height = 100;
 
             product.variants.map((data, index) => {
               if(index === 0){
                 productSKU.innerHTML = product.sku;
                 productSKU.rowSpan = product.variants.length;
-                productPhoto.appendChild(productImage);
+                if(product.photo != null){
+                  productPhoto.appendChild(productImage);
+                }else{
+                  productPhoto.innerHTML = product.name;
+                }
                 productPhoto.rowSpan = product.variants.length;
                 variantName.innerHTML = data.name;
                 variantUnitPrice.innerHTML = data.unit_price;
