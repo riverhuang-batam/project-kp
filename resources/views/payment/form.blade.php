@@ -94,9 +94,9 @@
               @if(!isset($purchase_code))
               <a href="{{ route('payments.index') }}" type="button" class="btn btn-secondary mr-2">Back</a>
               @endif 
-              @if(isset($purchase_code))
+              {{-- @if(isset($purchase_code))
               <a href="{{ route('purchases.index') }}" type="button" class="btn btn-secondary mr-2">Back to Purchase</a> 
-              @endif
+              @endif --}}
               <button type="submit" class="btn btn-primary">Submit</button>
             </>
           </form>

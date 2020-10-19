@@ -26,8 +26,8 @@
           <div>
             <a href="{{ route('payments.create') }}" type="button" class="btn btn-primary">
               + Add New Record</a>
-            <a href="{{ route('purchases.index') }}" type="button" class="btn btn-secondary">
-              Back to Purchase</a>
+            {{-- <a href="{{ route('purchases.index') }}" type="button" class="btn btn-secondary">
+              Back to Purchase</a> --}}
           </div>
         </div>
         <div class="card-body">
