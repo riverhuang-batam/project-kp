@@ -47,6 +47,32 @@
                   </div>
                   @enderror
                 </div>
+                <div class="form-group">
+                  <label for="phone">Phone</label>
+                  <input type="number" class="form-control @error('phone') is-invalid @enderror" id="phone"
+                    placeholder="Add phone number" name="phone" value="{{ isset($supplier) ? $supplier['phone'] : old('phone') }}"
+                    autocomplete="off">
+                  @error('phone')
+                  <div class="invalid-feedback">
+                    {{ $message }}
+                  </div>
+                  @enderror
+                </div>
+                <div class="form-group">
+                  <label for="address">Address</label>
+                  <input type="text" class="form-control @error('address') is-invalid @enderror" id="address"
+                    placeholder="Add supplier address" name="address" value="{{ isset($supplier) ? $supplier['address'] : old('address') }}"
+                    autocomplete="off">
+                  @error('address')
+                  <div class="invalid-feedback">
+                    {{ $message }}
+                  </div>
+                  @enderror
+                </div>
+                <div class="form-group">
+                  <label for="remark">Remark</label>
+                  <textarea class="form-control" id="remark" name="remark" rows="3">{{ isset($supplier) ? $supplier['remark'] : old('remark') }}</textarea>
+                </div>
               </div>
               <hr>
               <div class="btn-group">
