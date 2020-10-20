@@ -117,7 +117,6 @@
                           type="number"
                           step="0.01"
                           min="1"
-                          value="0"
                           id="unit_price_0"
                           name="variants[0][unit_price]"
                           />
@@ -172,7 +171,7 @@
           .val("");
         newRow.find("td:nth-child(4) input").attr("id", "unit_price_)"+curRowNum)
           .attr("name", "variants["+curRowNum+"][unit_price]")
-          .val(0);
+          .val("");
         $("#variant_table").append(newRow);
         if(data !== null && data.name) {
           oldRow.find("td:nth-child(2) input").val(data.id);
