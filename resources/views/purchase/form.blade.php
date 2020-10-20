@@ -278,23 +278,43 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-4">
-                    <div class="form-group input-group-sm">
-                      <div class="form-group input-group-sm">
-                        <label for="product_id">Product</label>
-                        <select id="product_id" name="product_id" class="form-control select2"></select>
-                        @error('product_id')
-                        <div class="invalid-feedback d-inline-block">
-                          {{ $message }}
+                    <!-- Button trigger modal -->
+                    <button id="add-product" type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#productModal">
+                      + Add Product
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header  bg-primary text-light">
+                            <h5 class="modal-title" id="exampleModalLabel">Select Product</h5>
+                            <button type="button" class="text-light bg-danger " data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="false">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="row">
+                              <div class="col-12">
+                                <div class="form-group">
+                                  <select id="product_id" name="product_id" class="form-control select2"></select>
+                                  @error('product_id')
+                                  <div class="invalid-feedback d-inline-block">
+                                    {{ $message }}
+                                  </div>
+                                  @enderror
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button id="update-detail" type="button" class="btn btn-primary">Update Detail</button>
+                          </div>
                         </div>
-                        @enderror
                       </div>
                     </div>
                   </div>
-                  <div class="col-8 d-flex justify-content-between align-items-start">
-                      <a type="button" id="add_product" class="btn btn-primary btn-sm text-light">+ Add</a> 
-                      {{-- <a type="button" id="update_product" class="btn btn-success btn-sm text-light">Update</a>  --}}
-                  </div>
-
                   <table class="table">
                     <thead>
                       <tr>
@@ -311,13 +331,9 @@
                     <tbody id="detail-product-table">
                     </tbody>
                   </table>
-
-
                 </div>
               </div>
             </div>
-
-
           </form>
         </div>
       </div>
@@ -545,9 +561,14 @@
       calculatePrice();
     });
 
-    $('body').on('click', '#add_product', function () {
+    $('#productModal').on('show.bs.modal', function(){
+      $("#product_id").empty().trigger('change')
+    })
+
+    $('body').on('click', '#update-detail', function () {
         let productId = $('#product_id').val();
         let productURL = window.location.origin + "/product/selected/" + productId;
+        $('#productModal').modal('hide');
         $.ajax({
           url: productURL,
           success: function(product){
@@ -599,12 +620,15 @@
           }
         },
         processResults: function (data) {
-            return {
-                results: data,
-            };
+          return {
+            results: data,
+          };
         },
-        cache: false
-      }
+        cache: true
+      },
+      dropdownParent: $('#productModal'),
+      width: '100%',
+      allowClear: true
     });
 
     @if(isset($purchase))
