@@ -11,14 +11,17 @@ class Supplier extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['code', 'name'];
+    protected $fillable = ['code', 'name', 'phone', 'address', 'remark'];
 
     public static function rules($merge = [])
     {
         return array_merge(
             [
                 'code' => 'required',
-                'name' => 'required'
+                'name' => 'required',
+                'phone' => 'nullable',
+                'address' => 'nullable',
+                'remark' => 'nullable',
             ],
             $merge
         );

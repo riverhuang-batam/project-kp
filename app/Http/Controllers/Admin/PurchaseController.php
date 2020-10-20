@@ -290,4 +290,9 @@ class PurchaseController extends Controller
         'completed' => $completed
       ]);
      }
+
+     public function totalPayment($id){
+       $total = Purchase::find($id)->grand_total;
+       return response()->json(['total' => $total]);
+     }
 }

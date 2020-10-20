@@ -59,8 +59,8 @@
               </div>
               <div class="col-md-4">
                 <div class="form-group">
-                  <label for="amount">Amount (S$)</label>
-                  <input type="number" class="form-control" name="amount" value="{{isset($payment) ? $payment->amount : (old('amount') ? old('amount') : 0)}}" min="1"/>
+                  <label for="amount">Amount (RMB)</label>
+                  <input type="number" class="form-control" id='amount' name="amount" value="{{isset($payment) ? $payment->amount : (old('amount') ? old('amount') : 0)}}" min="1"/>
                     @error('amount')
                     <div class="invalid-feedback">
                       {{ $message }}
@@ -170,42 +170,56 @@
       }
     });
 
+    $('#purchase_id').on('change', function(){
+      let id = $(this).val();
+      let url = window.location.origin + "/purchases-total/" + id;
+      $.ajax({
+        url: url,
+        success: function(data){
+          $('#amount').val(data.total);
+        }
+      })
+     
+      
+    });
+
     @if(isset($payment))
       @php
         $purchase = \App\Models\Purchase::find($payment['purchase_id']);
       @endphp
-      let order = {
+      let orderPayment = {
           id: '{{ $purchase->id }}',
           text: '{{ $purchase->code }}'
       };
-      
-      let orderOption = new Option(order.text, order.id, false, false);
-      $('#purchase_id').append(orderOption).trigger('change');
+      let orderPaymetOption = new Option(orderPayment.text, orderPayment.id, false, false);
+      $('#purchase_id').append(orderPaymetOption).trigger('change');
     @endif
 
     @if(isset($purchase_code))
       @php
         $purchase = \App\Models\Purchase::find($purchase_code['id']);
       @endphp
-        let order = {
+        let orderPurchase = {
             id: '{{ $purchase->id }}',
             text: '{{ $purchase->code }}'
         };
-        
-        let orderOption = new Option(order.text, order.id, false, false);
-        $('#purchase_id').append(orderOption).trigger('change');
+        let total = '{{$purchase->grand_total}}'
+
+        let orderPurchaseOption = new Option(orderPurchase.text, orderPurchase.id, false, false);
+        $('#purchase_id').append(orderPurchaseOption).trigger('change');
+      $('#amount').val(total);
     @endif
 
     @if(old('purchase_id'))
       @php
         $purchase = \App\Models\Purchase::find(old('purchase_id'));
       @endphp
-      let order = {
+      let orderOld = {
           id: '{{ $purchase->id }}',
           text: '{{ $purchase->code }}'
       };
-      let orderOption = new Option(order.text, order.id, false, false);
-      $('#purchase_id').append(orderOption).trigger('change');
+      let orderOldOption = new Option(orderOld.text, orderOld.id, false, false);
+      $('#purchase_id').append(orderOldOption).trigger('change');
     @endif
 })
 </script>
