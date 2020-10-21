@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'App\Http\Controllers\Auth\LoginController@showLoginForm');
+Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
 Auth::routes(['register' => false]);
 
 Route::middleware(['auth'])->group(function () {
@@ -24,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
   Route::get('purchases/details/{id}', 'App\Http\Controllers\Admin\PurchaseController@getPurchaseDetails');
   Route::get('purchases-counter', 'App\Http\Controllers\Admin\PurchaseController@countBadge');
   Route::get('purchases-total/{id}', 'App\Http\Controllers\Admin\PurchaseController@totalPayment');
+  Route::post('purchases-status','App\Http\Controllers\Admin\PurchaseController@updateStatus');
 
   Route::resource('markings', 'App\Http\Controllers\Admin\MarkingController');
   Route::get('marking-list', 'App\Http\Controllers\Admin\MarkingController@markingDataTable')->name('marking-list');
@@ -43,4 +45,4 @@ Route::middleware(['auth'])->group(function () {
   Route::resource('suppliers', 'App\Http\Controllers\Admin\SupplierController');
   Route::get('supplier-list', 'App\Http\Controllers\Admin\SupplierController@supplierDataTable')->name('supplier-list');
   Route::get('supplier-select', 'App\Http\Controllers\Admin\SupplierController@supplierSelect')->name('supplier-select');
-});
+}); 

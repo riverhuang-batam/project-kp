@@ -1,13 +1,22 @@
-@extends('layouts.app')
+@extends('layouts.template.app')
 @section('title', 'Data Purchasing - Purchasing App')
 
-@section('content')
-<div class="container">
+@section('contents')
+<div class="page-wrapper">
   <div id="delete-alert" class="alert alert-success d-none">
     Data have been removed
    </div>
+   <div id="not-delete-alert" class="alert alert-danger d-none">
+    Can not delete completed order
+   </div>
    <div id="duplicate-alert" class="alert alert-success d-none">
     Data was successfully duplicated
+   </div>
+   <div id="update-status-alert" class="alert alert-success d-none">
+    Status successfully updated
+   </div>
+   <div id="not-update-status-alert" class="alert alert-danger d-none">
+    Can not update completed order
    </div>
   @if(session('status'))
   <div id="alert" class="alert alert-success">
@@ -24,12 +33,12 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title text-center">
-            <h4>Purchase List</h4>
+            Purchase List
           </div>
         </div>
         <div class="card-header">
           <div class="nav-item my-1 float-right">
-            <a href="{{ route('purchases.create') }}" type="button" class="btn-primary nav-link rounded">
+            <a href="{{ route('purchases.create') }}" type="button" class="btn btn-primary">
               + Add New Record
             </a>
           </div>
@@ -78,15 +87,6 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js">
-</script>
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.3/umd/popper.min.js"></script> --}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-<script type="text/javascript" src="{{asset('js/alerthelper.js')}}"></script>
 <script type="text/javascript">
   $(function () {
    
@@ -132,6 +132,14 @@
                         id: data_id
                     },
                     success: function (data) {
+                      if(data.error){
+                        var element = document.getElementById("not-delete-alert");
+                        element.classList.remove("d-none");
+                        setTimeout(()=>{
+                          element.classList.add("d-none");
+                        }, 3000);
+                        return;
+                      }
                       var table =  $(".yajra-datatable").DataTable();
                       table.ajax.reload();
                       var element = document.getElementById("delete-alert");
@@ -180,6 +188,50 @@
                 }
               })
             }
+        });
+
+        $('body').on('click', '.update-status', function () {
+            let id = $(this).data("id");
+            let status = $(this).data("status");
+
+            let url = window.location.origin + "/purchases-status";
+            $.ajax({
+                url: url,
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    id: id,
+                    status: status
+                },
+                success: function (data) {
+                  if(data.error){
+                    var element = document.getElementById("not-update-status-alert");
+                      element.classList.remove("d-none");
+                      setTimeout(()=>{
+                        element.classList.add("d-none");
+                      }, 3000);
+                    return;
+                  }
+                  var table =  $(".yajra-datatable").DataTable();
+                  table.ajax.reload();
+                  var element = document.getElementById("update-status-alert");
+                      element.classList.remove("d-none");
+                      setTimeout(()=>{
+                        element.classList.add("d-none");
+                      }, 3000);
+                  $.ajax({
+                    url: window.location.origin + "/purchases-counter",
+                    success: function(data){
+                      updateBadge(data);
+                    }
+                  });
+                },
+                error: function (data) {
+                    $(location).attr('href', window.location.origin + "/purchases");
+                }
+            });
         });
   });
 

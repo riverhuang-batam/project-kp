@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.template.app')
 @section('title', 'Detail Purchasing - Purchasing App')
 
-@section('content')
-<div class="container-fluid">
+@section('contents')
+<div class="page-wrapper">
   <div class="row justify-content-center">
     <div class="col-md-12">
       <div class="card">
@@ -194,7 +194,7 @@
                   <p>{{$payment->amount}}</p>
                   <h6>Attachment:</h6>
                   @if($payment->file_name != null)
-                  <a role="button" class="badge badge-primary text-light mr-3" id="download" data-id={{$payment->id}}>Download</a>
+                  <a role="button" type="button" class="badge badge-primary text-light mr-3" id="download" data-id={{$payment->id}}>Download</a>
                   <span>{{$payment->file_name}}</span>
                   @else
                   <p>No attachment</p>
@@ -216,7 +216,6 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
 <script type="text/javascript">
   $(function () {
         $('body').on('click', '#download', function () {

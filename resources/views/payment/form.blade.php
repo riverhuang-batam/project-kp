@@ -1,13 +1,13 @@
-@extends('layouts.app')
+@extends('layouts.template.app')
 @section('title', 'Create Payment - Purchasing App')
 
-@section('content')
-@if(session('payment'))
-  <?php
-    $payment = session('payment')
-  ?>
-@endif
-<div class="container">
+@section('contents')
+<div class="page-wrapper">
+  @if(session('payment'))
+    <?php
+      $payment = session('payment')
+    ?>
+  @endif
   @if(session('error'))
   <div id="alert" class="alert alert-danger">
     {{ session('error') }}
@@ -108,9 +108,6 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script type="text/javascript">    
   $(function(){
     let alert = $('#alert').length;

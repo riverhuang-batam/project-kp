@@ -1,10 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.template.app')
 @section('title', 'Create Products - Purchasing App')
 
-@section('content')
-<div class="container">
+@section('contents')
+<div class="page-wrapper">
   <div class="row justify-content-center">
-    <div class="col-md-12">
+    <div class="col-md-8">
       <div class="card">
         <div class="card-header">
           <div class="card-title m-0">
@@ -13,15 +13,7 @@
             </h5>
           </div>
         </div>
-        {{-- @if ($errors->any())
-					<div class="alert alert-danger">
-						<ul>
-							@foreach ($errors->all() as $error)
-								<li>{{ $error }}</li>
-							@endforeach
-						</ul>
-					</div>
-				@endif --}}
+
         <div class="card-body">
           <form method="POST" enctype="multipart/form-data"
             action="{{ isset($product) ? route('products.update', $product['id']) : route('products.store') }}">
@@ -145,9 +137,6 @@
 @endsection
 
 @section('scripts')
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-  <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="{{asset('js/alerthelper.js')}}"></script>
   <script type="text/javascript">
     $(function () {
       function deleteRow(event) {
