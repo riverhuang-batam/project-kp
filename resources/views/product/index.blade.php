@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.template.app')
 @section('title', 'Data Products - Purchasing App')
 
-@section('content')
-<div class="container">
+@section('contents')
+<div class="page-wrapper">
   <div id="delete-alert" class="alert alert-success d-none">
     Data have been removed
    </div>
@@ -16,13 +16,11 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title text-center">
-            <h4>Product List</h4>
+            Product List
           </div>
           <div>
-            <a href="{{ route('products.create') }}" type="button" class="btn btn-primary">+
-              Add New Record</a>
-            {{-- <a href="{{ route('purchases.index') }}" type="button" class="btn btn-secondary">
-              Back to Purchase</a> --}}
+            <a href="{{ route('products.create') }}" type="button" class="btn btn-primary btn-sm">
+              + Add New Record</a>
           </div>
         </div>
         <div class="card-body">
@@ -47,13 +45,6 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js">
-</script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-<script type="text/javascript" src="{{asset('js/alerthelper.js')}}"></script>
 <script type="text/javascript">
   $(function () {
         let alert = $('#alert').length;
