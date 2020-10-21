@@ -225,7 +225,7 @@ class PurchaseController extends Controller
               <div class="d-flex flex-row justify-content-center">
                 <div class="dropdown mr-2">
                   <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="optionMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Options...
+                    Options
                   </button>
                   <div class="dropdown-menu" aria-labelledby="optionMenu">
                     <button class="dropdown-item" type="button" id="duplicate" data-id='.$data->id.'>Replicate</button>
