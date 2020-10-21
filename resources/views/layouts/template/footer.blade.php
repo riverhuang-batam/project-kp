@@ -2,7 +2,7 @@
 <!-- footer -->
 <!-- ============================================================== -->
 <footer class="footer text-center text-muted">
-    All Rights Reserved by Adminmart. Designed and Developed by <a href="https://wrappixel.com">WrapPixel</a>.
+    Proudly made using  <a href="https://adminmart.com/">AdminMart Dashboard Template</a>.
 </footer>
 <!-- ============================================================== -->
 <!-- End footer -->
