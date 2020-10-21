@@ -50,7 +50,17 @@ class PurchaseController extends Controller
       try {
         DB::beginTransaction();
         $quantity = $request->input('quantity');
-        $purchase = Purchase::create(request()->except('quantity'));
+        $status = $request->input('status');
+        $trackingNo = $request->input('tracking_number');
+        $containerNo = $request->input('container_number');
+        if(!empty($trackingNo)){
+          $status = 2;
+        }
+        if(!empty($containerNo)){
+          $status = 3;
+        }
+
+        $purchase = Purchase::create(array_merge(request()->except('quantity'),['status' => $status]));
 
         $purchaseDetail = [];
         foreach ($quantity as $key => $value) {
@@ -114,6 +124,9 @@ class PurchaseController extends Controller
     public function edit(Purchase $purchase)
     {
         $purchase = Purchase::find($purchase->id);
+        if($purchase->status == 5){
+          return redirect()->route('purchases.index')->with('error', 'Completed order not available for edit!'); 
+        }
         return view('purchase.form', compact('purchase'));
     }
 
@@ -134,7 +147,17 @@ class PurchaseController extends Controller
         try{
           DB::beginTransaction();
           $quantity = $request->input('quantity');
-          $purchase->update(request()->except('quantity'));
+          $status = $request->input('status');
+          $trackingNo = $request->input('tracking_number');
+          $containerNo = $request->input('container_number');
+          if(!empty($trackingNo)){
+            $status = 2;
+          }
+          if(!empty($containerNo)){
+            $status = 3;
+          }
+
+          $purchase->update(array_merge(request()->except('quantity'),['status' => $status]));
 
           foreach ($quantity as $key => $value) {
             $newDetailIdList[] = $key;
@@ -185,7 +208,12 @@ class PurchaseController extends Controller
     public function destroy(Request $request)
     {
         $id = $request->input('id');
-        Purchase::find($id)->delete();
+        $purchase = Purchase::find($id);
+        if($purchase->status == 5){
+          return response()->json(['error' => 'Can not delete completed order']);
+        };
+
+        $purchase->delete();
     }
 
     public function purchaseDataTable(Request $request){
@@ -193,30 +221,50 @@ class PurchaseController extends Controller
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function($data){
-              // $button = '
-              //   <meta name="csrf-token" content="{{ csrf_token() }}">
-              //     <a class="btn btn-success text-light btn-sm m-1" id="duplicate" data-id='.$data->id.'>Duplicate</a>
-              //     <a class="btn btn-primary text-light btn-sm m-1" id="payment" data-id='.$data->id.'>Add Payment</a>
-              //     <a class="btn btn-info text-light btn-sm m-1" id="show-detail" data-id='.$data->id.'>Show</a>
-              //     <a class="btn btn-warning btn-sm m-1" id="edit" data-id='.$data->id.'>Edit</a>
-              //     <a class="btn btn-danger btn-sm m-1 text-light" id="delete" data-id='.$data->id.'>Delete</a>
-              //   </div>
-              // ';
-              $button = '
-              <div class="dropdown">
-              <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Options...
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <button class="dropdown-item" type="button" id="duplicate" data-id='.$data->id.'>Duplicate</button>
-                <button class="dropdown-item" type="button" id="payment" data-id='.$data->id.'>Add Payment</button>
-                <button class="dropdown-item" type="button" id="show-detail" data-id='.$data->id.'>Show</button>
-                <button class="dropdown-item" type="button" id="edit" data-id='.$data->id.'>Edit</button>
-                <button class="dropdown-item" type="button" id="delete" data-id='.$data->id.'>Delete</button>
-              </div>
-              </div>
-              ';
-              return $button;
+              $buttonAll = '
+              <div class="d-flex flex-row justify-content-center">
+                <div class="dropdown mr-2">
+                  <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="optionMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Options...
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="optionMenu">
+                    <button class="dropdown-item" type="button" id="duplicate" data-id='.$data->id.'>Replicate</button>
+                    <button class="dropdown-item" type="button" id="payment" data-id='.$data->id.'>Add Payment</button>
+                    <button class="dropdown-item" type="button" id="show-detail" data-id='.$data->id.'>Show</button>
+                    <button class="dropdown-item" type="button" id="edit" data-id='.$data->id.'>Edit</button>
+                    <button class="dropdown-item" type="button" id="delete" data-id='.$data->id.'>Delete</button>
+                  </div>
+                </div>
+                <div class="dropdown ml-2">
+                  <button class="btn btn-success btn-sm dropdown-toggle"  type="button" id="statusMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Update Status
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="statusMenu">
+                    <button class="dropdown-item update-status" type="button" id="warehouse" data-id='.$data->id.' data-status="2">Ship to Warehouse</button>
+                    <button class="dropdown-item update-status" type="button" id="indonesia" data-id='.$data->id.' data-status="3">Ship to Indonesia</button>
+                    <button class="dropdown-item update-status" type="button" id="arrived" data-id='.$data->id.' data-status="4">Arrived</button>
+                    <button class="dropdown-item update-status" type="button" id="completed" data-id='.$data->id.' data-status="5">Completed</button>
+                  </div>
+                  </div>
+              </div>';
+
+              $buttonComplete = '
+              <div class="d-flex flex-row justify-content-center">
+                <div class="dropdown mr-2">
+                  <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="optionMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Options...
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="optionMenu">
+                    <button class="dropdown-item" type="button" id="duplicate" data-id='.$data->id.'>Replicate</button>
+                    <button class="dropdown-item" type="button" id="payment" data-id='.$data->id.'>Add Payment</button>
+                    <button class="dropdown-item" type="button" id="show-detail" data-id='.$data->id.'>Show</button>
+                  </div>
+                </div>
+              </div>';
+              if($data->status == 5){
+                return $buttonComplete;
+              }
+              return $buttonAll;
             })
             ->rawColumns(['action'])
             ->editColumn('status', function(Purchase $purchase){
@@ -295,4 +343,18 @@ class PurchaseController extends Controller
        $total = Purchase::find($id)->grand_total;
        return response()->json(['total' => $total]);
      }
+
+     public function updateStatus(Request $request){
+      $id = $request->input('id');
+      $status = $request->input('status');
+
+      $purchase = Purchase::find($id);
+      if($purchase->status == 5){
+        return response()->json(['error' => 'Can not update completed order']);
+      }
+      $purchase->status = $status;
+      $purchase->save();
+
+      return response()->json();
+    }
 }
