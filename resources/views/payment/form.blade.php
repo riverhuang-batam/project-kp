@@ -60,7 +60,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="amount">Amount (RMB)</label>
-                  <input type="number" class="form-control" id='amount' name="amount" value="{{isset($payment) ? $payment->amount : (old('amount') ? old('amount') : 0)}}" min="1"/>
+                  <input type="number" class="form-control" id='amount' name="amount" value="{{isset($payment) ? $payment->amount : (old('amount') ? old('amount') : 0)}}" min="0"/>
                     @error('amount')
                     <div class="invalid-feedback">
                       {{ $message }}

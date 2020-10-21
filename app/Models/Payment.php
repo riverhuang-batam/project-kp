@@ -19,7 +19,7 @@ class Payment extends Model
             [
                 'purchase_id' => 'required',
                 'type' => 'required',
-                'amount' => 'required|numeric|gt:0',
+                'amount' => 'required|numeric|min:0',
             ],
             $merge
             );

@@ -108,7 +108,7 @@
                         <input class="form-control mb-1"
                           type="number"
                           step="0.01"
-                          min="1"
+                          min="0"
                           id="unit_price_0"
                           name="variants[0][unit_price]"
                           />
