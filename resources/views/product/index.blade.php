@@ -19,7 +19,7 @@
             Product List
           </div>
           <div>
-            <a href="{{ route('products.create') }}" type="button" class="btn btn-primary btn-sm">
+            <a href="{{ route('products.create') }}" type="button" class="btn btn-primary">
               + Add New Record</a>
           </div>
         </div>
