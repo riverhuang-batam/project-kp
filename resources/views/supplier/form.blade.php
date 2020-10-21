@@ -60,14 +60,7 @@
                 </div>
                 <div class="form-group">
                   <label for="address">Address</label>
-                  <input type="text" class="form-control @error('address') is-invalid @enderror" id="address"
-                    placeholder="Add supplier address" name="address" value="{{ isset($supplier) ? $supplier['address'] : old('address') }}"
-                    autocomplete="off">
-                  @error('address')
-                  <div class="invalid-feedback">
-                    {{ $message }}
-                  </div>
-                  @enderror
+                  <textarea class="form-control" id="address" name="address" rows="3">{{ isset($supplier) ? $supplier['address'] : old('address') }}</textarea>
                 </div>
                 <div class="form-group">
                   <label for="remark">Remark</label>
