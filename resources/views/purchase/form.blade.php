@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.template.app')
 @section('title', 'Create Purchase - Purchasing App')
 
-@section('content')
-<div class="container-fluid">
+@section('contents')
+<div class="page-wrapper">
   <div class="row justify-content-center">
     <div class="col-md-12">
       <div class="card">
@@ -343,9 +343,6 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script type="text/javascript">
 
   $(function(){
@@ -395,7 +392,7 @@
             let remove = document.createElement('a');
             let imageURL = (product.photo ? window.location.origin+"/storage/"+product.photo : "");
 
-            remove.className = "btn btn-primary btn-sm remove-product m-1 text-light";
+            remove.className = "btn btn-danger btn-sm remove-product m-1 text-light";
             remove.innerHTML = "Remove this product";
             remove.dataset.ref = `${refId}`;
             removeContainer.appendChild(remove);

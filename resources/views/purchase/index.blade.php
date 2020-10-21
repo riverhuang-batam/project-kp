@@ -1,8 +1,8 @@
 @extends('layouts.template.app')
 @section('title', 'Data Purchasing - Purchasing App')
 
-@section('content')
-<div class="container">
+@section('contents')
+<div class="page-wrapper">
   <div id="delete-alert" class="alert alert-success d-none">
     Data have been removed
    </div>
@@ -33,12 +33,12 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title text-center">
-            <h4>Purchase List</h4>
+            Purchase List
           </div>
         </div>
         <div class="card-header">
           <div class="nav-item my-1 float-right">
-            <a href="{{ route('purchases.create') }}" type="button" class="btn-primary nav-link rounded">
+            <a href="{{ route('purchases.create') }}" type="button" class="btn btn-primary">
               + Add New Record
             </a>
           </div>
@@ -87,15 +87,6 @@
 @endsection
 
 @section('scripts')
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js">
-</script>
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.3/umd/popper.min.js"></script> --}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-<script type="text/javascript" src="{{asset('js/alerthelper.js')}}"></script>
 <script type="text/javascript">
   $(function () {
    
