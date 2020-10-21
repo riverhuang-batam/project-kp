@@ -6,8 +6,17 @@
   <div id="delete-alert" class="alert alert-success d-none">
     Data have been removed
    </div>
+   <div id="not-delete-alert" class="alert alert-danger d-none">
+    Can not delete completed order
+   </div>
    <div id="duplicate-alert" class="alert alert-success d-none">
     Data was successfully duplicated
+   </div>
+   <div id="update-status-alert" class="alert alert-success d-none">
+    Status successfully updated
+   </div>
+   <div id="not-update-status-alert" class="alert alert-danger d-none">
+    Can not update completed order
    </div>
   @if(session('status'))
   <div id="alert" class="alert alert-success">
@@ -132,6 +141,14 @@
                         id: data_id
                     },
                     success: function (data) {
+                      if(data.error){
+                        var element = document.getElementById("not-delete-alert");
+                        element.classList.remove("d-none");
+                        setTimeout(()=>{
+                          element.classList.add("d-none");
+                        }, 3000);
+                        return;
+                      }
                       var table =  $(".yajra-datatable").DataTable();
                       table.ajax.reload();
                       var element = document.getElementById("delete-alert");
@@ -180,6 +197,50 @@
                 }
               })
             }
+        });
+
+        $('body').on('click', '.update-status', function () {
+            let id = $(this).data("id");
+            let status = $(this).data("status");
+
+            let url = window.location.origin + "/purchases-status";
+            $.ajax({
+                url: url,
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    id: id,
+                    status: status
+                },
+                success: function (data) {
+                  if(data.error){
+                    var element = document.getElementById("not-update-status-alert");
+                      element.classList.remove("d-none");
+                      setTimeout(()=>{
+                        element.classList.add("d-none");
+                      }, 3000);
+                    return;
+                  }
+                  var table =  $(".yajra-datatable").DataTable();
+                  table.ajax.reload();
+                  var element = document.getElementById("update-status-alert");
+                      element.classList.remove("d-none");
+                      setTimeout(()=>{
+                        element.classList.add("d-none");
+                      }, 3000);
+                  $.ajax({
+                    url: window.location.origin + "/purchases-counter",
+                    success: function(data){
+                      updateBadge(data);
+                    }
+                  });
+                },
+                error: function (data) {
+                    $(location).attr('href', window.location.origin + "/purchases");
+                }
+            });
         });
   });
 
