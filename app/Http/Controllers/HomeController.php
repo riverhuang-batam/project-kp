@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Purchase;
+use App\Models\Supplier;
+use App\Models\Product;
 
 class HomeController extends Controller
 {
@@ -23,6 +26,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $product = count(Product::all());
+        $supplier = count(Supplier::all());
+        $payment = Purchase::all()->sum('grand-total');
+        return view('home', compact('product', 'supplier', 'payment'));
     }
 }
