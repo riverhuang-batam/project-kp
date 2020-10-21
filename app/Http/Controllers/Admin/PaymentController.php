@@ -169,7 +169,7 @@ class PaymentController extends Controller
         ->addColumn('attachment', function($data){
             $link = "No Attachment";
             if($data->file_name != null){
-                $link = '<a role="button" class="badge badge-primary text-light mr-2" id="download" data-id='.$data->id.'>Download</a>'.$data->file_name;
+                $link = '<a role="button" type="button" class="badge badge-primary text-light mr-2" id="download" data-id='.$data->id.'>Download</a>'.$data->file_name;
             }
           return $link;
         })
