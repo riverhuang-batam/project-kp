@@ -19,7 +19,7 @@
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
                                     <div class="d-inline-flex align-items-center">
-                                        <h2 class="text-dark mb-1 font-weight-medium">236</h2>
+                                    <h2 class="text-dark mb-1 font-weight-medium">{{$supplier}}</h2>
                                     </div>
                                     <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Suppliers</h6>
                                 </div>
@@ -35,7 +35,7 @@
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
                                     <div class="d-inline-flex align-items-center">
-                                        <h2 class="text-dark mb-1 font-weight-medium">1538</h2>
+                                    <h2 class="text-dark mb-1 font-weight-medium">{{$product}}</h2>
                                     </div>
                                     <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Products</h6>
                                 </div>
@@ -51,7 +51,7 @@
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
                                     <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium"><sup
-                                            class="set-doller"> $</sup>18,306</h2>
+                                    class="set-doller"> $</sup>{{$payment}}</h2>
                                     <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">Total Payment
                                     </h6>
                                 </div>
@@ -66,7 +66,7 @@
                 <!-- *************************************************************** -->
                 <!-- End First Cards -->
                 <!-- *************************************************************** -->
-                    <div class="col-12">
+                    <div class="col-12 d-none">
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="card-title">Monthly Purchase</h4>
