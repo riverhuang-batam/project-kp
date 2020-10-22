@@ -120,13 +120,13 @@
                       </td>
                     </tr>
                   </table>
-                  <button type="button" class="btn btn-info btn-add-row mt-2">Add Variant</button>
+                  <button type="button" class="btn btn-success btn-rounded btn-add-row mt-2">Add Variant</button>
                 </div>
               </div>
               <hr>
-              <div class="btn-group">
-                <a href="{{ route('products.index') }}" type="button" class="btn btn-secondary mr-2">Back</a>
-                <button type="submit" class="btn btn-primary">Submit</button>
+              <div class="">
+                <a href="{{ route('products.index') }}" type="button" class="btn btn-secondary btn-rounded mr-2">Back</a>
+                <button type="submit" class="btn btn-primary btn-rounded">Submit</button>
               </div>
           </form>
         </div>

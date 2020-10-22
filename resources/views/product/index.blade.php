@@ -16,16 +16,16 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title text-center">
-            Product List
-          </div>
-          <div>
-            <a href="{{ route('products.create') }}" type="button" class="btn btn-primary">
-              + Add New Record</a>
+           <h2>Product List</h2> 
           </div>
         </div>
         <div class="card-body">
+          <div class="mb-4">
+            <a href="{{ route('products.create') }}" type="button" class="btn btn-primary btn-rounded">
+              + Add New Record</a>
+          </div>
           <div class="table-responsive">
-            <table class="table table-bordered yajra-datatable">
+            <table class="table table-bordered yajra-datatable table-striped no-wrap">
               <thead>
                 <tr>
                   <th>No</th>
