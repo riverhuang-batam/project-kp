@@ -114,7 +114,7 @@
                           />
                       </td>
                       <td>
-                        <button class="btn btn-danger btn-delete-row mb-1" type="button">
+                        <button class="btn btn-danger btn-rounded btn-sm btn-delete-row mb-1 ml-2" type="button">
                           Delete
                         </button>
                       </td>

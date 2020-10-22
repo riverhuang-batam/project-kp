@@ -263,7 +263,7 @@
                   <div class="col-12">
                     <hr>
                     <div class="d-flex justify-content-between align-items-center">
-                      <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                      <button type="submit" class="btn btn-primary btn-rounded">Save</button>
                       <a href="{{ route('purchases.index') }}" type="button" class="text-none"><< Back</a> 
                     </div>
                   </div>
@@ -279,7 +279,7 @@
                 <div class="row">
                   <div class="col-4">
                     <!-- Button trigger modal -->
-                    <button id="add-product" type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#productModal">
+                    <button id="add-product" type="button" class="btn btn-primary btn-rounded mb-3" data-toggle="modal" data-target="#productModal">
                       + Add Product
                     </button>
 
@@ -392,7 +392,7 @@
             let remove = document.createElement('a');
             let imageURL = (product.photo ? window.location.origin+"/storage/"+product.photo : "");
 
-            remove.className = "btn btn-danger btn-sm remove-product m-1 text-light";
+            remove.className = "btn btn-danger btn-rounded btn-sm remove-product m-1 text-light";
             remove.innerHTML = "Remove this product";
             remove.dataset.ref = `${refId}`;
             removeContainer.appendChild(remove);
@@ -416,7 +416,7 @@
                 variantUnitPrice.innerHTML = data.unit_price;
                 variantUnitPrice.className = "unit-price";
                 input.type="number";
-                input.className="border border-secondary rounded-lg input-quanity input-group-sm";
+                input.className="input-quanity form-control";
                 input.name = `quantity[${data.id}]`;
                 input.value = data.quantity ?? 0;
                 input.min = 0;
@@ -437,7 +437,7 @@
                 variantUnitPrice.innerHTML = data.unit_price;
                 variantUnitPrice.className = "unit-price";
                 input.type="number";
-                input.className="border border-secondary rounded-lg input-quanity input-group-sm";
+                input.className="input-quanity form-control";
                 input.name = `quantity[${data.id}]`;
                 input.value = data.quantity ?? 0;
                 input.min = 0;

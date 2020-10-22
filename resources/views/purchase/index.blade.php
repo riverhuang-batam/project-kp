@@ -33,38 +33,38 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title text-center">
-            Purchase List
+           <h2>Purchase List</h2> 
           </div>
-        </div>
-        <div class="card-header">
-          <div class="nav-item my-1 float-right">
-            <a href="{{ route('purchases.create') }}" type="button" class="btn btn-primary">
-              + Add New Record
-            </a>
-          </div>
-          <ul class="nav nav-pills" id="pills-tab" role="tablist">
-            <li class="nav-item ml-2 mr-1 my-1 border rounded" role="presentation" onclick="datatable(1)">
-            <a class="nav-link active" id="pills-all-tab" data-toggle="pill" href="#pills-all" role="tab" aria-controls="pills-all" aria-selected="true">(<span id="waiting-badge" >{{count(\App\Models\Purchase::where('status', 1)->get())}}</span>) Waiting</a>
-            </li>
-            <li class="nav-item mx-1 my-1 border rounded" role="presentation" onclick="datatable(2)">
-              <a class="nav-link " id="pills-shippingWH-tab" data-toggle="pill" href="#pills-shippingWH" role="tab" aria-controls="pills-shippingWH" aria-selected="false">(<span id="warehouse-badge" >{{count(\App\Models\Purchase::where('status', 2)->get())}}</span>) Shipping to Warehouse</a>
-            </li>
-            <li class="nav-item mx-1 my-1 border rounded" role="presentation" onclick="datatable(3)">
-              <a class="nav-link" id="pills-shippingID-tab" data-toggle="pill" href="#pills-shippingID" role="tab" aria-controls="pills-shippingID" aria-selected="false">(<span id="indonesia-badge" >{{count(\App\Models\Purchase::where('status', 3)->get())}}</span>) Shipping to Indonesia</a>
-            </li>
-            <li class="nav-item mx-1 my-1 border rounded" role="presentation" onclick="datatable(4)">
-              <a class="nav-link" id="pills-arrived-tab" data-toggle="pill" href="#pills-arrived" role="tab" aria-controls="pills-arrived" aria-selected="false">(<span id="arrived-badge" >{{count(\App\Models\Purchase::where('status', 4)->get())}}</span>) Arrived</a>
-            </li>
-            <li class="nav-item mx-1 my-1 border rounded" role="presentation" onclick="datatable(5)">
-              <a class="nav-link" id="pills-completed-tab" data-toggle="pill" href="#pills-completed" role="tab" aria-controls="pills-completed" aria-selected="false">(<span id="completed-badge" >{{count(\App\Models\Purchase::where('status', 5)->get())}}</span>) Completed</a>
-            </li>
-          </ul>
         </div>
         <div class="tab-content" id="pills-tabContent">
           <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
             <div class="card-body">
+              <div class="mb-4">
+                <div class="nav-item my-1 float-right">
+                  <a href="{{ route('purchases.create') }}" type="button" class="btn btn-primary btn-rounded">
+                    + Add New Record
+                  </a>
+                </div>
+                <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                  <li class="nav-item ml-2 mr-1 my-1 border rounded" role="presentation" onclick="datatable(1)">
+                  <a class="nav-link active" id="pills-all-tab" data-toggle="pill" href="#pills-all" role="tab" aria-controls="pills-all" aria-selected="true">(<span id="waiting-badge" >{{count(\App\Models\Purchase::where('status', 1)->get())}}</span>) Waiting</a>
+                  </li>
+                  <li class="nav-item mx-1 my-1 border rounded" role="presentation" onclick="datatable(2)">
+                    <a class="nav-link " id="pills-shippingWH-tab" data-toggle="pill" href="#pills-shippingWH" role="tab" aria-controls="pills-shippingWH" aria-selected="false">(<span id="warehouse-badge" >{{count(\App\Models\Purchase::where('status', 2)->get())}}</span>) Shipping to Warehouse</a>
+                  </li>
+                  <li class="nav-item mx-1 my-1 border rounded" role="presentation" onclick="datatable(3)">
+                    <a class="nav-link" id="pills-shippingID-tab" data-toggle="pill" href="#pills-shippingID" role="tab" aria-controls="pills-shippingID" aria-selected="false">(<span id="indonesia-badge" >{{count(\App\Models\Purchase::where('status', 3)->get())}}</span>) Shipping to Indonesia</a>
+                  </li>
+                  <li class="nav-item mx-1 my-1 border rounded" role="presentation" onclick="datatable(4)">
+                    <a class="nav-link" id="pills-arrived-tab" data-toggle="pill" href="#pills-arrived" role="tab" aria-controls="pills-arrived" aria-selected="false">(<span id="arrived-badge" >{{count(\App\Models\Purchase::where('status', 4)->get())}}</span>) Arrived</a>
+                  </li>
+                  <li class="nav-item mx-1 my-1 border rounded" role="presentation" onclick="datatable(5)">
+                    <a class="nav-link" id="pills-completed-tab" data-toggle="pill" href="#pills-completed" role="tab" aria-controls="pills-completed" aria-selected="false">(<span id="completed-badge" >{{count(\App\Models\Purchase::where('status', 5)->get())}}</span>) Completed</a>
+                  </li>
+                </ul>
+              </div>
               <div class="table-responsive">
-                <table class="table table-bordered yajra-datatable w-100">
+                <table class="table table-bordered yajra-datatable table-striped no-wrap">
                   <thead>
                     <tr>
                       <th>No</th>
