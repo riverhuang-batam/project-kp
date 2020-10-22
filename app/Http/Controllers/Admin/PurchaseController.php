@@ -224,7 +224,7 @@ class PurchaseController extends Controller
               $buttonAll = '
               <div class="d-flex flex-row justify-content-center">
                 <div class="dropdown mr-2">
-                  <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="optionMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button class="btn btn-primary btn-rounded btn-sm dropdown-toggle" type="button" id="optionMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Options
                   </button>
                   <div class="dropdown-menu" aria-labelledby="optionMenu">
@@ -236,7 +236,7 @@ class PurchaseController extends Controller
                   </div>
                 </div>
                 <div class="dropdown ml-2">
-                  <button class="btn btn-success btn-sm dropdown-toggle"  type="button" id="statusMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button class="btn btn-success btn-rounded btn-sm dropdown-toggle"  type="button" id="statusMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Update Status
                   </button>
                   <div class="dropdown-menu" aria-labelledby="statusMenu">
@@ -251,8 +251,8 @@ class PurchaseController extends Controller
               $buttonComplete = '
               <div class="d-flex flex-row justify-content-center">
                 <div class="dropdown mr-2">
-                  <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="optionMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Options...
+                  <button class="btn btn-primary btn-rounded btn-sm dropdown-toggle" type="button" id="optionMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Options
                   </button>
                   <div class="dropdown-menu" aria-labelledby="optionMenu">
                     <button class="dropdown-item" type="button" id="duplicate" data-id='.$data->id.'>Replicate</button>

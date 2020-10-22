@@ -207,7 +207,7 @@
             </div>
           </div>
           
-          <a href="{{ route('purchases.index') }}" type="button" class="btn btn-secondary mr-2">Back</a>
+          <a href="{{ route('purchases.index') }}" type="button" class="btn btn-secondary btn-rounded mr-2">Back</a>
         </div>
       </div>
     </div>

@@ -5,14 +5,14 @@
           <nav class="navbar top-navbar navbar-expand-md">
               <div class="navbar-header" data-logobg="skin6">
                   <!-- This is for the sidebar toggle which is visible on mobile only -->
-                  {{-- <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
-                          class="ti-menu ti-close"></i></a> --}}
+                  <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
+                          class="ti-menu ti-close"></i></a>
                   <!-- ============================================================== -->
                   <!-- Logo -->
                   <!-- ============================================================== -->
                   <div class="navbar-brand">
                       <!-- Logo icon -->
-                      <a href="index.html">
+                  <a href="{{route('home')}}">
                           <b class="logo-icon">
                               <!-- Dark Logo icon -->
                               <img src="{{asset('images/logo-icon.png')}}" alt="homepage" class="dark-logo" />
@@ -47,7 +47,7 @@
                       <!-- ============================================================== -->
                       <!-- User profile and search -->
                       <!-- ============================================================== -->
-                      <li class="nav-item dropdown">
+                      <li class="nav-item nav-link">
                           <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
                               aria-haspopup="true" aria-expanded="false">
                               <img src="{{asset('images/users/profile-pic.jpg')}}" alt="user" class="rounded-circle"

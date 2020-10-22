@@ -30,10 +30,13 @@
             @if(isset($payment))
             @method('PUT')
             @endif
+            <div class="mb-3">
+              <small>* is required</small>
+            </div>
             <div class="row">
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label for="purchase_id">Purchase code</label>
+                    <label for="purchase_id">Purchase code *</label>
                     <select id="purchase_id" name="purchase_id" class="form-control select2"></select>
                     @error('purchase_id')
                     <div class="invalid-feedback d-inline-block">
@@ -44,7 +47,7 @@
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label for="type">Payment type</label>
+                    <label for="type">Payment type *</label>
                     <select class="custom-select @error('type') is-invalid @enderror" id="type" name="type">
                       <option value="">Select type</option>
                       <option value="1" {{isset($payment) && $payment['type'] == 1 || old('type') == 1 ? 'selected="selected"' : ""}}>Stock</option>
@@ -90,14 +93,11 @@
               </div>
             </div>
             <hr>
-            <div class="btn-group">
+            <div class="">
               @if(!isset($purchase_code))
-              <a href="{{ route('payments.index') }}" type="button" class="btn btn-secondary mr-2">Back</a>
+              <a href="{{ route('payments.index') }}" type="button" class="btn btn-secondary btn-rounded mr-2">Back</a>
               @endif 
-              {{-- @if(isset($purchase_code))
-              <a href="{{ route('purchases.index') }}" type="button" class="btn btn-secondary mr-2">Back to Purchase</a> 
-              @endif --}}
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="submit" class="btn btn-primary btn-rounded">Submit</button>
             </>
           </form>
         </div>

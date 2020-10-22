@@ -11,21 +11,21 @@
     {{ session('status') }}
   </div>
   @endif
-  <div class="row justify-content-center">
+  <div class="row">
     <div class="col-12">
       <div class="card">
         <div class="card-header">
           <div class="card-title text-center">
-            Supplier List
-          </div>
-          <div>
-            <a href="{{ route('suppliers.create') }}" type="button" class="btn btn-primary">
-              + Add New Record</a>
+           <h2>Supplier List</h2>
           </div>
         </div>
         <div class="card-body">
+          <div class="mb-4">
+            <a href="{{ route('suppliers.create') }}" type="button" class="btn btn-primary btn-rounded">
+              + Add New Record</a>
+          </div>
           <div class="table-responsive">
-            <table class="table table-bordered yajra-datatable">
+            <table class="table table-bordered yajra-datatable table-striped no-wrap">
               <thead>
                 <tr>
                   <th>No</th>

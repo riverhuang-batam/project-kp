@@ -263,7 +263,7 @@
                   <div class="col-12">
                     <hr>
                     <div class="d-flex justify-content-between align-items-center">
-                      <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                      <button type="submit" class="btn btn-primary btn-rounded">Save</button>
                       <a href="{{ route('purchases.index') }}" type="button" class="text-none"><< Back</a> 
                     </div>
                   </div>
@@ -279,19 +279,18 @@
                 <div class="row">
                   <div class="col-4">
                     <!-- Button trigger modal -->
-                    <button id="add-product" type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#productModal">
+                    <button id="add-product" type="button" class="btn btn-primary btn-rounded mb-3" data-toggle="modal" data-target="#productModal">
                       + Add Product
                     </button>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div id="productModal" class="modal fade" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
-                          <div class="modal-header  bg-primary text-light">
-                            <h5 class="modal-title" id="exampleModalLabel">Select Product</h5>
-                            <button type="button" class="text-light bg-danger " data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="false">&times;</span>
-                            </button>
+                          <div class="modal-header">
+                              <h4 class="modal-title" id="myModalLabel">Select Product</h4>
+                              <button type="button" class="close" data-dismiss="modal"
+                                  aria-hidden="true">×</button>
                           </div>
                           <div class="modal-body">
                             <div class="row">
@@ -308,12 +307,13 @@
                             </div>
                           </div>
                           <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button id="update-detail" type="button" class="btn btn-primary">Update Detail</button>
+                            <button type="button" class="btn btn-secondary btn-rounded" data-dismiss="modal">Cancel</button>
+                            <button id="update-detail" type="button" class="btn btn-primary btn-rounded">Update Detail</button>
                           </div>
-                        </div>
-                      </div>
-                    </div>
+                        </div><!-- /.modal-content -->
+                      </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                    
                   </div>
                   <table class="table">
                     <thead>
@@ -392,7 +392,7 @@
             let remove = document.createElement('a');
             let imageURL = (product.photo ? window.location.origin+"/storage/"+product.photo : "");
 
-            remove.className = "btn btn-danger btn-sm remove-product m-1 text-light";
+            remove.className = "btn btn-danger btn-rounded btn-sm remove-product m-1 text-light";
             remove.innerHTML = "Remove this product";
             remove.dataset.ref = `${refId}`;
             removeContainer.appendChild(remove);
@@ -416,7 +416,7 @@
                 variantUnitPrice.innerHTML = data.unit_price;
                 variantUnitPrice.className = "unit-price";
                 input.type="number";
-                input.className="border border-secondary rounded-lg input-quanity input-group-sm";
+                input.className="input-quanity form-control";
                 input.name = `quantity[${data.id}]`;
                 input.value = data.quantity ?? 0;
                 input.min = 0;
@@ -437,7 +437,7 @@
                 variantUnitPrice.innerHTML = data.unit_price;
                 variantUnitPrice.className = "unit-price";
                 input.type="number";
-                input.className="border border-secondary rounded-lg input-quanity input-group-sm";
+                input.className="input-quanity form-control";
                 input.name = `quantity[${data.id}]`;
                 input.value = data.quantity ?? 0;
                 input.min = 0;
