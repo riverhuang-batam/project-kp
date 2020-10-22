@@ -283,15 +283,14 @@
                       + Add Product
                     </button>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div id="productModal" class="modal fade" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
-                          <div class="modal-header  bg-primary text-light">
-                            <h5 class="modal-title" id="exampleModalLabel">Select Product</h5>
-                            <button type="button" class="text-light bg-danger " data-dismiss="modal" aria-label="Close">
-                              <span aria-hidden="false">&times;</span>
-                            </button>
+                          <div class="modal-header">
+                              <h4 class="modal-title" id="myModalLabel">Select Product</h4>
+                              <button type="button" class="close" data-dismiss="modal"
+                                  aria-hidden="true">×</button>
                           </div>
                           <div class="modal-body">
                             <div class="row">
@@ -308,12 +307,13 @@
                             </div>
                           </div>
                           <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button id="update-detail" type="button" class="btn btn-primary">Update Detail</button>
+                            <button type="button" class="btn btn-secondary btn-rounded" data-dismiss="modal">Cancel</button>
+                            <button id="update-detail" type="button" class="btn btn-primary btn-rounded">Update Detail</button>
                           </div>
-                        </div>
-                      </div>
-                    </div>
+                        </div><!-- /.modal-content -->
+                      </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                    
                   </div>
                   <table class="table">
                     <thead>
