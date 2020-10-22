@@ -24,7 +24,7 @@
             Payment List
           </div>
           <div>
-            <a href="{{ route('payments.create') }}" type="button" class="btn btn-primary">
+            <a href="{{ route('payments.create') }}" type="button" class="btn btn-primary btn-rounded">
               + Add New Record</a>
             {{-- <a href="{{ route('purchases.index') }}" type="button" class="btn btn-secondary">
               Back to Purchase</a> --}}

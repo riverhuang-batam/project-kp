@@ -99,9 +99,9 @@ class SupplierController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function ($data) {
                 $btn = '
-            <a class="btn btn-warning btn-sm" id="edit" data-id=' . $data->id . '>Edit</a>
+            <a class="btn btn-warning btn-sm btn-rounded text-dark" id="edit" data-id=' . $data->id . '>Edit</a>
             <meta name="csrf-token" content="{{ csrf_token() }}">
-            <a class="btn btn-danger btn-sm text-light" id="delete" data-id=' . $data->id . '>Delete</a>
+            <a class="btn btn-danger btn-sm btn-rounded text-light" id="delete" data-id=' . $data->id . '>Delete</a>
           ';
                 return $btn;
             })

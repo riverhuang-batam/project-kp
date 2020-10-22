@@ -68,9 +68,9 @@
                 </div>
               </div>
               <hr>
-              <div class="btn-group">
-                <a href="{{ route('suppliers.index') }}" type="button" class="btn btn-secondary mr-2">Back</a>
-                <button type="submit" class="btn btn-primary">Submit</button>
+              <div>
+                <a href="{{ route('suppliers.index') }}" type="button" class="btn btn-secondary btn-rounded mr-2">Back</a>
+                <button type="submit" class="btn btn-primary btn-rounded">Submit</button>
               </div>
           </form>
         </div>

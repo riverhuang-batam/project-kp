@@ -92,12 +92,12 @@
             <hr>
             <div class="btn-group">
               @if(!isset($purchase_code))
-              <a href="{{ route('payments.index') }}" type="button" class="btn btn-secondary mr-2">Back</a>
+              <a href="{{ route('payments.index') }}" type="button" class="btn btn-secondary btn-rounded mr-2">Back</a>
               @endif 
               {{-- @if(isset($purchase_code))
               <a href="{{ route('purchases.index') }}" type="button" class="btn btn-secondary mr-2">Back to Purchase</a> 
               @endif --}}
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="submit" class="btn btn-primary btn-rounded">Submit</button>
             </>
           </form>
         </div>
