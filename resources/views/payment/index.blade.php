@@ -21,18 +21,16 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title text-center">
-            Payment List
-          </div>
-          <div>
-            <a href="{{ route('payments.create') }}" type="button" class="btn btn-primary btn-rounded">
-              + Add New Record</a>
-            {{-- <a href="{{ route('purchases.index') }}" type="button" class="btn btn-secondary">
-              Back to Purchase</a> --}}
+           <h2>Payment List</h2> 
           </div>
         </div>
         <div class="card-body">
+          <div class="mb-4">
+            <a href="{{ route('payments.create') }}" type="button" class="btn btn-primary btn-rounded">
+              + Add New Record</a>
+          </div>
           <div class="table-responsive">
-            <table class="table table-bordered yajra-datatable">
+            <table class="table table-bordered yajra-datatable table-striped no-wrap">
               <thead>
                 <tr>
                   <th>No</th>
