@@ -13,16 +13,25 @@
     {{ session('error') }}
   </div>
   @endif
+  <div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-7 align-self-center">
+          <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">{{isset($payment) ? 'Edit Existing' : 'Add New'}} Payment</h4>
+            <div class="d-flex align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0 p-0">
+                        <li class="breadcrumb-item"><a href="{{route('home')}}" class="text-muted">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('payments.index')}}" class="text-muted">Payment</a></li>
+                        <li class="breadcrumb-item text-muted active" aria-current="page">{{isset($payment) ? 'Edit' : 'Add'}} Payment</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+  </div>
   <div class="row justify-content-center">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-header">
-          <div class="card-title m-0">
-            <h5>
-           {{isset($payment) ? 'Edit Existing' : 'Add New'}} Payment
-            </h5>
-          </div>
-        </div>
         <div class="card-body">
           <form method="POST" enctype="multipart/form-data" 
             action="{{ isset($payment) ? route('payments.update', $payment['id']) : route('payments.store') }}">
