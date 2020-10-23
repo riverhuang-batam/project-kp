@@ -3,16 +3,25 @@
 
 @section('contents')
 <div class="page-wrapper">
+  <div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-7 align-self-center">
+          <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">{{isset($purchase) ? 'Edit Existing' : 'Add New'}} Purchase</h4>
+            <div class="d-flex align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0 p-0">
+                        <li class="breadcrumb-item"><a href="{{route('home')}}" class="text-muted">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('purchases.index')}}" class="text-muted">Purchase</a></li>
+                        <li class="breadcrumb-item text-muted active" aria-current="page">{{isset($purchase) ? 'Edit' : 'Add'}} Purchase</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+  </div>
   <div class="row justify-content-center">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-header">
-          <div class="card-title m-0">
-            <h5>
-           {{isset($purchase) ? 'Edit Existing' : 'Add New'}} Order
-            </h5>
-          </div>
-        </div>
         <div class="card-body">
          <form method="POST"
             action="{{ isset($purchase) ? route('purchases.update', $purchase['id']) : route('purchases.store') }}">
@@ -22,16 +31,16 @@
             @endif
             <div class="card">
               <div class="card-header">
-                Purchase
+               <h4 class="page-title text-dark">Purchase</h4> 
               </div>
               <div class="card-body">
                 <div class="row">
-                  <div class="col-4">
-                    <h6>Basic Information (Required)</h6>
+                  <div class="col-12">
+                    <h4 class="text-dark">Basic Information (Required)</h4>
                     <hr>
                     <div class="row">
                       <div class="col-6">
-                        <div class="form-group input-group-sm">
+                        <div class="form-group">
                           <label for="code">Code</label>
                           <input type="text" class="form-control @error('code') is-invalid @enderror" id="code" name="code" value="{{ isset($pc) ? $pc : $purchase['code'] }}" autocomplete="off" readonly>
                           @error('code')
@@ -41,7 +50,7 @@
                           @enderror
                         </div>
 
-                        <div class="form-group input-group-sm">
+                        <div class="form-group">
                           <label for="order_date">Order Date</label>
                           <input type="date" class="form-control @error('order_date') is-invalid @enderror" id="order_date" name="order_date" value="{{ isset($purchase) ? $purchase['order_date'] : old('order_date') }}" required>
                           @error('order_date')
@@ -51,7 +60,7 @@
                           @enderror
                         </div>
 
-                        <div class="form-group input-group-sm">
+                        <div class="form-group">
                           <label for="product_total">Product total (RMB)</label>
                           <input type="text" class="form-control @error('product_total') is-invalid @enderror" id="product_total" name="product_total"
                           value="{{isset($purchase) ? $purchase['product_total'] : (old('product_total') ? old('product_total') : 0) }}" readonly>
@@ -62,7 +71,7 @@
                           @enderror
                         </div>
 
-                        <div class="form-group input-group-sm">
+                        <div class="form-group">
                           <label for="grand_total">Grand total (RMB)</label>
                           <input type="text" class="form-control @error('grand_total') is-invalid @enderror" id="grand_total" name="grand_total"
                           value="{{isset($purchase) ? $purchase['grand_total'] : (old('grand_total') ? old('grand_total') : 0) }}" readonly>
@@ -73,7 +82,7 @@
                           @enderror
                         </div>
 
-                        <div class="form-group input-group-sm">
+                        <div class="form-group">
                           <label for="grand_total_rp">Grand total (RP)</label>
                           <input type="text" class="form-control @error('grand_total_rp') is-invalid @enderror" id="grand_total_rp" name="grand_total_rp"   value="{{isset($purchase) ? $purchase['grand_total_rp'] : (old('grand_total_rp') ? old('grand_total_rp') : 0) }}" readonly>
                           @error('grand_total_rp')
@@ -85,7 +94,7 @@
 
                       </div>
                       <div class="col-6">
-                        <div class="form-group input-group-sm">
+                        <div class="form-group">
                           <label for="status">Status</label>
                           <select class="custom-select @error('status') is-invalid @enderror" id="status" name="status">
                             <option value="">Select Status</option>
@@ -102,7 +111,7 @@
                           @enderror
                         </div>
 
-                        <div class="form-group input-group-sm">
+                        <div class="form-group">
                           <label for="supplier_id">Supplier</label>
                           <select id="supplier_id" name="supplier_id" class="form-control select2"></select>
                           @error('supplier_id')
@@ -112,7 +121,7 @@
                           @enderror
                         </div>
 
-                        <div class="form-group input-group-sm">
+                        <div class="form-group">
                           <label for="transfer_fee">Transfer Fee (RMB)</label>
                           <input type="number" class="form-control @error('transfer_fee') is-invalid @enderror" id="transfer_fee" name="transfer_fee" 
                           value="{{isset($purchase) ? $purchase['transfer_fee'] : (old('transfer_fee') ? old('transfer_fee') : 0) }}">
@@ -123,7 +132,7 @@
                           @enderror
                         </div>
 
-                        <div class="form-group input-group-sm">
+                        <div class="form-group">
                           <label for="currency_rate">Currency Rate</label>
                           <input type="number" class="form-control @error('currency_rate') is-invalid @enderror" id="currency_rate" name="currency_rate"
                           value="{{isset($purchase) ? $purchase['currency_rate'] : (old('currency_rate') ? old('currency_rate') : 0) }}">
@@ -137,14 +146,14 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-4">
-                    <h6>
+                  <div class="col-12 mt-5">
+                    <h4 class="text-dark">
                       Transport Information (Optional)
-                    </h6>
+                    </h4>
                       <hr>
                       <div class="row">
                         <div class="col-6">
-                          <div class="form-group input-group-sm">
+                          <div class="form-group">
                             <label for="transport_company">Transport Company</label>
                             <input type="text" class="form-control @error('transport_company') is-invalid @enderror" id="transport_company" name="transport_company"
                               value="{{isset($purchase) ? $purchase['transport_company'] : old('transport_company') }}">
@@ -155,7 +164,7 @@
                             @enderror
                           </div>
 
-                          <div class="form-group input-group-sm">
+                          <div class="form-group">
                             <label for="transport_cost">Transport Cost (RMB)</label>
                             <input type="number" class="form-control @error('transport_cost') is-invalid @enderror" id="transport_cost" name="transport_cost"
                             value="{{isset($purchase) ? $purchase['transport_cost'] : (old('transport_cost') ? old('transport_cost') : 0) }}">
@@ -167,7 +176,7 @@
                           </div>
                         </div>
                         <div class="col-6">
-                          <div class="form-group input-group-sm">
+                          <div class="form-group">
                             <label for="tracking_number">Tracking No</label>
                             <input type="text" class="form-control @error('tracking_number') is-invalid @enderror" id="tracking_number" name="tracking_number"
                             value="{{isset($purchase) ? $purchase['tracking_number'] : old('tracking_number') }}">
@@ -178,7 +187,7 @@
                             @enderror
                           </div>
 
-                          <div class="form-group input-group-sm">
+                          <div class="form-group">
                             <label for="total_piece_ctn">Total Pieces CTN</label>
                             <input type="number" class="form-control @error('total_piece_ctn') is-invalid @enderror" id="total_piece_ctn" name="total_piece_ctn" value="{{isset($purchase) ? $purchase['total_piece_ctn'] : (old('total_piece_ctn') ? old('total_piece_ctn') : 0) }}">
                             @error('total_piece_ctn')
@@ -195,14 +204,14 @@
                       </div>
                     
                   </div>
-                  <div class="col-4">
-                    <h6>
+                  <div class="col-12 mt-5">
+                    <h4 class="text-dark">
                       Shipping Information (Optional)
-                    </h6>
+                    </h4>
                       <hr>
                       <div class="row">
                         <div class="col-12">
-                          <div class="form-group input-group-sm">
+                          <div class="form-group">
                             <label for="container_number">Container No</label>
                             <input type="text" class="form-control @error('container_number') is-invalid @enderror" id="container_number" name="container_number" value="{{isset($purchase) ? $purchase['container_number'] : old('container_number') }}">
                             @error('container_number')
@@ -213,7 +222,7 @@
                           </div>
                         </div>
                         <div class="col-6">
-                          <div class="form-group input-group-sm">
+                          <div class="form-group">
                             <label for="load_date">Load Date</label>
                             <input type="date" class="form-control @error('load_date') is-invalid @enderror" id="load_date" name="load_date" value="{{ isset($purchase) ? $purchase['load_date'] : old('load_date') }}">
                             @error('load_date')
@@ -223,7 +232,7 @@
                             @enderror
                           </div>
 
-                          <div class="form-group input-group-sm">
+                          <div class="form-group">
                             <label for="cubication">Cubication</label>
                             <input type="number" class="form-control @error('cubication') is-invalid @enderror" id="cubication" name="cubication"
                             value="{{isset($purchase) ? $purchase['cubication'] : (old('cubication') ? old('cubication') : 0) }}">
@@ -237,7 +246,7 @@
 
                         </div>
                         <div class="col-6">
-                          <div class="form-group input-group-sm">
+                          <div class="form-group">
                             <label for="estimated_unload_date">Estimated Unload</label>
                             <input type="date" class="form-control @error('estimated_unload_date') is-invalid @enderror" id="estimated_unload_date" name="estimated_unload_date" value="{{ isset($purchase) ? $purchase['estimated_unload_date'] : old('estimated_unload_date') }}">
                             @error('estimated_unload_date')
@@ -247,7 +256,7 @@
                             @enderror
                           </div>
 
-                          <div class="form-group input-group-sm">
+                          <div class="form-group">
                             <label for="shipping_cost">Shippinig Costs (RP)</label>
                             <input type="number" class="form-control @error('shipping_cost') is-invalid @enderror" id="shipping_cost" name="shipping_cost"
                             value="{{isset($purchase) ? $purchase['shipping_cost'] : (old('shipping_cost') ? old('shipping_cost') : 0) }}">
@@ -262,9 +271,9 @@
                   </div>
                   <div class="col-12">
                     <hr>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <button type="submit" class="btn btn-primary btn-rounded">Save</button>
-                      <a href="{{ route('purchases.index') }}" type="button" class="text-none"><< Back</a> 
+                    <div class="d-flex align-items-center">
+                      <a href="{{ route('purchases.index') }}" type="button" class="btn btn-secondary btn-rounded mr-2">Back</a>
+                      <button type="submit" class="btn btn-primary btn-rounded">Submit</button>
                     </div>
                   </div>
                 </div>
@@ -273,7 +282,7 @@
 
             <div class="card mt-4">
               <div class="card-header">
-                Details
+               <h4 class="page-title text-dark">Details</h4> 
               </div>
               <div class="card-body">
                 <div class="row">

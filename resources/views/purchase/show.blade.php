@@ -3,18 +3,29 @@
 
 @section('contents')
 <div class="page-wrapper">
+  <div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-7 align-self-center">
+          <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Detail Purchase</h4>
+            <div class="d-flex align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0 p-0">
+                        <li class="breadcrumb-item"><a href="{{route('home')}}" class="text-muted">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('purchases.index')}}" class="text-muted">Purchase</a></li>
+                        <li class="breadcrumb-item text-muted active" aria-current="page">Detail</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+  </div>
   <div class="row justify-content-center">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center">
-          <div class="m-0 text-center">
-           <h4>Detail Purchase</h4>
-          </div>
-        </div>
         <div class="card-body">
           <div class="row">
                   <div class="col-4">
-                    <h6>Basic Information (Required)</h6>
+                    <h4>Basic Information (Required)</h4>
                     <hr>
                     <div class="row">
                       <div class="col-6">
@@ -60,9 +71,9 @@
                     </div>
                   </div>
                   <div class="col-4">
-                    <h6>
+                    <h4>
                       Transport Information (Optional)
-                    </h6>
+                    </h4>
                       <hr>
                       <div class="row">
                         <div class="col-6">
@@ -94,9 +105,9 @@
                       </div>
                   </div>
                   <div class="col-4">
-                    <h6>
+                    <h4>
                       Shipping Information (Optional)
-                    </h6>
+                    </h4>
                       <hr>
                       <div class="row">
                         <div class="col-12">

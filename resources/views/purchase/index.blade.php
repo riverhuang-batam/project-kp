@@ -28,14 +28,24 @@
     {{ session('error') }}
   </div>
   @endif
+  <div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-7 align-self-center">
+            <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Purchase List</h4>
+            <div class="d-flex align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0 p-0">
+                        <li class="breadcrumb-item"><a href="{{route('home')}}" class="text-muted">Home</a></li>
+                        <li class="breadcrumb-item text-muted active" aria-current="page">Purchase</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+  </div>
   <div class="row justify-content-center">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-header">
-          <div class="card-title text-center">
-           <h2>Purchase List</h2> 
-          </div>
-        </div>
         <div class="tab-content" id="pills-tabContent">
           <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
             <div class="card-body">
