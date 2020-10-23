@@ -11,14 +11,24 @@
     {{ session('status') }}
   </div>
   @endif
+  <div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-7 align-self-center">
+            <h4 class="page-title text-truncate text-dark font-weight-medium mb-1">Product List</h4>
+            <div class="d-flex align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0 p-0">
+                        <li class="breadcrumb-item"><a href="{{route('home')}}" class="text-muted">Home</a></li>
+                        <li class="breadcrumb-item text-muted active" aria-current="page">Product</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+  </div>
   <div class="row justify-content-center">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-header">
-          <div class="card-title text-center">
-           <h2>Product List</h2> 
-          </div>
-        </div>
         <div class="card-body">
           <div class="mb-4">
             <a href="{{ route('products.create') }}" type="button" class="btn btn-primary btn-rounded">
