@@ -26,6 +26,7 @@ Route::middleware(['auth'])->group(function () {
   Route::get('purchases-counter', 'App\Http\Controllers\Admin\PurchaseController@countBadge');
   Route::get('purchases-total/{id}', 'App\Http\Controllers\Admin\PurchaseController@totalPayment');
   Route::post('purchases-status','App\Http\Controllers\Admin\PurchaseController@updateStatus');
+  Route::get('purchases/invoice/{id}', 'App\Http\Controllers\Admin\PurchaseController@invoice');
 
   Route::resource('markings', 'App\Http\Controllers\Admin\MarkingController');
   Route::get('marking-list', 'App\Http\Controllers\Admin\MarkingController@markingDataTable')->name('marking-list');

@@ -61,18 +61,7 @@
                         </div>
 
                         <div class="form-group">
-                          <label for="product_total">Product total (RMB)</label>
-                          <input type="text" class="form-control @error('product_total') is-invalid @enderror" id="product_total" name="product_total"
-                          value="{{isset($purchase) ? $purchase['product_total'] : (old('product_total') ? old('product_total') : 0) }}" readonly>
-                          @error('product_total')
-                          <div class="invalid-feedback">
-                            {{ $message }}
-                          </div>
-                          @enderror
-                        </div>
-
-                        <div class="form-group">
-                          <label for="grand_total">Grand total (RMB)</label>
+                          <label for="grand_total">Grand total</label>
                           <input type="text" class="form-control @error('grand_total') is-invalid @enderror" id="grand_total" name="grand_total"
                           value="{{isset($purchase) ? $purchase['grand_total'] : (old('grand_total') ? old('grand_total') : 0) }}" readonly>
                           @error('grand_total')
@@ -82,34 +71,9 @@
                           @enderror
                         </div>
 
-                        <div class="form-group">
-                          <label for="grand_total_rp">Grand total (RP)</label>
-                          <input type="text" class="form-control @error('grand_total_rp') is-invalid @enderror" id="grand_total_rp" name="grand_total_rp"   value="{{isset($purchase) ? $purchase['grand_total_rp'] : (old('grand_total_rp') ? old('grand_total_rp') : 0) }}" readonly>
-                          @error('grand_total_rp')
-                          <div class="invalid-feedback">
-                            {{ $message }}
-                          </div>
-                          @enderror
-                        </div>
 
                       </div>
                       <div class="col-6">
-                        <div class="form-group">
-                          <label for="status">Status</label>
-                          <select class="custom-select @error('status') is-invalid @enderror" id="status" name="status">
-                            <option value="">Select Status</option>
-                            <option value="1" {{isset($purchase) && $purchase['status'] == 1 || old('status') == 1 ? 'selected="selected"' : ""}}>Waiting</option>
-                            <option value="2" {{isset($purchase) && $purchase['status'] == 2 || old('status') == 2 ? 'selected="selected"' : ""}}>Shipping to Warehouse</option>
-                            <option value="3" {{isset($purchase) && $purchase['status'] == 3 || old('status') == 3 ? 'selected="selected"' : ""}}>Shipping to Indonesia</option>
-                            <option value="4" {{isset($purchase) && $purchase['status'] == 4 || old('status') == 4 ? 'selected="selected"' : ""}}>Arrived</option>
-                            <option value="5" {{isset($purchase) && $purchase['status'] == 5 || old('status') == 5 ? 'selected="selected"' : ""}}>Completed</option>
-                          </select>
-                          @error('status')
-                          <div class="invalid-feedback">
-                            {{ $message }}
-                          </div>
-                          @enderror
-                        </div>
 
                         <div class="form-group">
                           <label for="supplier_id">Supplier</label>
@@ -122,153 +86,14 @@
                         </div>
 
                         <div class="form-group">
-                          <label for="transfer_fee">Transfer Fee (RMB)</label>
-                          <input type="number" class="form-control @error('transfer_fee') is-invalid @enderror" id="transfer_fee" name="transfer_fee" 
-                          value="{{isset($purchase) ? $purchase['transfer_fee'] : (old('transfer_fee') ? old('transfer_fee') : 0) }}">
-                          @error('transfer_fee')
-                          <div class="invalid-feedback">
-                            {{ $message }}
-                          </div>
-                          @enderror
-                        </div>
-
-                        <div class="form-group">
-                          <label for="currency_rate">Currency Rate</label>
-                          <input type="number" class="form-control @error('currency_rate') is-invalid @enderror" id="currency_rate" name="currency_rate"
-                          value="{{isset($purchase) ? $purchase['currency_rate'] : (old('currency_rate') ? old('currency_rate') : 0) }}">
-                          @error('currency_rate')
-                          <div class="invalid-feedback">
-                            {{ $message }}
-                          </div>
-                          @enderror
+                          <label for="remarks">Remarks</label>
+                          <textarea class="form-control" id="remarks" name="remarks" rows="3">{{ isset($purchase) ? $purchase['remarks'] : old('remarks') }}</textarea>
                         </div>
 
                       </div>
                     </div>
                   </div>
-                  <div class="col-12 mt-5">
-                    <h4 class="text-dark">
-                      Transport Information (Optional)
-                    </h4>
-                      <hr>
-                      <div class="row">
-                        <div class="col-6">
-                          <div class="form-group">
-                            <label for="transport_company">Transport Company</label>
-                            <input type="text" class="form-control @error('transport_company') is-invalid @enderror" id="transport_company" name="transport_company"
-                              value="{{isset($purchase) ? $purchase['transport_company'] : old('transport_company') }}">
-                            @error('transport_company')
-                            <div class="invalid-feedback">
-                              {{ $message }}
-                            </div>
-                            @enderror
-                          </div>
 
-                          <div class="form-group">
-                            <label for="transport_cost">Transport Cost (RMB)</label>
-                            <input type="number" class="form-control @error('transport_cost') is-invalid @enderror" id="transport_cost" name="transport_cost"
-                            value="{{isset($purchase) ? $purchase['transport_cost'] : (old('transport_cost') ? old('transport_cost') : 0) }}">
-                            @error('transport_cost')
-                            <div class="invalid-feedback">
-                              {{ $message }}
-                            </div>
-                            @enderror
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <div class="form-group">
-                            <label for="tracking_number">Tracking No</label>
-                            <input type="text" class="form-control @error('tracking_number') is-invalid @enderror" id="tracking_number" name="tracking_number"
-                            value="{{isset($purchase) ? $purchase['tracking_number'] : old('tracking_number') }}">
-                            @error('tracking_number')
-                            <div class="invalid-feedback">
-                              {{ $message }}
-                            </div>
-                            @enderror
-                          </div>
-
-                          <div class="form-group">
-                            <label for="total_piece_ctn">Total Pieces CTN</label>
-                            <input type="number" class="form-control @error('total_piece_ctn') is-invalid @enderror" id="total_piece_ctn" name="total_piece_ctn" value="{{isset($purchase) ? $purchase['total_piece_ctn'] : (old('total_piece_ctn') ? old('total_piece_ctn') : 0) }}">
-                            @error('total_piece_ctn')
-                            <div class="invalid-feedback">
-                              {{ $message }}
-                            </div>
-                            @enderror
-                          </div>
-                        </div>
-                        <div class="col-12">
-                          <label for="remarks">Remarks</label>
-                          <textarea class="form-control" id="remarks" name="remarks" rows="3">{{ isset($purchase) ? $purchase['remarks'] : old('remarks') }}</textarea>
-                        </div>
-                      </div>
-                    
-                  </div>
-                  <div class="col-12 mt-5">
-                    <h4 class="text-dark">
-                      Shipping Information (Optional)
-                    </h4>
-                      <hr>
-                      <div class="row">
-                        <div class="col-12">
-                          <div class="form-group">
-                            <label for="container_number">Container No</label>
-                            <input type="text" class="form-control @error('container_number') is-invalid @enderror" id="container_number" name="container_number" value="{{isset($purchase) ? $purchase['container_number'] : old('container_number') }}">
-                            @error('container_number')
-                            <div class="invalid-feedback">
-                              {{ $message }}
-                            </div>
-                            @enderror
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <div class="form-group">
-                            <label for="load_date">Load Date</label>
-                            <input type="date" class="form-control @error('load_date') is-invalid @enderror" id="load_date" name="load_date" value="{{ isset($purchase) ? $purchase['load_date'] : old('load_date') }}">
-                            @error('load_date')
-                            <div class="invalid-feedback">
-                              {{ $message }}
-                            </div>
-                            @enderror
-                          </div>
-
-                          <div class="form-group">
-                            <label for="cubication">Cubication</label>
-                            <input type="number" class="form-control @error('cubication') is-invalid @enderror" id="cubication" name="cubication"
-                            value="{{isset($purchase) ? $purchase['cubication'] : (old('cubication') ? old('cubication') : 0) }}">
-                            @error('cubication')
-                            <div class="invalid-feedback">
-                              {{ $message }}
-                            </div>
-                            @enderror
-                          </div>
-
-
-                        </div>
-                        <div class="col-6">
-                          <div class="form-group">
-                            <label for="estimated_unload_date">Estimated Unload</label>
-                            <input type="date" class="form-control @error('estimated_unload_date') is-invalid @enderror" id="estimated_unload_date" name="estimated_unload_date" value="{{ isset($purchase) ? $purchase['estimated_unload_date'] : old('estimated_unload_date') }}">
-                            @error('estimated_unload_date')
-                            <div class="invalid-feedback">
-                              {{ $message }}
-                            </div>
-                            @enderror
-                          </div>
-
-                          <div class="form-group">
-                            <label for="shipping_cost">Shippinig Costs (RP)</label>
-                            <input type="number" class="form-control @error('shipping_cost') is-invalid @enderror" id="shipping_cost" name="shipping_cost"
-                            value="{{isset($purchase) ? $purchase['shipping_cost'] : (old('shipping_cost') ? old('shipping_cost') : 0) }}">
-                            @error('shipping_cost')
-                            <div class="invalid-feedback">
-                              {{ $message }}
-                            </div>
-                            @enderror
-                          </div>
-                        </div>
-                      </div>
-                  </div>
                   <div class="col-12">
                     <hr>
                     <div class="d-flex align-items-center">
@@ -328,9 +153,8 @@
                     <thead>
                       <tr>
                         <td class="font-weight-bold">Product SKU</td>
-                        <td class="font-weight-bold">Photo</td>
                         <td class="font-weight-bold">Name</td>
-                        <td class="font-weight-bold">Unit Price (RMB)</td>
+                        <td class="font-weight-bold">Unit Price</td>
                         <td class="font-weight-bold">Quantity</td>
                         <td class="font-weight-bold">Sub Total</td>
                         <td class="font-weight-bold">Option</td>
@@ -359,13 +183,7 @@
     let productRaw;
 
     function calculatePrice(){
-      let productTotal = $('#product_total');
       let grandTotal = $('#grand_total');
-      let grandTotalRP = $('#grand_total_rp');
-      let transferFee = $('#transfer_fee').val();
-      let currencyRate = $('#currency_rate').val();
-      let shippingCost = $('#shipping_cost').val();
-      let transportCost = $('#transport_cost').val();
 
       let subTotal = $('.sub-total');
       let totalProductPrice = 0;
@@ -374,105 +192,67 @@
         totalProductPrice += parseInt(subTotalPrice);   
       }
 
-      let grandTotalPrice = totalProductPrice + parseInt(transferFee) + parseInt(shippingCost) + parseInt(transportCost);
-      let grandTotalRPPrice = grandTotalPrice * currencyRate
-
-      productTotal.val(totalProductPrice);
-      grandTotal.val(grandTotalPrice);
-      grandTotalRP.val(grandTotalRPPrice);
+      grandTotal.val(totalProductPrice);
     }
 
     function drawTable(productRaw){
+      console.log(productRaw);
       let refId = 'id' + (new Date()).getTime();
-            let product = productRaw;
-            let table = document.querySelector('#detail-product-table');
-            let firstRow = document.createElement("tr");
-            let nextRow = document.createElement("tr");
-            let productSKU = document.createElement("td");
-            let productPhoto = document.createElement("td");
-            let productImage = document.createElement("img");
-            let variantData = document.createElement("tr");
-            let variantName = document.createElement("td");
-            let variantUnitPrice = document.createElement("td");
-            let variantQuantity = document.createElement("td");
-            let variantSubTotal = document.createElement("td");
-            let input = document.createElement('input');
-            let removeContainer = document.createElement('td')
-            let remove = document.createElement('a');
-            let imageURL = (product.photo ? window.location.origin+"/storage/"+product.photo : "");
+      let product = productRaw;
+      let table = document.querySelector('#detail-product-table');
+      let firstRow = document.createElement("tr");
+      let nextRow = document.createElement("tr");
+      let productSKU = document.createElement("td");
+      let productName = document.createElement("td");
+      let productPrice = document.createElement("td");
+      let productQuantity = document.createElement("td");
+      let productSubTotal = document.createElement("td");
+      let inputQty = document.createElement('input');
+      let inputName = document.createElement('input');
+      let removeContainer = document.createElement('td')
+      let remove = document.createElement('a');
 
-            remove.className = "btn btn-danger btn-rounded btn-sm remove-product m-1 text-light";
-            remove.innerHTML = "Remove this product";
-            remove.dataset.ref = `${refId}`;
-            removeContainer.appendChild(remove);
-            removeContainer.rowSpan = product.variants.length;
-            productImage.src = imageURL;
-            productImage.alt = product.name;
-            productImage.width = 100;
-            productImage.height = 100;
-
-            product.variants.map((data, index) => {
-              if(index === 0){
-                productSKU.innerHTML = product.sku;
-                productSKU.rowSpan = product.variants.length;
-                if(product.photo != null){
-                  productPhoto.appendChild(productImage);
-                }else{
-                  productPhoto.innerHTML = product.name;
-                }
-                productPhoto.rowSpan = product.variants.length;
-                variantName.innerHTML = data.name;
-                variantUnitPrice.innerHTML = data.unit_price;
-                variantUnitPrice.className = "unit-price";
-                input.type="number";
-                input.className="input-quanity form-control";
-                input.name = `quantity[${data.id}]`;
-                input.value = data.quantity ?? 0;
-                input.min = 0;
-                variantQuantity.appendChild(input);
-                variantSubTotal.innerHTML = data.sub_total ?? 0;
-                variantSubTotal.className = "sub-total";
-                firstRow.className = `${refId}`;
-                firstRow.appendChild(productSKU);
-                firstRow.appendChild(productPhoto);
-                firstRow.appendChild(variantName);
-                firstRow.appendChild(variantUnitPrice);
-                firstRow.appendChild(variantQuantity);
-                firstRow.appendChild(variantSubTotal);
-                firstRow.appendChild(removeContainer);
-                table.appendChild(firstRow.cloneNode(true));
-              }else{
-                variantName.innerHTML = data.name;
-                variantUnitPrice.innerHTML = data.unit_price;
-                variantUnitPrice.className = "unit-price";
-                input.type="number";
-                input.className="input-quanity form-control";
-                input.name = `quantity[${data.id}]`;
-                input.value = data.quantity ?? 0;
-                input.min = 0;
-                variantQuantity.appendChild(input);
-                variantSubTotal.innerHTML = data.sub_total ?? 0;
-                variantSubTotal.className = "sub-total";
-                nextRow.className = `${refId}`;
-                nextRow.appendChild(variantName);
-                nextRow.appendChild(variantUnitPrice);
-                nextRow.appendChild(variantQuantity);
-                nextRow.appendChild(variantSubTotal);
-                table.appendChild(nextRow.cloneNode(true));
-              }
-            });
+      remove.className = "btn btn-danger btn-rounded btn-sm remove-product m-1 text-light";
+      remove.innerHTML = "Remove this product";
+      remove.dataset.ref = `${refId}`;
+      removeContainer.appendChild(remove);
+      productSKU.innerHTML = product.sku;
+      inputName.type="hidden";
+      inputName.className="form-control";
+      inputName.name = `product_id[${product.id}]`;
+      inputName.value = product.id;
+      productName.innerHTML = product.name;
+      productName.appendChild(inputName);
+      productPrice.innerHTML = product.unit_price;
+      productPrice.className = "unit-price";
+      inputQty.type="number";
+      inputQty.className="input-quanity form-control";
+      inputQty.name = `quantity[${product.id}]`;
+      inputQty.value = product.quantity ?? 0;
+      inputQty.min = 0;
+      productQuantity.appendChild(inputQty);
+      productSubTotal.innerHTML = product.sub_total ?? 0;
+      productSubTotal.className = "sub-total";
+      firstRow.className = `${refId}`;
+      firstRow.appendChild(productSKU);
+      firstRow.appendChild(productName);
+      firstRow.appendChild(productPrice);
+      firstRow.appendChild(productQuantity);
+      firstRow.appendChild(productSubTotal);
+      firstRow.appendChild(removeContainer);
+      table.appendChild(firstRow.cloneNode(true));
           
-          let inputQuantity = $('.input-quanity');
-          for (var i = 0; i < inputQuantity.length; i++) {
-              inputQuantity[i].addEventListener('change', function(event){
-              let unitPrice = $(this).parent().siblings('.unit-price').text().trim();
-              let subTotal = $(this).parent().siblings('.sub-total');
-              let result = +unitPrice * event.target.value;
-              subTotal.text(result);
-              calculatePrice();
-            });
-          }
+      let inputQuantity = $('.input-quanity');
+      for (var i = 0; i < inputQuantity.length; i++) {
+          inputQuantity[i].addEventListener('change', function(event){
+          let unitPrice = $(this).parent().siblings('.unit-price').text().trim();
+          let subTotal = $(this).parent().siblings('.sub-total');
+          let result = +unitPrice * event.target.value;
+          subTotal.text(result);
           calculatePrice();
+        });
+      }
+      calculatePrice();
     }
 
     function getpurchaseDetails(id){
@@ -499,39 +279,23 @@
               $.ajax({
                 url: pruductDetailURL + productId,
                 success: function(product){
-                  let variants = [];
-                  let productVariants = [];
                   let newProduct = {
+                    id: product.id,
                     name: product.name,
                     sku: product.sku,
-                    photo: product.photo
+                    unit_price: product.unit_price,
                   }
-                  product.variants.forEach(variant => {
-                    let newProductVariant = {
-                      variant_id: variant.id,
-                      name: variant.name,
-                      unit_price: variant.unit_price
-                    }
-                    productVariants.push(newProductVariant);
-                  })
                   let thisPurchaseDetail = purchaseDetails.filter(purchase => {
                     return purchase.product_id == productId;
                   });
+                  console.log(thisPurchaseDetail);
                   thisPurchaseDetail.forEach(purchaseDetail => {
-                    let newVariant = {};
-                    productVariants.map(variant =>{
-                      if(variant.variant_id == purchaseDetail.product_variant_id){
-                        newVariant.name = variant.name,
-                        newVariant.unit_price = variant.unit_price
-                      }
-                    });
-                    newVariant.id = purchaseDetail.product_variant_id,
-                    newVariant.purchase_id = purchaseDetail.purchase_id,
-                    newVariant.quantity = purchaseDetail.quantity,
-                    newVariant.sub_total = purchaseDetail.sub_total
-                    variants.push(newVariant);
+                    // let newProductDetail = {};
+                    // newProduct.id = purchaseDetail.product_id,
+                    newProduct.purchase_id = purchaseDetail.purchase_id,
+                    newProduct.quantity = purchaseDetail.quantity,
+                    newProduct.sub_total = purchaseDetail.sub_total
                   })
-                  newProduct.variants = variants;
 
                   // draw table
                   drawTable(newProduct);
@@ -666,17 +430,16 @@
     @if(old('quantity'))
       let productIds = [];
       let validProductIds = [];
-      let oldVariants = [];
+      let productDetails = [];
       let pruductDetailURL = window.location.origin + "/product/details/";
 
       @foreach(old('quantity') as $key => $value)
         // colecting data
         @php
-          $variant = \App\Models\ProductVariant::find($key);
-          // dd($variant);
+          $product = \App\Models\Product::find($key);
         @endphp
-        productIds.push(parseInt('{{$variant->product_id}}'));
-        oldVariants.push({
+        productIds.push(parseInt('{{$product->id}}'));
+        productDetails.push({
           id: parseInt('{{$key}}'),
           quantity: parseInt('{{$value}}')
         });
@@ -694,30 +457,29 @@
         $.ajax({
           url: pruductDetailURL + id,
           success: function(product){
-            let variants = [];
-            let productVariants = [];
             let newProduct = {
+              id: product.id,
               name: product.name,
               sku: product.sku,
-              photo: product.photo
+              photo: product.photo,
             };
 
-            product.variants.forEach(variant => {
-              let newProductVariant = {
-                id: variant.id,
-                name: variant.name,
-                unit_price: variant.unit_price
+            let newProductDetail = {
+              id: product.id,
+              name: product.name,
+              unit_price: product.unit_price,
+              sku: product.sku,
+            }
+            productDetails.forEach(productDetail => {
+              if(productDetails.id == product.id){
+                newProductDetail.quantity = productDetail.quantity;
+                newProductDetail.sub_total = productDetail.quantity * product.unit_price;
               }
-              oldVariants.forEach(oldVariant => {
-                if(oldVariant.id == variant.id){
-                  newProductVariant.quantity = oldVariant.quantity;
-                  newProductVariant.sub_total = oldVariant.quantity * variant.unit_price;
-                }
-              })
-              productVariants.push(newProductVariant);
-            });
-          
-            newProduct.variants = productVariants;
+            })
+            // productDetails.push(newProductDetail);
+            newProduct = {
+              ...newProductDetail,
+            };
 
             // draw table
             drawTable(newProduct);

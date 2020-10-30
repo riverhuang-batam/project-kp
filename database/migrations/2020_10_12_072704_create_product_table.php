@@ -18,7 +18,7 @@ class CreateProductTable extends Migration
             $table->string('code', 50);
             $table->string('name', 100);
             $table->string('sku', 50)->nullable();
-            $table->string('photo', 255)->nullable();
+            $table->double('unit_price', 8, 2);
             $table->timestamps();
             $table->softDeletes();
         });

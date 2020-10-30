@@ -8,11 +8,15 @@ use App\Models\PurchaseDetail;
 use App\Models\Product;
 use App\Models\Payment;
 use App\Models\Marking;
+use App\Models\Supplier;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use DataTables;
 use App\Helpers\OrderStatus;
 use DB;
+use LaravelDaily\Invoices\Invoice;
+use LaravelDaily\Invoices\Classes\Party;
+use LaravelDaily\Invoices\Classes\InvoiceItem;
 
 class PurchaseController extends Controller
 {
@@ -49,33 +53,32 @@ class PurchaseController extends Controller
       $request->validate(Purchase::rules());
       try {
         DB::beginTransaction();
+        $product_id = $request->input('product_id');
         $quantity = $request->input('quantity');
-        $status = $request->input('status');
-        $trackingNo = $request->input('tracking_number');
-        $containerNo = $request->input('container_number');
-        if(!empty($trackingNo)){
-          $status = 2;
-        }
-        if(!empty($containerNo)){
-          $status = 3;
-        }
-
-        $purchase = Purchase::create(array_merge(request()->except('quantity'),['status' => $status]));
-
+        $purchase = Purchase::create(request()->except(['quantity', 'product_id']));
+        
         $purchaseDetail = [];
+        // for($i = 0; $i < count($product_id); $i++) {
+        //   $subTotal = $product_id[$i] * $quantity[$i];
+        //   $purchaseDetail[] = [
+        //     'product_id' => $product_id[$i],
+        //     'purchase_id' => $purchase->id,
+        //     'quantity' => $quantity[$i],
+        //     'sub_total' => $subTotal,
+        //   ];
+        // }
+        
         foreach ($quantity as $key => $value) {
-          $variant = DB::table('product_variants')->where('id','=',$key)->first();
-          $unitPrice = $variant->unit_price;
-          $productId = $variant->product_id;
-          $subTotal = $value * $unitPrice;
+          $product = DB::table('products')->where('id','=',$key)->first();
+          $subTotal = $value * $product->unit_price;
           $purchaseDetail[] = [
-            'product_id' => $productId,
+            'product_id' => $key,
             'purchase_id' => $purchase->id,
-            'product_variant_id' => $key,
             'quantity' => $value,
             'sub_total' => $subTotal
           ];
         }
+        // dd($purchaseDetail);
 
         DB::table('purchase_details')->insert($purchaseDetail);
         DB::commit();
@@ -148,46 +151,35 @@ class PurchaseController extends Controller
           DB::beginTransaction();
           $quantity = $request->input('quantity');
           $status = $request->input('status');
-          $trackingNo = $request->input('tracking_number');
-          $containerNo = $request->input('container_number');
-          if(!empty($trackingNo)){
-            $status = 2;
-          }
-          if(!empty($containerNo)){
-            $status = 3;
-          }
 
-          $purchase->update(array_merge(request()->except('quantity'),['status' => $status]));
+          $purchase->update(request()->except('quantity'));
 
           foreach ($quantity as $key => $value) {
             $newDetailIdList[] = $key;
-            $variant = DB::table('product_variants')->where('id','=',$key)->first();
-            $unitPrice = $variant->unit_price;
-            $productId = $variant->product_id;
-            $subTotal = $value * $unitPrice;
+            $product = DB::table('products')->where('id','=',$key)->first();
+            $subTotal = $value * $product->unit_price;
             $newDetail = [
-              'product_id' => $productId,
+              'product_id' => $key,
               'purchase_id' => $purchase->id,
-              'product_variant_id' => $key,
               'quantity' => $value,
               'sub_total' => $subTotal
             ];
 
-            $existingDetail = PurchaseDetail::where([['purchase_id','=', $purchase->id],['product_variant_id','=', $key]])->first();
+            $existingDetail = PurchaseDetail::where([['purchase_id','=', $purchase->id],['product_id','=', $key]])->first();
             if($existingDetail){
-              PurchaseDetail::where([['purchase_id','=', $purchase->id],['product_variant_id','=', $key]])->update($newDetail);
+              PurchaseDetail::where([['purchase_id','=', $purchase->id],['product_id','=', $key]])->update($newDetail);
             }else{
               PurchaseDetail::create($newDetail);
             }
           }
 
           foreach ($currentDetails as $currentDetail) {
-            $currentDetailIdList[] = $currentDetail['product_variant_id'];
+            $currentDetailIdList[] = $currentDetail['product_id'];
           }
 
           foreach ($currentDetailIdList as $currentDetailId) {
             if(!in_array($currentDetailId, $newDetailIdList)){
-             PurchaseDetail::where([['purchase_id','=', $purchase->id],['product_variant_id','=', $currentDetailId]])->delete();
+             PurchaseDetail::where([['purchase_id','=', $purchase->id],['product_id','=', $currentDetailId]])->delete();
             }
           }
           DB::commit();
@@ -209,15 +201,12 @@ class PurchaseController extends Controller
     {
         $id = $request->input('id');
         $purchase = Purchase::find($id);
-        if($purchase->status == 5){
-          return response()->json(['error' => 'Can not delete completed order']);
-        };
-
+        $purchase->purchaseDetail()->delete();
         $purchase->delete();
     }
 
     public function purchaseDataTable(Request $request){
-        $data = Purchase::query()->where('status', $request->status)->get();
+        $data = Purchase::query()->get();
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function($data){
@@ -228,48 +217,16 @@ class PurchaseController extends Controller
                     Options
                   </button>
                   <div class="dropdown-menu" aria-labelledby="optionMenu">
-                    <button class="dropdown-item" type="button" id="duplicate" data-id='.$data->id.'>Replicate</button>
                     <button class="dropdown-item" type="button" id="payment" data-id='.$data->id.'>Add Payment</button>
+                    <button class="dropdown-item" type="button" id="invoice" data-id='.$data->id.'>Print Invoice</button>
                     <button class="dropdown-item" type="button" id="show-detail" data-id='.$data->id.'>Show</button>
                     <button class="dropdown-item" type="button" id="edit" data-id='.$data->id.'>Edit</button>
                     <button class="dropdown-item" type="button" id="delete" data-id='.$data->id.'>Delete</button>
                   </div>
-                </div>
-                <div class="dropdown ml-2">
-                  <button class="btn btn-success btn-rounded btn-sm dropdown-toggle"  type="button" id="statusMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Update Status
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="statusMenu">
-                    <button class="dropdown-item update-status" type="button" id="warehouse" data-id='.$data->id.' data-status="2">Ship to Warehouse</button>
-                    <button class="dropdown-item update-status" type="button" id="indonesia" data-id='.$data->id.' data-status="3">Ship to Indonesia</button>
-                    <button class="dropdown-item update-status" type="button" id="arrived" data-id='.$data->id.' data-status="4">Arrived</button>
-                    <button class="dropdown-item update-status" type="button" id="completed" data-id='.$data->id.' data-status="5">Completed</button>
-                  </div>
-                  </div>
-              </div>';
-
-              $buttonComplete = '
-              <div class="d-flex flex-row justify-content-center">
-                <div class="dropdown mr-2">
-                  <button class="btn btn-primary btn-rounded btn-sm dropdown-toggle" type="button" id="optionMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Options
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="optionMenu">
-                    <button class="dropdown-item" type="button" id="duplicate" data-id='.$data->id.'>Replicate</button>
-                    <button class="dropdown-item" type="button" id="payment" data-id='.$data->id.'>Add Payment</button>
-                    <button class="dropdown-item" type="button" id="show-detail" data-id='.$data->id.'>Show</button>
-                  </div>
-                </div>
-              </div>';
-              if($data->status == 5){
-                return $buttonComplete;
-              }
+                </div>';
               return $buttonAll;
             })
             ->rawColumns(['action'])
-            ->editColumn('status', function(Purchase $purchase){
-              return OrderStatus::getString($purchase['status']);
-            })
             ->make(true);
       }
 
@@ -323,38 +280,67 @@ class PurchaseController extends Controller
        return response()->json($purchaseDetails);
      }
 
-     public function countBadge(){
-      $purchases = Purchase::all();
-      $waiting = count($purchases->where('status', 1));
-      $warehouse = count($purchases->where('status', 2));
-      $indonesia = count($purchases->where('status', 3));
-      $arrived = count($purchases->where('status', 4));
-      $completed = count($purchases->where('status', 5));
-      return response()->json([
-        'waiting'=> $waiting, 
-        'warehouse' => $warehouse, 
-        'indonesia' => $indonesia,
-        'arrived' => $arrived,
-        'completed' => $completed
-      ]);
-     }
+    //  public function countBadge(){
+    //   $purchases = Purchase::all();
+    //   $waiting = count($purchases->where('status', 1));
+    //   $warehouse = count($purchases->where('status', 2));
+    //   $indonesia = count($purchases->where('status', 3));
+    //   $arrived = count($purchases->where('status', 4));
+    //   $completed = count($purchases->where('status', 5));
+    //   return response()->json([
+    //     'waiting'=> $waiting, 
+    //     'warehouse' => $warehouse, 
+    //     'indonesia' => $indonesia,
+    //     'arrived' => $arrived,
+    //     'completed' => $completed
+    //   ]);
+    //  }
 
      public function totalPayment($id){
        $total = Purchase::find($id)->grand_total;
        return response()->json(['total' => $total]);
      }
 
-     public function updateStatus(Request $request){
-      $id = $request->input('id');
-      $status = $request->input('status');
-
+     public function invoice($id){
       $purchase = Purchase::find($id);
-      if($purchase->status == 5){
-        return response()->json(['error' => 'Can not update completed order']);
+      $supplierDetail = Supplier::find($purchase->supplier_id);
+      $supplier = new Party([
+        'name' => $supplierDetail->name,
+        'phone' => $supplierDetail->phone,
+        'address' => $supplierDetail->address,
+      ]);
+      $buyer = new Party([
+        'name' => 'Admin'
+      ]);
+      $purchaseDetail = $purchase->purchaseDetail;
+      
+      $items = [];
+      foreach($purchase->purchaseDetail as $detail => $value) {
+        $productName = Product::find($value->product_id)->name;
+        $items[] = (new InvoiceItem())->title($productName)->pricePerUnit(floatval($value->sub_total))->quantity($value->quantity);
       }
-      $purchase->status = $status;
-      $purchase->save();
 
-      return response()->json();
-    }
+      $invoice = Invoice::make()
+        ->buyer($supplier)
+        ->currencySymbol('Rp.')
+        ->currencyCode('IDR')
+        ->currencyFormat('{SYMBOL}{VALUE}')
+        ->addItems($items);
+
+      return $invoice->stream();
+     }
+
+    //  public function updateStatus(Request $request){
+    //   $id = $request->input('id');
+    //   $status = $request->input('status');
+
+    //   $purchase = Purchase::find($id);
+    //   if($purchase->status == 5){
+    //     return response()->json(['error' => 'Can not update completed order']);
+    //   }
+    //   $purchase->status = $status;
+    //   $purchase->save();
+
+    //   return response()->json();
+    // }
 }

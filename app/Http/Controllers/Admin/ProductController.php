@@ -42,26 +42,19 @@ class ProductController extends Controller
     {
         $request->validate(Product::rules());
         $request->validate(ProductVariant::rules());
-        $photo = $request->file('photo') ?? null;
-        $logo = null;
-        $filename = null;
-        if(!empty($photo)) {
-            $filename = $photo->getClientOriginalName();
-            $logo = Storage::disk('public')->putFileAs('product', $photo, $filename);
-        }
-        $product = Product::create(array_merge(Request()->all(), ['photo' => $logo]));
+        $product = Product::create($request->all());
 
         // variant add
-        $variants = $request->get('variants');
-        $inputVariant = [];
-        foreach($variants as $variant) {
-            $inputVariant[$variant['name']] = [
-                "product_id" => $product->id,
-                "name" => $variant['name'],
-                "unit_price" => $variant['unit_price'],
-            ];
-        }
-        $product->variants()->createMany($inputVariant);
+        // $variants = $request->get('variants');
+        // $inputVariant = [];
+        // foreach($variants as $variant) {
+        //     $inputVariant[$variant['name']] = [
+        //         "product_id" => $product->id,
+        //         "name" => $variant['name'],
+        //         "unit_price" => $variant['unit_price'],
+        //     ];
+        // }
+        // $product->variants()->createMany($inputVariant);
 
         return redirect()->route('products.index')->with('status', 'New Product successfully added');
     }
@@ -86,7 +79,6 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $product = Product::with('variants')->where('id', $product->id)->first();
         return view('product.form', compact('product'));
     }
 
@@ -99,40 +91,31 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $request->validate(Product::rules($product->id));
-        $request->validate(ProductVariant::rules());
-        $photo = $request->file('photo') ?? null;
-        $logo = $product->photo;
-        $filename = null;
-        if(!empty($photo)) {
-            Storage::disk('public')->delete($product->photo);
-            $filename = $photo->getClientOriginalName();
-            $logo = Storage::disk('public')->putFileAs('product', $photo, $filename);
-        }
-        $product->update(array_merge(Request()->all(), ['photo' => $logo]));
+        $request->validate(ProductVariant::rules($product->id));
+        $product->update($request->all());
 
         // variant update
-        $variants = $request->get('variants');
-        $inputVariant = null;
-        $productVariants = ProductVariant::where('product_id', $product->id)->get();
-        $inputId = array();
-        foreach($variants as $variant) {
-            array_push($inputId, $variant['id']);
-            $inputVariant = [
-                "product_id" => $product->id,
-                "name" => $variant['name'],
-                "unit_price" => $variant['unit_price'],
-            ];
-            $variant = ProductVariant::updateOrCreate(
-                ['id' => $variant['id']],
-                $inputVariant,
-            );
-        }
-        foreach($productVariants as $productVariant) {
-            if(!in_array($productVariant->id, $inputId)) {
-                ProductVariant::destroy($productVariant->id);
-            }
-        }
+        // $variants = $request->get('variants');
+        // $inputVariant = null;
+        // $productVariants = ProductVariant::where('product_id', $product->id)->get();
+        // $inputId = array();
+        // foreach($variants as $variant) {
+        //     array_push($inputId, $variant['id']);
+        //     $inputVariant = [
+        //         "product_id" => $product->id,
+        //         "name" => $variant['name'],
+        //         "unit_price" => $variant['unit_price'],
+        //     ];
+        //     $variant = ProductVariant::updateOrCreate(
+        //         ['id' => $variant['id']],
+        //         $inputVariant,
+        //     );
+        // }
+        // foreach($productVariants as $productVariant) {
+        //     if(!in_array($productVariant->id, $inputId)) {
+        //         ProductVariant::destroy($productVariant->id);
+        //     }
+        // }
         return redirect()->route('products.index')->with('status', 'Product successfully updated');
     }
 
@@ -180,21 +163,21 @@ class ProductController extends Controller
 
         $formattedItems= [];
         foreach($products as $product){
-            $formattedProducts[] = ['id'=>$product->id, 'text'=>$product->name, 'product' => $product->load('variants')];
+            $formattedItems[] = ['id'=>$product->id, 'text'=>$product->name, 'product' => $product];
         }
 
-        return response()->json($formattedProducts);
+        return response()->json($formattedItems);
     }
 
     public function productSelected($id)
     {
-        $products = Product::find($id)->load('variants');
+        $products = Product::find($id);
         return response()->json($products);
     }
 
     public function productDetail($id)
     {
-        $product = Product::where('id', '=', $id)->with('variants')->first();
+        $product = Product::where('id', '=', $id)->first();
         return response()->json($product);
     }
 }

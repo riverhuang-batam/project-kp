@@ -17,6 +17,9 @@ class CreateTableSuppliers extends Migration
             $table->id();
             $table->string('code', 50);
             $table->string('name', 100);
+            $table->string('phone', 15)->nullable();
+            $table->string('address', 255)->nullable();
+            $table->text('remark')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

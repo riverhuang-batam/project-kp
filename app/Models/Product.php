@@ -13,7 +13,7 @@ class Product extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'code', 'name', 'sku', 'photo'
+        'code', 'name', 'sku', 'unit_price'
     ];
 
     public static function rules($id = 0, $merge = [])
@@ -29,13 +29,13 @@ class Product extends Model
                 'code' => $codeRule,
                 'name' => 'required',
                 'sku' => 'nullable',
-                'photo' => 'nullable|mimes:jpeg,jpg,png',
+                'unit_price' => 'required|numeric',
             ]
         );
     }
 
-    public function variants()
-    {
-        return $this->hasMany(ProductVariant::class);
-    }
+    // public function variants()
+    // {
+    //     return $this->hasMany(ProductVariant::class);
+    // }
 }

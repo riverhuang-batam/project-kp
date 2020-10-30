@@ -12,7 +12,7 @@ class PurchaseDetail extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'purchase_id', 'product_id', 'product_variant_id', 'quantity', 'sub_total'
+        'purchase_id', 'product_id', 'quantity', 'sub_total'
       ];
     
     public static function rules($merge = [])
@@ -20,7 +20,6 @@ class PurchaseDetail extends Model
       return array_merge(
         [
           'purchase_id' => 'required',
-          'product_variant_id' => 'required',
           'quantity' => 'required',
         ],
         $merge

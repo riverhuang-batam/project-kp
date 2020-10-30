@@ -12,7 +12,7 @@ class Purchase extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'code', 'order_date', 'product_total', 'grand_total', 'grand_total_rp', 'status', 'supplier_id', 'transfer_fee', 'currency_rate', 'transport_company', 'transport_cost', 'remarks', 'tracking_number', 'total_piece_ctn', 'container_number', 'load_date', 'estimated_unload_date', 'cubication', 'shipping_cost'
+        'code', 'order_date', 'grand_total', 'supplier_id', 'remarks',
       ];
     
     public static function rules($merge = [])
@@ -21,17 +21,8 @@ class Purchase extends Model
         [
           'code' => 'required',
           'order_date' => 'required|date',
-          'product_total' => 'required|numeric|min:0',
           'grand_total' => 'required|numeric|min:0',
-          'grand_total_rp' => 'required|numeric|min:0',
-          'status' => 'required',
           'supplier_id' => 'required',
-          'transfer_fee' => 'required|numeric|min:0',
-          'currency_rate' => 'required|numeric',
-          'transport_cost' => 'numeric|min:0',
-          'total_piece_ctn' => 'numeric|min:0',
-          'cubication' => 'numeric|min:0',
-          'shipping_cost' => 'numeric|min:0'
         ],
         $merge
       );
@@ -75,6 +66,10 @@ class Purchase extends Model
 
     public function purchaseDetail(){
       return $this->hasMany(PurchaseDetail::class);
+    }
+
+    public function supplier(){
+      return $this->hasOne(Supplier::class);
     }
 
     protected static function boot(){

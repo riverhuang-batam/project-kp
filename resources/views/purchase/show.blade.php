@@ -24,7 +24,7 @@
       <div class="card">
         <div class="card-body">
           <div class="row">
-                  <div class="col-4">
+                  <div class="col-12">
                     <h4>Basic Information (Required)</h4>
                     <hr>
                     <div class="row">
@@ -38,109 +38,23 @@
                           <p>{{$purchase->order_date}}</p>
                         </div>
                         <div>
-                          <h6>Product total (RMB):</h6>
-                          <p>{{$purchase->product_total}}</p>
-                        </div>
-                        <div>
                           <h6>Grand total (RMB):</h6>
                           <p>{{$purchase->grand_total}}</p>
                         </div>
-                        <div>
-                          <h6>Grand total (RP):</h6>
-                          <p>{{$purchase->grand_total_rp}}</p>
-                        </div>
                       </div>
                       <div class="col-6">
-                        <div>
-                          <h6>Status:</h6>
-                          <p>{{\App\Helpers\OrderStatus::getString($purchase->status)}}</p>
-                        </div>
                         <div>
                           <h6>Supplier:</h6>
                           <p>{{\App\Models\Purchase::getSupplierName($purchase->supplier_id)}}</p>
                         </div>
                         <div>
-                          <h6>Transfer Fee (RMB):</h6>
-                          <p>{{$purchase->transfer_fee}}</p>
-                        </div>
-                        <div>
-                          <h6>Currency Rate:</h6>
-                          <p>{{$purchase->currency_rate}}</p>
+                          <h6>Remark:</h6>
+                          <p>{{$purchase->remarks}}</p>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="col-4">
-                    <h4>
-                      Transport Information (Optional)
-                    </h4>
-                      <hr>
-                      <div class="row">
-                        <div class="col-6">
-                          <div>
-                            <h6>Transport Company:</h6>
-                            <p>{{$purchase->transport_company}}</p>
-                          </div>
-                          <div>
-                            <h6>Transport Cost (RMB):</h6>
-                            <p>{{$purchase->transport_cost}}</p>
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <div>
-                            <h6>Tracking No:</h6>
-                            <p>{{$purchase->tracking_number}}</p>
-                          </div>
-                          <div>
-                            <h6>Total pieces CTN:</h6>
-                            <p>{{$purchase->total_piece_ctn}}</p>
-                          </div>
-                        </div>
-                        <div class="col-12">
-                          <div>
-                            <h6>Remark:</h6>
-                            <p>{{$purchase->remarks}}</p>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
-                  <div class="col-4">
-                    <h4>
-                      Shipping Information (Optional)
-                    </h4>
-                      <hr>
-                      <div class="row">
-                        <div class="col-12">
-                          <div>
-                            <h6>Container No:</h6>
-                            <p>{{$purchase->container_number}}</p>
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <div>
-                            <h6>Load Date:</h6>
-                            <p>{{$purchase->load_date}}</p>
-                          </div>
-                          <div>
-                            <h6>Cubication:</h6>
-                            <p>{{$purchase->cubication}}</p>
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <div>
-                            <h6>Estimated Unload Date:</h6>
-                            <p>{{$purchase->estimated_unload_date}}</p>
-                          </div>
-                          <div>
-                            <h6>Shipping Cost (RP):</h6>
-                            <p>{{$purchase->shipping_cost}}</p>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
             
-               
-
             <div class="col-md-6">
               <div class="card mb-3">
                 <div class="card-header d-flex justify-content-between align-items-center">

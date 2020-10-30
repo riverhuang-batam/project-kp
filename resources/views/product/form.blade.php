@@ -58,6 +58,17 @@
                   @enderror
                 </div>
                 <div class="form-group">
+                  <label for="unit_price">Unit Price *</label>
+                  <input type="number" class="form-control @error('unit_price') is-invalid @enderror" id="unit_price"
+                    placeholder="Add Product Price" name="unit_price" value="{{ isset($product) ? $product['unit_price'] : old('unit_price') }}"
+                    autocomplete="off">
+                  @error('unit_price')
+                  <div class="invalid-feedback">
+                    {{ $message }}
+                  </div>
+                  @enderror
+                </div>
+                <div class="form-group">
                   <label for="sku">SKU</label>
                   <input type="text" class="form-control @error('sku') is-invalid @enderror" id="sku"
                     placeholder="Add product SKU" name="sku" value="{{ isset($product) ? $product['sku'] : old('sku') }}"
@@ -68,7 +79,7 @@
                   </div>
                   @enderror
                 </div>
-                <div class="form-group d-flex flex-column">
+                {{-- <div class="form-group d-flex flex-column">
                   <label>Photo</label>
                   <div class="d-flex flex-row">
                     @isset($product)
@@ -84,9 +95,9 @@
                   @error('photo')
                     <div class="invalid-feedback">{{ $message }}</div>
                   @enderror
-                </div>
+                </div> --}}
                 {{-- product variant --}}
-                <div class="form-group">
+                {{-- <div class="form-group">
                   <label for="variant">Variants</label>
                   <table class="w-100" id="variant_table">
                     <tr>
@@ -129,7 +140,7 @@
                     </tr>
                   </table>
                   <button type="button" class="btn btn-success btn-rounded btn-add-row mt-2">Add Variant</button>
-                </div>
+                </div> --}}
               </div>
               <hr>
               <div class="">
@@ -145,7 +156,7 @@
 @endsection
 
 @section('scripts')
-  <script type="text/javascript">
+  {{-- <script type="text/javascript">
     $(function () {
       function deleteRow(event) {
         if($("#variant_table tr").length === 2) {
@@ -212,5 +223,5 @@
         $("#variant_table tr:last-child td:last-child button").trigger("click");
       @endif
     });
-  </script>
+  </script> --}}
 @endsection
