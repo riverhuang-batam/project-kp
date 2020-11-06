@@ -21,6 +21,7 @@ class CreateJurnalDetailsTable extends Migration
             $table->double('credit', 10, 2)->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('akun_id')->references('id')->on('akuns');
             $table->foreign('jurnal_id')->references('id')->on('jurnals');

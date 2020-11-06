@@ -20,6 +20,7 @@ class CreateJurnalsTable extends Migration
             $table->double('total_debit', 10, 2)->nullable();
             $table->double('total_credit', 10, 2)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
