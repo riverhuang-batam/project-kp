@@ -28,6 +28,11 @@ Route::middleware(['auth'])->group(function () {
   Route::post('purchases-status','App\Http\Controllers\Admin\PurchaseController@updateStatus');
   Route::get('purchases/invoice/{id}', 'App\Http\Controllers\Admin\PurchaseController@invoice');
 
+  Route::resource('sales', 'App\Http\Controllers\Admin\SaleController');
+  Route::get('sale-list/{status}', 'App\Http\Controllers\Admin\SaleController@saleDataTable');
+  Route::get('sale-select', 'App\Http\Controllers\Admin\SaleController@saleSelect')->name('sale-select');
+  Route::get('sales/details/{id}', 'App\Http\Controllers\Admin\SaleController@getSaleDetails');
+
   Route::resource('markings', 'App\Http\Controllers\Admin\MarkingController');
   Route::get('marking-list', 'App\Http\Controllers\Admin\MarkingController@markingDataTable')->name('marking-list');
   Route::get('marking-select', 'App\Http\Controllers\Admin\MarkingController@markingSelect')->name('marking-select');

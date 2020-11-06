@@ -1,5 +1,5 @@
 @extends('layouts.template.app')
-@section('title', 'Empire Purchase Apps')
+@section('title', 'Keuangan')
 
 @section('contents')
 <!-- ============================================================== -->

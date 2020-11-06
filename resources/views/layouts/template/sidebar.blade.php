@@ -28,6 +28,11 @@
                             class="hide-menu">Purchase
                               </span></a>
                       </li>
+                      <li class="sidebar-item"> <a class="sidebar-link" href="{{route('sales.index')}}"
+                        aria-expanded="false"><i data-feather="shopping-bag" class="feather-icon"></i><span
+                            class="hide-menu">Sales
+                              </span></a>
+                      </li>
                       <li class="sidebar-item"> <a class="sidebar-link" href="{{route('payments.index')}}"
                         aria-expanded="false"><i data-feather="credit-card" class="feather-icon"></i><span
                             class="hide-menu">Payment
