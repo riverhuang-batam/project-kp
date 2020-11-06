@@ -15,7 +15,15 @@ class CreateJurnalDetailsTable extends Migration
     {
         Schema::create('jurnal_details', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('akun_id');
+            $table->unsignedBigInteger('jurnal_id');
+            $table->double('debit', 10, 2)->nullable();
+            $table->double('credit', 10, 2)->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
+
+            $table->foreign('akun_id')->references('id')->on('akuns');
+            $table->foreign('jurnal_id')->references('id')->on('jurnals');
         });
     }
 

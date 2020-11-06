@@ -17,8 +17,8 @@ class CreateJurnalsTable extends Migration
             $table->id();
             $table->string('transaction_no');
             $table->date('transaction_date');
-            $table->double('total_debit')->nullable();
-            $table->double('total_credit')->nullable();
+            $table->double('total_debit', 10, 2)->nullable();
+            $table->double('total_credit', 10, 2)->nullable();
             $table->timestamps();
         });
     }
