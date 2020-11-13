@@ -51,4 +51,11 @@ Route::middleware(['auth'])->group(function () {
   Route::resource('suppliers', 'App\Http\Controllers\Admin\SupplierController');
   Route::get('supplier-list', 'App\Http\Controllers\Admin\SupplierController@supplierDataTable')->name('supplier-list');
   Route::get('supplier-select', 'App\Http\Controllers\Admin\SupplierController@supplierSelect')->name('supplier-select');
+
+  Route::resource('jurnals', 'App\Http\Controllers\Admin\JurnalController');
+  Route::get('jurnal-list', 'App\Http\Controllers\Admin\JurnalController@jurnalDataTable')->name('jurnal-list');
+
+  Route::resource('akuns', 'App\Http\Controllers\Admin\AkunController');
+  Route::get('akun-list', 'App\Http\Controllers\Admin\AkunController@akunDataTable')->name('akun-list');
+  Route::get('akun-select', 'App\Http\Controllers\Admin\AkunController@akunSelect')->name('akun-select');
 }); 

@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Akun extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['name'];
+
+    public static function rules($merge = [])
+    {
+        return array_merge(
+            [
+                'name' => 'required',
+            ],
+            $merge
+        );
+    }
 }

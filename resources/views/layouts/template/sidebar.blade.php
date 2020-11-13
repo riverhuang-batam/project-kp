@@ -38,6 +38,16 @@
                             class="hide-menu">Payment
                               </span></a>
                       </li>
+                      <li class="sidebar-item"> <a class="sidebar-link" href="{{route('akuns.index')}}"
+                        aria-expanded="false"><i data-feather="credit-card" class="feather-icon"></i><span
+                            class="hide-menu">Akun
+                              </span></a>
+                      </li>
+                      <li class="sidebar-item"> <a class="sidebar-link" href="{{route('jurnals.index')}}"
+                        aria-expanded="false"><i data-feather="bookmark" class="feather-icon"></i><span
+                            class="hide-menu">Jurnal
+                              </span></a>
+                      </li>
                   </ul>
               </nav>
               <!-- End Sidebar navigation -->
