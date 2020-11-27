@@ -33,11 +33,11 @@
                             class="hide-menu">Sales
                               </span></a>
                       </li>
-                      <li class="sidebar-item"> <a class="sidebar-link" href="{{route('payments.index')}}"
+                      {{-- <li class="sidebar-item"> <a class="sidebar-link" href="{{route('payments.index')}}"
                         aria-expanded="false"><i data-feather="credit-card" class="feather-icon"></i><span
                             class="hide-menu">Payment
                               </span></a>
-                      </li>
+                      </li> --}}
                       <li class="sidebar-item"> <a class="sidebar-link" href="{{route('akuns.index')}}"
                         aria-expanded="false"><i data-feather="credit-card" class="feather-icon"></i><span
                             class="hide-menu">Akun
@@ -46,6 +46,12 @@
                       <li class="sidebar-item"> <a class="sidebar-link" href="{{route('jurnals.index')}}"
                         aria-expanded="false"><i data-feather="bookmark" class="feather-icon"></i><span
                             class="hide-menu">Jurnal
+                              </span></a>
+                      </li>
+                      <li class="nav-small-cap"><span class="hide-menu">Laporan</span></li>
+                      <li class="sidebar-item"> <a class="sidebar-link" href="{{route('laba-rugi.index')}}"
+                        aria-expanded="false"><i data-feather="bookmark" class="feather-icon"></i><span
+                            class="hide-menu">Laba Rugi
                               </span></a>
                       </li>
                   </ul>

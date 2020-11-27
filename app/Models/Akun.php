@@ -9,12 +9,13 @@ class Akun extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['code', 'name'];
 
     public static function rules($merge = [])
     {
         return array_merge(
             [
+                'code' => 'required',
                 'name' => 'required',
             ],
             $merge

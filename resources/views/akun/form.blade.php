@@ -35,6 +35,17 @@
                   <small>* is required</small>
                 </div>
                 <div class="form-group">
+                  <label for="code">Code *</label>
+                  <input type="text" class="form-control @error('code') is-invalid @enderror" id="code"
+                    placeholder="Add akun code" name="code" value="{{ isset($akun) ? $akun['code'] : old('code') }}"
+                    autocomplete="off">
+                  @error('code')
+                  <div class="invalid-feedback">
+                    {{ $message }}
+                  </div>
+                  @enderror
+                </div>
+                <div class="form-group">
                   <label for="name">Name *</label>
                   <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
                     placeholder="Add akun name" name="name" value="{{ isset($akun) ? $akun['name'] : old('name') }}"

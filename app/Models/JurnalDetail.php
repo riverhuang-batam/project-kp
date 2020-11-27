@@ -32,4 +32,9 @@ class JurnalDetail extends Model
     {
         return $this->belongsTo(Jurnal::class);
     }
+
+    public function akun()
+    {
+        return $this->hasMany(Akun::class);
+    }
 }

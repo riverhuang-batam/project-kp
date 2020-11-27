@@ -58,4 +58,7 @@ Route::middleware(['auth'])->group(function () {
   Route::resource('akuns', 'App\Http\Controllers\Admin\AkunController');
   Route::get('akun-list', 'App\Http\Controllers\Admin\AkunController@akunDataTable')->name('akun-list');
   Route::get('akun-select', 'App\Http\Controllers\Admin\AkunController@akunSelect')->name('akun-select');
+
+  Route::get('laba-rugi', 'App\Http\Controllers\Admin\LabaRugiController@index')->name('laba-rugi.index');
+  Route::post('laba-rugi', 'App\Http\Controllers\Admin\LabaRugiController@print')->name('laba-rugi.print');
 }); 

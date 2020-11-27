@@ -321,11 +321,14 @@ class PurchaseController extends Controller
       }
 
       $invoice = Invoice::make()
+        ->name('Purchase')
+        ->seller($supplier)
         ->buyer($supplier)
         ->currencySymbol('Rp.')
         ->currencyCode('IDR')
         ->currencyFormat('{SYMBOL}{VALUE}')
-        ->addItems($items);
+        ->addItems($items)
+        ->template('purchase');
 
       return $invoice->stream();
      }

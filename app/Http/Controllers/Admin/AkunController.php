@@ -114,11 +114,14 @@ class AkunController extends Controller
             return response()->json([]);
         }
 
-        $akuns = Akun::where('name', 'like', '%' .$term. '%')->limit(10)->get();
+        $akuns = Akun::where('name', 'like', '%' .$term. '%')
+            ->orWhere('code', 'like', '%' .$term. '%')
+            ->limit(10)
+            ->get();
 
         $formattedItems = [];
         foreach($akuns as $akun) {
-            $formattedItems[] = ['id' => $akun->id, 'text' => $akun->name];
+            $formattedItems[] = ['id' => $akun->id, 'text' => "(" .$akun->code. ") ". $akun->name];
         }
 
         return response()->json($formattedItems);

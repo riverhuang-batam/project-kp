@@ -106,9 +106,12 @@ class JurnalController extends Controller
      * @param  \App\Models\Jurnal  $jurnal
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Jurnal $jurnal)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->input('id');
+        $jurnal = Jurnal::find($id);
+        $jurnal->jurnalDetail()->delete();
+        $jurnal->delete();
     }
 
     public function jurnalDataTable(Request $request){

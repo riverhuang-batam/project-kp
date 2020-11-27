@@ -27,7 +27,7 @@ class Jurnal extends Model
         );
     }
 
-    public function purchaseDetail()
+    public function jurnalDetail()
     {
         return $this->hasMany(JurnalDetail::class);
     }
