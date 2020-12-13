@@ -19,7 +19,7 @@ class CreateSalesTable extends Migration
             $table->string('full_name', 255);
             $table->text('address');
             $table->date('order_date')->nullable();
-            $table->double('grand_total', 8, 2)->nullable();
+            $table->double('grand_total', 10, 2)->nullable();
             $table->text('remarks')->nullable();
             $table->timestamps();
             $table->softDeletes();

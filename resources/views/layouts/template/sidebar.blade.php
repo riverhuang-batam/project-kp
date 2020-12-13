@@ -54,6 +54,16 @@
                             class="hide-menu">Laba Rugi
                               </span></a>
                       </li>
+                      <li class="sidebar-item"> <a class="sidebar-link" href="{{route('perubahan-modal.index')}}"
+                        aria-expanded="false"><i data-feather="trending-up" class="feather-icon"></i><span
+                            class="hide-menu">Perubahan Modal
+                              </span></a>
+                      </li>
+                      <li class="sidebar-item"> <a class="sidebar-link" href="{{route('neraca.index')}}"
+                        aria-expanded="false"><i data-feather="bar-chart-2" class="feather-icon"></i><span
+                            class="hide-menu">Neraca
+                              </span></a>
+                      </li>
                   </ul>
               </nav>
               <!-- End Sidebar navigation -->

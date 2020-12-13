@@ -80,7 +80,8 @@ class PurchaseController extends Controller
         }
         // dd($purchaseDetail);
 
-        DB::table('purchase_details')->insert($purchaseDetail);
+        // DB::table('purchase_details')->insert($purchaseDetail);
+        $purchase->purchaseDetail()->createMany($purchaseDetail);
         DB::commit();
         return redirect()->route('purchases.index')->with('status', 'New item successfully added');
       } catch (\Throwable $th) {

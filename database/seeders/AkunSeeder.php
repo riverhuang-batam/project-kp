@@ -134,7 +134,7 @@ class AkunSeeder extends Seeder
             ],
             [
                 'code' => '2.2.',
-                'name' => 'Long Term Liabikities',
+                'name' => 'Long Term Liabilities',
             ],
             [
                 'code' => '2.2.1.',
@@ -198,7 +198,7 @@ class AkunSeeder extends Seeder
             ],
             [
                 'code' => '6.1.1',
-                'name' => 'Advertising Expense',
+                'name' => 'Operational Expense',
             ],
             [
                 'code' => '6.1.2.',
@@ -218,7 +218,7 @@ class AkunSeeder extends Seeder
             ],
             [
                 'code' => '6.1.6.',
-                'name' => 'dll',
+                'name' => 'Telkom Expense',
             ],
             [
                 'code' => '6.2.',

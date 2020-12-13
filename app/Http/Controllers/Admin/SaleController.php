@@ -49,9 +49,9 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
-        $validate = $request->validate(Sale::rules());
-      try {
-        DB::beginTransaction();
+      $validate = $request->validate(Sale::rules());
+      // try {
+      //   DB::beginTransaction();
         $product_id = $request->input('product_id');
         $quantity = $request->input('quantity');
         $sale = Sale::create(request()->except(['quantity', 'product_id']));
@@ -69,13 +69,14 @@ class SaleController extends Controller
           ];
         }
 
-        DB::table('sale_details')->insert($saleDetail);
-        DB::commit();
+        // DB::table('sale_details')->insert($saleDetail);
+        $sale->saleDetail()->createMany($saleDetail);
+        // DB::commit();
         return redirect()->route('sales.index')->with('status', 'New item successfully added');
-      } catch (\Throwable $th) {
-        DB::rollback();
-        return redirect()->route('sales.index')->with('error', 'Fail to add item, please try again!');
-      }
+      // } catch (\Throwable $th) {
+      //   DB::rollback();
+      //   return redirect()->route('sales.index')->with('error', 'Fail to add item, please try again!');
+      // }
     }
 
     /**

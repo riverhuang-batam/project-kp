@@ -61,4 +61,10 @@ Route::middleware(['auth'])->group(function () {
 
   Route::get('laba-rugi', 'App\Http\Controllers\Admin\LabaRugiController@index')->name('laba-rugi.index');
   Route::post('laba-rugi', 'App\Http\Controllers\Admin\LabaRugiController@print')->name('laba-rugi.print');
+
+  Route::get('perubahan-modal', 'App\Http\Controllers\Admin\CapitalController@index')->name('perubahan-modal.index');
+  Route::post('perubahan-modal', 'App\Http\Controllers\Admin\CapitalController@print')->name('perubahan-modal.print');
+
+  Route::get('neraca', 'App\Http\Controllers\Admin\NeracaController@index')->name('neraca.index');
+  Route::post('neraca', 'App\Http\Controllers\Admin\NeracaController@print')->name('neraca.print');
 }); 

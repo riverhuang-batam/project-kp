@@ -57,7 +57,8 @@ class JurnalController extends Controller
                 ];
             }
 
-            DB::table('jurnal_details')->insert($jurnalDetail);
+            // DB::table('jurnal_details')->insert($jurnalDetail);
+            $jurnal->jurnalDetail()->createMany($jurnalDetail);
             DB::commit();
             return redirect()->route('jurnals.index')->with('status', 'New jurnal created successfully');
         } catch (\Throwable $th) {

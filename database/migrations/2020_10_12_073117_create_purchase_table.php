@@ -17,7 +17,7 @@ class CreatePurchaseTable extends Migration
             $table->id();
             $table->string('code', 100);
             $table->date('order_date')->nullable();
-            $table->double('grand_total', 8, 2)->nullable();
+            $table->double('grand_total', 10, 2)->nullable();
             $table->foreignId('supplier_id')->references('id')->on('suppliers');
             $table->text('remarks')->nullable();
             $table->timestamps();
