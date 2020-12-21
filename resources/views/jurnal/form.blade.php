@@ -50,8 +50,8 @@
 										<div class="row">
 											<div class="col-6">
 												<div class="form-group">
-													<label for="transaction_no">Transaction No</label>
-													<input type="number" class="form-control @error('transaction_no') is-invalid @enderror" id="transaction_no" name="transaction_no" value="{{ isset($jurnal) ? $jurnal['transaction_no'] : old('transaction_no') }}" autocomplete="off">
+													<label for="transaction_no">Jurnal No</label>
+													<input type="text" class="form-control @error('transaction_no') is-invalid @enderror" id="transaction_no" name="transaction_no" value="{{ isset($pc) ? $pc : $jurnal['transaction_no'] }}" autocomplete="off" readonly>
 													@error('transaction_no')
 													<div class="invalid-feedback">
 														{{ $message }}
@@ -86,6 +86,7 @@
 									<table class="w-100" id="product_table">
 										<tr>
 											<th class="d-none">No</th>
+											<th class="d-none">ID</th>
 											<th class="w-25">Akun</th>
 											<th class="w-25">Details</th>
 											<th class="w-25">Debit</th>
@@ -94,14 +95,21 @@
 										</tr>
 										<tr>
 											<td class="d-none">1</td>
+											<td class="d-none">
+												<input class="detail_id" 
+													type="hidden" 
+													id="detail_id_0" 
+													name="akuns[0][detail_id]" 
+												/>
+											</td>
 											<td>
-												<select class="form-control border-0 akun-select2 select2 @if(false) is-invalid @endif"
+												<select class="form-control border-0 akun-select2 first select2 @if(false) is-invalid @endif"
 													id="akun_id_0"
 													name="akuns[0][akun_id]">
 												</select>
 											</td>
 											<td>
-												<select class="form-control border-0 detail-select2 select2 @if(false) is-invalid @endif"
+												<select class="form-control border-0 detail-select2 second select2 @if(false) is-invalid @endif"
 													id="description_0"
 													name="akuns[0][description]">
 												</select>
@@ -237,12 +245,15 @@
 				.attr("aria-hidden", null)
 				.empty()
 				.clone();
-			newRow.find("td:nth-child(2)").first().html(newSelect2);
-			newRow.find("td:nth-child(3)").html(newSelect2Detail);
-			newRow.find("td:nth-child(4) input").attr("id", "debit_"+curRowNum)
+			newRow.find("td:nth-child(2) input").attr("id", "detail_id_"+curRowNum)
+				.attr("name", "akuns["+curRowNum+"][detail_id]")
+				.val("");
+			newRow.find("td:nth-child(3)").first().html(newSelect2);
+			newRow.find("td:nth-child(4)").html(newSelect2Detail);
+			newRow.find("td:nth-child(5) input").attr("id", "debit_"+curRowNum)
 				.attr("name", "akuns["+curRowNum+"][debit]")
 				.val(0);
-			newRow.find("td:nth-child(5) input").attr("id", "credit_"+curRowNum)
+			newRow.find("td:nth-child(6) input").attr("id", "credit_"+curRowNum)
 				.attr("name", "akuns["+curRowNum+"][credit]")
 				.val(0);
 			$("#product_table").append(newRow);
@@ -302,28 +313,36 @@
 						};
 					},
 				});
-			
-			if(data !== null && data.name && data.id) {
-				oldRow.find("select.select2").append(
+			if(data !== null && data.detail_id) {
+				oldRow.find("td:nth-child(2) input").val(data.detail_id);
+			}
+			if(data !== null && data.akun) {
+				oldRow.find("select.first").append(
 						new Option(
-							data.name,
-							data.id,
+							data.akun.name,
+							data.akun.id,
 							false,
 							false,
 						)
 					)
 				.trigger('change');
-				// newRow.find("td:nth-child(4)").append("# "+data);
-				// console.log("have data, will need to update rows", data);
 			}
 			if(data !== null && data.description) {
-				oldRow.find("td:nth-child(3) input").val(data.description);
+				oldRow.find("select.second").append(
+						new Option(
+							data.description.name,
+							data.description.id,
+							false,
+							false,
+						)
+					)
+				.trigger('change');
 			}
 			if(data !== null && data.debit) {
-				oldRow.find("td:nth-child(4) input").val(data.debit);
+				oldRow.find("td:nth-child(5) input").val(data.debit);
 			}
 			if(data !== null && data.credit) {
-				oldRow.find("td:nth-child(5) input").val(data.credit);
+				oldRow.find("td:nth-child(6) input").val(data.credit);
 			}
 			$(".btn-delete-row").prop("onclick", null).off("click");
 			$(".btn-delete-row").on('click', deleteRow);
@@ -408,16 +427,31 @@
 		});
 
 		$(".btn-delete-row").on('click', deleteRow);
-		@if(isset($data))
-		let productData = null;
-			@foreach($data->product as $product)
-				productData = {
-					name: '{{ $product->name }}',
-					id: '{{ $product->id }}',
-					discount_type: {{$product->pivot->discount_type}},
-					discount_value: {{$product->pivot->discount_value}},
+		@if(isset($jurnal))
+			let jurnalDetails = null;
+			let akun = null;
+			let description = null;
+			@foreach($jurnal->jurnalDetails as $detail)
+				@php
+					$akun = App\Models\Akun::find($detail->akun_id);
+					$purchase = App\Models\Purchase::find($detail->description);
+				@endphp
+				akun = {
+					id: '{{ $akun->id }}',
+					name: '{{ $akun->name }}'
 				};
-				addProductRow(productData);
+				description = {
+					id: '{{ ($purchase != null) ? $purchase->id : $detail->description }}',
+					name: '{{ ($purchase != null) ? $purchase->code : $detail->description }}'
+				}
+				jurnalDetails = {
+					detail_id: '{{$detail->id}}',
+					akun: akun,
+					description: description,
+					debit: '{{$detail->debit}}',
+					credit: '{{$detail->credit}}',
+				};
+				addProductRow(jurnalDetails);
 			@endforeach
 
 		$("#product_table tr:last-child td:last-child button").trigger("click");

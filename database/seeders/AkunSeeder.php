@@ -138,7 +138,7 @@ class AkunSeeder extends Seeder
             ],
             [
                 'code' => '2.2.1.',
-                'name' => 'Bank Load',
+                'name' => 'Bank Loan',
             ],
             [
                 'code' => '3.',

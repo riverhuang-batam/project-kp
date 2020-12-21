@@ -28,7 +28,8 @@ class JurnalController extends Controller
      */
     public function create()
     {
-        return view('jurnal.form');
+        $pc = 'JR'.date('YmdHis');
+        return view('jurnal.form', compact('pc'));
     }
 
     /**
@@ -52,13 +53,14 @@ class JurnalController extends Controller
                 $jurnalDetail[] = [
                     'akun_id' => $akun['akun_id'],
                     'jurnal_id' => $jurnal->id,
+                    'description' => $akun['description'],
                     'debit' => $akun['debit'],
                     'credit' => $akun['credit'],
                 ];
             }
 
             // DB::table('jurnal_details')->insert($jurnalDetail);
-            $jurnal->jurnalDetail()->createMany($jurnalDetail);
+            $jurnal->jurnalDetails()->createMany($jurnalDetail);
             DB::commit();
             return redirect()->route('jurnals.index')->with('status', 'New jurnal created successfully');
         } catch (\Throwable $th) {
@@ -86,7 +88,8 @@ class JurnalController extends Controller
      */
     public function edit(Jurnal $jurnal)
     {
-        //
+        $jurnal->jurnalDetails;
+        return view('jurnal.form', compact('jurnal'));
     }
 
     /**
@@ -98,7 +101,42 @@ class JurnalController extends Controller
      */
     public function update(Request $request, Jurnal $jurnal)
     {
-        //
+        $request->validate(Jurnal::rules());
+        $request->validate(JurnalDetail::rules());
+        try {
+            DB::beginTransaction();
+
+            $akuns = $request->input('akuns');
+            $jurnal->update($request->except(['akuns']));
+
+            $jurnalDetails = JurnalDetail::where('jurnal_id', $jurnal->id)->get();
+            $updateDetail = [];
+            $inputId = [];
+            foreach($akuns as $key => $akun) {
+                array_push($inputId, $akun['detail_id']);
+                $updateDetail = [
+                    'akun_id' => $akun['akun_id'],
+                    'jurnal_id' => $jurnal->id,
+                    'description' => $akun['description'],
+                    'debit' => $akun['debit'],
+                    'credit' => $akun['credit'],
+                ];
+                $detail = JurnalDetail::updateOrCreate(
+                    ['id' => $akun['detail_id']],
+                    $updateDetail,
+                );
+            }
+            foreach($jurnalDetails as $jurnalDetail) {
+                if(!in_array($jurnalDetail->id, $inputId)) {
+                    JurnalDetail::destroy($jurnalDetail->id);
+                }
+            }
+            DB::commit();
+            return redirect()->route('jurnals.index')->with('status', 'Jurnal updated successfully');
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return redirect()->route('jurnals.index')->with('error', 'Fail to update jurnal, please try again!');
+        }
     }
 
     /**
@@ -111,7 +149,7 @@ class JurnalController extends Controller
     {
         $id = $request->input('id');
         $jurnal = Jurnal::find($id);
-        $jurnal->jurnalDetail()->delete();
+        $jurnal->jurnalDetails()->delete();
         $jurnal->delete();
     }
 
@@ -126,7 +164,6 @@ class JurnalController extends Controller
                     Options
                   </button>
                   <div class="dropdown-menu" aria-labelledby="optionMenu">
-                    <button class="dropdown-item" type="button" id="invoice" data-id='.$data->id.'>Print Invoice</button>
                     <button class="dropdown-item" type="button" id="show-detail" data-id='.$data->id.'>Show</button>
                     <button class="dropdown-item" type="button" id="edit" data-id='.$data->id.'>Edit</button>
                     <button class="dropdown-item" type="button" id="delete" data-id='.$data->id.'>Delete</button>

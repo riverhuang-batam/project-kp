@@ -218,7 +218,6 @@ class PurchaseController extends Controller
                     Options
                   </button>
                   <div class="dropdown-menu" aria-labelledby="optionMenu">
-                    <button class="dropdown-item" type="button" id="payment" data-id='.$data->id.'>Add Payment</button>
                     <button class="dropdown-item" type="button" id="invoice" data-id='.$data->id.'>Print Invoice</button>
                     <button class="dropdown-item" type="button" id="show-detail" data-id='.$data->id.'>Show</button>
                     <button class="dropdown-item" type="button" id="edit" data-id='.$data->id.'>Edit</button>
@@ -317,8 +316,8 @@ class PurchaseController extends Controller
       
       $items = [];
       foreach($purchase->purchaseDetail as $detail => $value) {
-        $productName = Product::find($value->product_id)->name;
-        $items[] = (new InvoiceItem())->title($productName)->pricePerUnit(floatval($value->sub_total))->quantity($value->quantity);
+        $product = Product::find($value->product_id);
+        $items[] = (new InvoiceItem())->title($product->name)->pricePerUnit(floatval($product->unit_price))->quantity($value->quantity);
       }
 
       $invoice = Invoice::make()
