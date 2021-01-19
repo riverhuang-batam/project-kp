@@ -7,10 +7,10 @@
               <!-- Sidebar navigation-->
               <nav class="sidebar-nav">
                   <ul id="sidebarnav">
-                  <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{{route('home')}}"
+                  <!-- <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="{{route('home')}}"
                               aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
                                   class="hide-menu">Dashboard</span></a></li>
-                      <li class="list-divider"></li>
+                      <li class="list-divider"></li> -->
                       <li class="nav-small-cap"><span class="hide-menu">Applications</span></li>
 
                       <li class="sidebar-item"> <a class="sidebar-link" href="{{route('suppliers.index')}}"
@@ -52,11 +52,6 @@
                       <li class="sidebar-item"> <a class="sidebar-link" href="{{route('laba-rugi.index')}}"
                         aria-expanded="false"><i data-feather="bookmark" class="feather-icon"></i><span
                             class="hide-menu">Laba Rugi
-                              </span></a>
-                      </li>
-                      <li class="sidebar-item"> <a class="sidebar-link" href="{{route('perubahan-modal.index')}}"
-                        aria-expanded="false"><i data-feather="trending-up" class="feather-icon"></i><span
-                            class="hide-menu">Perubahan Modal
                               </span></a>
                       </li>
                       <li class="sidebar-item"> <a class="sidebar-link" href="{{route('neraca.index')}}"

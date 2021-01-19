@@ -1773,23 +1773,23 @@ fieldset:disabled a.btn {
 
 .btn-primary {
   color: #fff;
-  background-color: #5f76e8;
-  border-color: #5f76e8; }
+  background-color: #e85f5f;
+  border-color: #e85f5f; }
   .btn-primary:hover {
     color: #fff;
-    background-color: #3e59e3;
-    border-color: #3250e2; }
+    background-color: #e33e3e;
+    border-color: #e23232; }
   .btn-primary:focus, .btn-primary.focus {
     box-shadow: 0 0 0 0.2rem rgba(119, 139, 235, 0.5); }
   .btn-primary.disabled, .btn-primary:disabled {
     color: #fff;
-    background-color: #5f76e8;
-    border-color: #5f76e8; }
+    background-color: #e85f5f;
+    border-color: #e85f5f; }
   .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
   .show > .btn-primary.dropdown-toggle {
     color: #fff;
-    background-color: #3250e2;
-    border-color: #2746e0; }
+    background-color: #e23232;
+    border-color: #e02727; }
     .btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus,
     .show > .btn-primary.dropdown-toggle:focus {
       box-shadow: 0 0 0 0.2rem rgba(119, 139, 235, 0.5); }
@@ -3603,7 +3603,7 @@ input[type="button"].btn-block {
   border: 1px solid #dee2e6; }
   .page-link:hover {
     z-index: 2;
-    color: #1f3fdb;
+    color: #db1f1f;
     text-decoration: none;
     background-color: #e9ecef;
     border-color: #dee2e6; }
@@ -3624,8 +3624,8 @@ input[type="button"].btn-block {
 .page-item.active .page-link {
   z-index: 1;
   color: #fff;
-  background-color: #5f76e8;
-  border-color: #5f76e8; }
+  background-color: #e85f5f;
+  border-color: #e85f5f; }
 
 .page-item.disabled .page-link {
   color: #6c757d;
@@ -7935,7 +7935,7 @@ sidebar navigation
             First level
             *****************/ }
       .sidebar-nav #sidebarnav .sidebar-item .sidebar-link {
-        color: #fff;
+        color: rgb(192, 187, 187);
         font-size: 16px;
         padding: 12px 30px;
         display: flex;
@@ -7962,7 +7962,7 @@ sidebar navigation
       .sidebar-nav #sidebarnav .sidebar-item.selected > .sidebar-link {
         border-radius: 0px 60px 60px 0px;
         color: #fff !important;
-        background: linear-gradient(to right, #8971ea, #7f72ea, #7574ea, #6a75e9, #5f76e8);
+        background: linear-gradient(to right, #ea7171, #ea7272, #ea7474, #e96a6a, #e85f5f);
         box-shadow: 0px 7px 12px 0px rgba(95, 118, 232, 0.21);
         opacity: 1; }
         .sidebar-nav #sidebarnav .sidebar-item.selected > .sidebar-link .feather-icon,

@@ -176,7 +176,7 @@
 							</div>
 							<hr>
 							<div class="d-flex align-items-center">
-								<a href="{{ route('purchases.index') }}" type="button" class="btn btn-secondary btn-rounded mr-2">Back</a>
+								<a href="{{ route('jurnals.index') }}" type="button" class="btn btn-secondary btn-rounded mr-2">Back</a>
 								<button type="submit" class="btn btn-primary btn-rounded">Submit</button>
 							</div>
 						</div>
@@ -431,7 +431,7 @@
 			let jurnalDetails = null;
 			let akun = null;
 			let description = null;
-			@foreach($jurnal->jurnalDetails as $detail)
+			@foreach($jurnal->jurnalDetail as $detail)
 				@php
 					$akun = App\Models\Akun::find($detail->akun_id);
 					$purchase = App\Models\Purchase::find($detail->description);

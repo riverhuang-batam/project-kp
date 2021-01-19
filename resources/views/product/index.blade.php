@@ -40,6 +40,7 @@
                 <tr>
                   <th>No</th>
                   <th>Code</th>
+                  <th>Stock</th>
                   <th>Name</th>
                   <th>Action</th>
                 </tr>
@@ -74,6 +75,10 @@
                 {
                     data: 'code',
                     name: 'code'
+                },
+                {
+                    data: 'stock',
+                    name: 'stock'
                 },
                 {
                     data: 'name',

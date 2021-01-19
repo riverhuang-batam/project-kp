@@ -59,8 +59,11 @@ class SaleController extends Controller
         $saleDetail = [];
         
         foreach ($quantity as $key => $value) {
-          $product = DB::table('products')->where('id','=',$key)->first();
+          $product = Product::find($key);
+          // dd($product);
           $subTotal = $value * $product->unit_price;
+          $product->stock = $product->stock - $value;
+          $product->save();
           $saleDetail[] = [
             'product_id' => $key,
             'sale_id' => $sale->id,
@@ -143,8 +146,13 @@ class SaleController extends Controller
 
           foreach ($quantity as $key => $value) {
             $newDetailIdList[] = $key;
-            $product = DB::table('products')->where('id','=',$key)->first();
+            $product = Product::find($key);
+            $saleProduct = SaleDetail::select('quantity')->where('product_id', $key)->where("sale_id", $sale->id)->first();
+            // dd($saleProduct);
             $subTotal = $value * $product->unit_price;
+
+            $product->stock = $product->stock + $saleProduct->quantity - $value;
+            $product->save();
             $newDetail = [
               'product_id' => $key,
               'sale_id' => $sale->id,

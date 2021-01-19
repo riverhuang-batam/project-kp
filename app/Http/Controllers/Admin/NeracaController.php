@@ -34,7 +34,7 @@ class NeracaController extends Controller
             ->whereYear('created_at', $year)
             ->get();
         for($i = 0; $i < count($cashs); $i++) {
-            $cashTotal += ($cashs[$i]->credit - $cashs[$i]->debit);
+            $cashTotal += ($cashs[$i]->debit - $cashs[$i]->credit);
         }
 
         // get accountreceivable

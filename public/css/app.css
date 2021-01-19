@@ -5256,8 +5256,8 @@ input[type=button].btn-block {
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background-color: #3490dc;
-  border-color: #3490dc;
+  background-color: #dc3434;
+  border-color: #dc3434;
 }
 
 .page-item.disabled .page-link {
@@ -10748,7 +10748,7 @@ a.text-light:focus {
 }
 
 .text-dark {
-  color: #343a40 !important;
+  color: #2b3035 !important;
 }
 
 a.text-dark:hover,

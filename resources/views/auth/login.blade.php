@@ -9,10 +9,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('images/favicon.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('images/big/ys-favicon.png')}}">
     <title>Empire Purchase System</title>
     <!-- Custom CSS -->
-    <link href="{{asset('dist/css/style.min.css')}}" rel="stylesheet">
+    <link href="{{asset('dist/css/style.css')}}" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -39,17 +39,17 @@
         <!-- Login box.scss -->
         <!-- ============================================================== -->
         <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative"
-            style="background:url({{asset('images/big/auth-bg.jpg')}}) no-repeat center center;">
+            >
             <div class="auth-box row">
-                <div class="col-lg-7 col-md-5 modal-bg-img" style="background-image: url({{asset('images/big/3.jpg')}});">
+                <div class="col-lg-7 col-md-5 modal-bg-img" style="background-image: url({{asset('images/big/login-wallpaper.jpg')}});">
                 </div>
                 <div class="col-lg-5 col-md-7 bg-white">
                     <div class="p-3">
                         <div class="text-center">
-                            <img src="{{asset('images/big/icon.png')}}" alt="wrapkit">
+                            <img src="{{asset('images/big/logo-ys.jpeg')}}" alt="wrapkit" width="50%">
                         </div>
-                        <h2 class="mt-3 text-center">Sign In</h2>
-                        <p class="text-center">Enter your email address and password to access admin panel.</p>
+                         <h2 class="mt-3 text-center">Sign In</h2> 
+                        <!-- <p class="text-center">Enter your email address and password to access admin panel.</p> -->
                         <form method="POST" action="{{ route('login') }}" class="mt-4">
                             @csrf
                             <div class="row">

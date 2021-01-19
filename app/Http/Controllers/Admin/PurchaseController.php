@@ -69,8 +69,11 @@ class PurchaseController extends Controller
         // }
         
         foreach ($quantity as $key => $value) {
-          $product = DB::table('products')->where('id','=',$key)->first();
+          // $product = DB::table('products')->where('id','=',$key)->first();
+          $product = Product::find($key);
           $subTotal = $value * $product->unit_price;
+          $product->stock = $product->stock + $value;
+          $product->save();
           $purchaseDetail[] = [
             'product_id' => $key,
             'purchase_id' => $purchase->id,
@@ -98,23 +101,28 @@ class PurchaseController extends Controller
      */
     public function show(Purchase $purchase)
     {
-        $purchase = Purchase::find($purchase->id);
-        $payments = Payment::where('purchase_id','=',$purchase->id)->get();
-        $purchaseItems = PurchaseDetail::where('purchase_id','=', $purchase->id)->get();
+        $purchase = Purchase::orderBy('created_at', 'DESC')->find($purchase->id);
+        $payments = Payment::orderBy('created_at', 'DESC')->where('purchase_id','=',$purchase->id)->get();
+        $purchaseItems = PurchaseDetail::where('purchase_id','=', $purchase->id)->get()->orderBy('created_at', 'DESC');
         $productList = [];
-
         $productIds = [];
-        foreach($purchaseItems as $item){
-          if(!in_array($item->product_id, $productIds)){
-            $productIds[] = $item->product_id;
-          };
-        }
+        
+        // $purchase = Purchase::orderBy('created_at', 'DESC')->find($purchase->id);
+        // $payments = Payment::orderBy('created_at', 'DESC')->where('purchase_id','=',$purchase->id)->get();
+        // $purchaseItems = PurchaseDetail::orderBy('created_at', 'DESC')->where('purchase_id','=', $purchase->id)->get();
+        // $productList = [];
+        // $productIds = [];
+        // foreach($purchaseItems as $item){
+        //   if(!in_array($item->product_id, $productIds)){
+        //     $productIds[] = $item->product_id;
+        //   };
+        // }
 
-        foreach($productIds as $id){
-          $product = Product::find($id);
-          $product->variants = $purchaseItems->where('product_id','=', $id);
-          $productList[] = $product;
-        }
+        // foreach($productIds as $id){
+        //   $product = Product::find($id);
+        //   $product->variants = $purchaseItems->where('product_id','=', $id);
+        //   $productList[] = $product;
+        // }
 
         return view('purchase.show', compact('purchase','payments','productList'));
     }
@@ -157,8 +165,12 @@ class PurchaseController extends Controller
 
           foreach ($quantity as $key => $value) {
             $newDetailIdList[] = $key;
-            $product = DB::table('products')->where('id','=',$key)->first();
+            $product = Product::find($key);
+            $purchaseProduct = PurchaseDetail::select('quantity')->where('product_id', $key)->where("purchase_id", $purchase->id)->first();
+
             $subTotal = $value * $product->unit_price;
+            $product->stock = $product->stock - $purchaseProduct->quantity + $value;
+            $product->save();
             $newDetail = [
               'product_id' => $key,
               'purchase_id' => $purchase->id,

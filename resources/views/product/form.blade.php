@@ -58,6 +58,17 @@
                   @enderror
                 </div>
                 <div class="form-group">
+                  <label for="stock">Stock *</label>
+                  <input type="text" class="form-control @error('stock') is-invalid @enderror" id="stock"
+                    placeholder="Add Stock" name="stock" value="{{ isset($product) ? $product['stock'] : old('stock') }}"
+                    autocomplete="off">
+                  @error('stock')
+                  <div class="invalid-feedback">
+                    {{ $message }}
+                  </div>
+                  @enderror
+                </div>
+                <div class="form-group">
                   <label for="unit_price">Unit Price *</label>
                   <input type="number" class="form-control @error('unit_price') is-invalid @enderror" id="unit_price"
                     placeholder="Add Product Price" name="unit_price" value="{{ isset($product) ? $product['unit_price'] : old('unit_price') }}"
@@ -176,6 +187,9 @@
           .val("");
         newRow.find("td:nth-child(3) input").attr("id", "variant_name_"+curRowNum)
           .attr("name", "variants["+curRowNum+"][name]")
+          .val("");
+        newRow.find("td:nth-child(3) input").attr("id", "variant_name_"+curRowNum)
+          .attr("stock", "variants["+curRowNum+"][stock]")
           .val("");
         newRow.find("td:nth-child(4) input").attr("id", "unit_price_)"+curRowNum)
           .attr("name", "variants["+curRowNum+"][unit_price]")

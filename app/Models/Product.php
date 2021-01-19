@@ -13,7 +13,7 @@ class Product extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'code', 'name', 'sku', 'unit_price'
+        'code', 'name', 'sku', 'unit_price', 'stock'
     ];
 
     public static function rules($id = 0, $merge = [])
