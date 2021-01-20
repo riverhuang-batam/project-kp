@@ -95,7 +95,7 @@ class SupplierController extends Controller
 
     public function supplierDataTable(Request $request)
     {
-        return DataTables::of(Supplier::query()->get())
+        return DataTables::of(Supplier::orderBy('created_at', 'desc')->get())
             ->addIndexColumn()
             ->addColumn('action', function ($data) {
                 $btn = '

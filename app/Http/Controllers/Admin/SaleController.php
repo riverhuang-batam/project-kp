@@ -201,7 +201,7 @@ class SaleController extends Controller
     }
 
     public function saleDataTable(Request $request){
-        $data = Sale::query()->get();
+        $data = Sale::orderBy('created_at', 'desc')->get();
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function($data){

@@ -138,7 +138,7 @@ class ProductController extends Controller
 
     public function productDataTable(Request $request)
     {
-        return DataTables::of(Product::query()->get())
+        return DataTables::of(Product::orderBy('created_at', 'desc')->get())
             ->addIndexColumn()
             ->addColumn('action', function ($data) {
                 $btn = '

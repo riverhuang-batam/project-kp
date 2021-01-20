@@ -2,7 +2,7 @@
 <!-- footer -->
 <!-- ============================================================== -->
 <footer class="footer text-center text-muted">
-    Proudly made using  <a href="https://adminmart.com/">AdminMart Dashboard Template</a>.
+    <!-- Proudly made using  <a href="https://adminmart.com/">AdminMart Dashboard Template</a>. -->
 </footer>
 <!-- ============================================================== -->
 <!-- End footer -->

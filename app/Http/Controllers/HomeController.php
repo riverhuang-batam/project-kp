@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Product;
+use App\Models\Sale;
+use App\Models\Jurnal;
+
 
 class HomeController extends Controller
 {
@@ -28,7 +31,10 @@ class HomeController extends Controller
     {
         $product = count(Product::all());
         $supplier = count(Supplier::all());
+        $sale = count(Sale::all());
+        $purchase = count(Purchase::all());
+        $jurnal = count(Jurnal::all());
         $payment = Purchase::all()->sum('grand-total');
-        return view('home', compact('product', 'supplier', 'payment'));
+        return view('home', compact('product', 'supplier', 'payment', 'sale', 'purchase', 'jurnal'));
     }
 }

@@ -15,9 +15,9 @@
                 <a href="{{route('home')}}">
                     <b class="logo-icon">
                         <!-- Dark Logo icon -->
-                        <img src="{{asset('images/big/logo-ys-horizontal.jpeg')}}" width="100%" alt="homepage" class="dark-logo" />
+                        <img src="{{asset('images/big/logo-ys-horizontal.png')}}" width="100%" alt="homepage" class="dark-logo" />
                         <!-- Light Logo icon -->
-                        <img src="{{asset('images/big/logo-ys-horizontal.jpeg')}}" width="100%" alt="homepage" class="light-logo" />
+                        <img src="{{asset('images/big/logo-ys-horizontal.png')}}" width="100%" alt="homepage" class="light-logo" />
                     </b>
                     <!--End Logo icon -->
                     <!-- Logo text -->

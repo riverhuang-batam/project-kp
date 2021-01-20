@@ -101,9 +101,9 @@ class PurchaseController extends Controller
      */
     public function show(Purchase $purchase)
     {
-        $purchase = Purchase::orderBy('created_at', 'DESC')->find($purchase->id);
-        $payments = Payment::orderBy('created_at', 'DESC')->where('purchase_id','=',$purchase->id)->get();
-        $purchaseItems = PurchaseDetail::where('purchase_id','=', $purchase->id)->get()->orderBy('created_at', 'DESC');
+        $purchase = Purchase::find($purchase->id);
+        $payments = Payment::where('purchase_id','=',$purchase->id)->get();
+        $purchaseItems = PurchaseDetail::where('purchase_id','=', $purchase->id)->get();
         $productList = [];
         $productIds = [];
         
@@ -219,7 +219,7 @@ class PurchaseController extends Controller
     }
 
     public function purchaseDataTable(Request $request){
-        $data = Purchase::query()->get();
+        $data = Purchase::orderBy('created_at', 'desc')->get();
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function($data){

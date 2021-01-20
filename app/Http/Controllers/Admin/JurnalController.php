@@ -156,7 +156,7 @@ class JurnalController extends Controller
     }
 
     public function jurnalDataTable(Request $request){
-        $data = Jurnal::query()->get();
+        $data = Jurnal::orderBy('created_at', 'desc')->get();
         return DataTables::of($data)
             ->addColumn('action', function($data){
               $buttonAll = '

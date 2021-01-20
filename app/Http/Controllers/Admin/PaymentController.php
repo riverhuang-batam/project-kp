@@ -156,7 +156,7 @@ class PaymentController extends Controller
 
     public function paymentDataTable(Request $request)
     {
-        return DataTables::of(Payment::query()->get())
+        return DataTables::of(Payment::orderBy('created_at', 'desc')->get())
         ->addIndexColumn()
         ->addColumn('action', function($data){
             $btn = '
