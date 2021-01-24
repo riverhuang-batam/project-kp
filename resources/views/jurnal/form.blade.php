@@ -111,7 +111,7 @@
 											<td>
 												<select class="form-control border-0 detail-select2 second select2 @if(false) is-invalid @endif"
 													id="description_0"
-													name="akuns[0][description]">
+													name="akuns[0][description]" required>
 												</select>
 											</td>
 											<td>

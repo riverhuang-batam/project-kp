@@ -17,7 +17,7 @@ class CreateSalesTable extends Migration
             $table->id();
             $table->string('code', 100);
             $table->string('full_name', 255);
-            $table->text('address');
+            $table->text('address')->nullable();
             $table->date('order_date')->nullable();
             $table->double('grand_total', 10, 2)->nullable();
             $table->text('remarks')->nullable();

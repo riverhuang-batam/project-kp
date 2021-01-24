@@ -20,7 +20,7 @@ class Sale extends Model
 	  return array_merge(
 		[
 			'full_name' => 'required',
-			'address' => 'required',
+			// 'address' => 'required',
 			'code' => 'required',
 			'order_date' => 'required|date',
 			'grand_total' => 'required|numeric|min:0',

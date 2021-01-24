@@ -44,7 +44,7 @@
           <div class="tab-pane fade show active" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab">
             <div class="card-body">
               <div class="mb-4">
-                <div class="nav-item my-1 float-right">
+                <div class="nav-item my-1">
                   <a href="{{ route('sales.create') }}" type="button" class="btn btn-primary btn-rounded">
                     + Add New Record
                   </a>

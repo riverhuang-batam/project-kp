@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Laporan Laba Rugi</title>
+    <title>Laporan Neraca</title>
 	{{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> --}}
 </head>
 <body>
@@ -26,9 +26,9 @@
         }
 	</style>
 	<center>
-        <h5>Laporan Laba & Rugi</h4>
-		<h5>CV CHALISTA ENGINEERING BATAM</h4>
-		<h6>{{$reportMonthYear}}</h5>
+        <h4>Laporan Neraca</h4>
+		<!-- <h5>CV CHALISTA ENGINEERING BATAM</h4> -->
+		<h5>{{$reportMonthYear}}</h5>
     </center>
     @php
         $totalAsetLancar = $cashTotal + $accountReceivableTotal + $suppliesTotal + $prepaidExpenseTotal;
