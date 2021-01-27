@@ -27,7 +27,7 @@
 	</style>
 	<center>
         <h4>Laporan Neraca</h4>
-		<!-- <h5>CV CHALISTA ENGINEERING BATAM</h4> -->
+		<h5>YS BOUTIQUE</h4>
 		<h5>{{$reportMonthYear}}</h5>
     </center>
     @php

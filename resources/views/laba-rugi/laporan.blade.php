@@ -13,7 +13,7 @@
 	</style>
 	<center>
         <h5>Laporan Laba & Rugi</h4>
-		<h5>CV CHALISTA ENGINEERING BATAM</h4>
+		<h5>YS BOUTIQUE</h4>
 		<h6>{{$reportMonthYear}}</h5>
 	</center>
     @php
