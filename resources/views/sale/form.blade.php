@@ -222,6 +222,7 @@
       let productPrice = document.createElement("td");
       let productQuantity = document.createElement("td");
       let productSubTotal = document.createElement("td");
+      let inputPrice = document.createElement('input');
       let inputQty = document.createElement('input');
       let inputName = document.createElement('input');
       let removeContainer = document.createElement('td')
@@ -232,14 +233,27 @@
       remove.dataset.ref = `${refId}`;
       removeContainer.appendChild(remove);
       productSKU.innerHTML = product.sku;
+      // productPrice.className = "unit-price";
+      
       inputName.type="hidden";
       inputName.className="form-control";
       inputName.name = `product_id[${product.id}]`;
       inputName.value = product.id;
       productName.innerHTML = product.name;
       productName.appendChild(inputName);
-      productPrice.innerHTML = product.unit_price;
-      productPrice.className = "unit-price";
+
+      inputPrice.type="number";
+      inputPrice.className="input-price form-control";
+      inputPrice.name=`unit_price[${product.id}]`;
+      inputPrice.value = product.unit_price ?? 0;
+      inputPrice.min = 0;
+      // productPrice.innerHTML = product.unit_price
+      // productPrice.className = "unit-price";
+      // inputPrice.innerHtml = 
+      // productPrice.innerHTML = product.unit_price;
+      productPrice.appendChild(inputPrice)
+
+
       inputQty.type="number";
       inputQty.className="input-quanity form-control";
       inputQty.name = `quantity[${product.id}]`;
@@ -258,18 +272,51 @@
       table.appendChild(firstRow.cloneNode(true));
           
       let inputQuantity = $('.input-quanity');
-      for (var i = 0; i < inputQuantity.length; i++) {
-          inputQuantity[i].addEventListener('change', function(event){
-          let unitPrice = $(this).parent().siblings('.unit-price').text().trim();
+      let inputUnitPrice = $('.input-price');
+      for (var i = 0; i < inputUnitPrice.length; i++) {
+        inputUnitPrice[i].addEventListener('change', function(event){
+          let unitPrice = $('input.input-price').val();
+          let unitQuantity = $('input.input-quanity').val();
+      //     // alert(unitQuantity)
+      //     // let quantity = $(this).parent().siblings(`quantity[${product.id}]`).text().trim()
           let subTotal = $(this).parent().siblings('.sub-total');
-          let result = +unitPrice * event.target.value;
+          let result = +unitPrice * unitQuantity;
           subTotal.text(result);
           calculatePrice();
         });
       }
+      for (var j = 0; j < inputQuantity.length; j++) {
+        
+        inputQuantity[j].addEventListener('change', function(event){
+        let unitPrice = $('input.input-price').val();
+        let unitQuantity = $('input.input-quanity').val();
+        // alert(unitQuantity)
+        
+        // let quantity = $(this).parent().siblings(`quantity[${product.id}]`).text().trim()
+        let subTotal = $(this).parent().siblings('.sub-total');
+        let result = +unitPrice * unitQuantity;
+        subTotal.text(result);
+        calculatePrice();
+      });
+    }
+      // alert('test')
       calculatePrice();
     }
-
+      
+     
+    
+    // // for (var i = 0; i < inputPrices.length; i++) {
+    //   inputPrices[i].addEventListener('change', function(event){
+    //       // let unitPrice = $(this).parent().siblings('.unit-price').text().trim();
+    //       let quantity = $('input.input-quanity').val();
+    //       let subTotal = $(this).parent().siblings('.sub-total');
+    //       let result = +quantity * event.target.value;
+    //       subTotal.text(result);
+    //       calculatePrice();
+    //     });
+        
+    //   }
+    // // }
     function getpurchaseDetails(id){
         let purchaseDetailURL = window.location.origin + "/sales/details/";
         let pruductDetailURL = window.location.origin + "/product/details/";

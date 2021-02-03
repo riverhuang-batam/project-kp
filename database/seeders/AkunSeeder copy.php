@@ -16,6 +16,7 @@ class AkunSeeder extends Seeder
     {
         \DB::table('akuns')->delete();
         $akuns = [
+
             [
                 'code' => '1.1.1.',
                 'name' => 'Kas',
@@ -59,41 +60,40 @@ class AkunSeeder extends Seeder
 
 
             [
-                'code' => '6.2.1.',
-                'name' => 'Beban Gaji',
-            ],
-            [
-                'code' => '4.1.3.',
-                'name' => 'Discount Penjualan',
+                'code' => '1.2.1.',
+                'name' => 'Beban Penyusutan Peralatan',
             ],
             [
                 'code' => '4.1.2.',
                 'name' => 'Retur Penjualan',
             ],
             [
-                'code' => '6.2.4.',
-                'name' => 'Beban Sewa Gedung',
+                'code' => '4.1.3.',
+                'name' => 'Discount Penjualan',
             ],
-            [
-                'code' => '1.2.1.',
-                'name' => 'Beban Penyusutan Peralatan',
-            ],
-            [
-                'code' => '6.1.5.',
-                'name' => 'Ongkos Kirim Penjualan',
-            ],
-            
             [
                 'code' => '6.1.1',
                 'name' => 'Beban Penjualan Lainnya',
             ],
             [
-                'code' => '8.6',
-                'name' => 'Beban Listrik dan Air',
+                'code' => '6.1.5.',
+                'name' => 'Ongkos Kirim Penjualan',
             ],
             [
                 'code' => '6.2.',
                 'name' => 'Beban Administrasi Lainnya',
+            ],
+            [
+                'code' => '6.2.1.',
+                'name' => 'Beban Gaji',
+            ],
+            [
+                'code' => '6.2.4.',
+                'name' => 'Beban Sewa Gedung',
+            ],
+            [
+                'code' => '7.2.',
+                'name' => 'Beban Listrik dan Air',
             ],
         ];
         foreach ($akuns as $akun) {

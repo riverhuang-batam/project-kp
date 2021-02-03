@@ -41,14 +41,14 @@
         <div class="left">
             <table class='table'>
                 <tbody>
-                    <tr>
+                    <!-- <tr>
                         <td class="font-weight-bold">Aset</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">Aset Lancar</td>
                         <td></td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <td><p class="ml-4 mb-0">Kas</p></td>
                         <td class="text-right border-0">{{  number_format($cashTotal) }}</td>
@@ -77,10 +77,10 @@
                         <td><p class="ml-4 mb-0">Aset Tetap</p></td>
                         <td class="text-right border-0">{{  number_format($fixedAssetTotal) }}</td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td class="font-weight-bold">Jumlah Aset Lancar</td>
                         <td class="text-right font-weight-bold border-0">{{ number_format($totalAsetLancar) }}</td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <td class="font-weight-bold">Jumlah Aset</td>
                         <td class="text-right font-weight-bold border-0">{{ number_format($totalAset) }}</td>
@@ -91,17 +91,13 @@
         <div class="right">
             <table class='table'>
                 <tbody>
-                    <tr>
+                    <!-- <tr>
                         <td class="font-weight-bold">Liabilitas</td>
                         <td></td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <td><p class="ml-4 mb-0">Akun Hutang</p></td>
                         <td class="text-right border-0">{{  number_format($longTermTotal) }}</td>
-                    </tr>
-                    <tr>
-                        <td><p class="ml-4 mb-0">Pendapatan Tidak Diterima</p></td>
-                        <td class="text-right border-0">{{  number_format($unearnedRevenueTotal) }}</td>
                     </tr>
                     <tr>
                         <td><p class="ml-4 mb-0">Pendapatan Tidak Diterima</p></td>
@@ -115,6 +111,10 @@
                         <td><p class="ml-4 mb-0">Hutang Bank</p></td>
                         <td class="text-right border-0">{{  number_format($bankLoanTotal) }}</td>
                     </tr>
+                    <!-- <tr>
+                        <td><p class="ml-4 mb-0">Utang dagang</p></td>
+                        <td class="text-right border-0">{{  number_format($accountPayableTotal) }}</td>
+                    </tr> -->
                     <tr>
                         <td class="font-weight-bold">Jumlah Liabilitas</td>
                         <td class="text-right font-weight-bold border-0">{{ number_format($totalLiabilitas) }}</td>

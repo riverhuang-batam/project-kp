@@ -53,8 +53,8 @@ class LabaRugiController extends Controller
 
         // get total purchase
         $purchases = Purchase::select('grand_total')
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->whereMonth('order_date', $month)
+            ->whereYear('order_date', $year)
             ->get();
         for($i = 0; $i < count($purchases); $i++) {
             $purchaseTotal += $purchases[$i]->grand_total;
@@ -62,49 +62,49 @@ class LabaRugiController extends Controller
 
         // get total sale
         $sales = Sale::select('grand_total')
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->whereMonth('order_date', $month)
+            ->whereYear('order_date', $year)
             ->get();
         for($i = 0; $i < count($sales); $i++) {
             $salesTotal += $sales[$i]->grand_total;
         }
 
-        // gaji
+        // gaji Beban Gaji
         $salaries = JurnalDetail::select('debit')
-            ->where('akun_id', 53)
-            ->orWhere('akun_id', 54)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->where('akun_id', 11)
+            // ->orWhere('akun_id', 54)
+            ->whereMonth('transaction_date', $month)
+            ->whereYear('transaction_date', $year)
             ->get();
         for($i = 0; $i < count($salaries); $i++) {
             $salaryTotal += $salaries[$i]->debit;
         }
 
-        // sales discount
+        // sales discount discount penjualan 
         $saleDiscounts = JurnalDetail::select('debit')
-            ->where('akun_id', 38)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->where('akun_id', 12)
+            ->whereMonth('transaction_date', $month)
+            ->whereYear('transaction_date', $year)
             ->get();
         for($i = 0; $i < count($saleDiscounts); $i++) {
             $salesDiscountTotal += $saleDiscounts[$i]->debit;
         }
 
-        // sales return 
+        // sales return Retur Penjualan
         $saleReturns = JurnalDetail::select('debit')
-            ->where('akun_id', 37)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->where('akun_id', 13)
+            ->whereMonth('transaction_date', $month)
+            ->whereYear('transaction_date', $year)
             ->get();
         for($i = 0; $i < count($saleReturns); $i++) {
             $salesReturTotal += $saleReturns[$i]->debit;
         }
 
-        // sewa gedung
+        // sewa gedung beban sewa gedung
         $buildingExpenses = JurnalDetail::select('debit')
-            ->where('akun_id', 56)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->where('akun_id', 14)
+            ->whereMonth('transaction_date', $month)
+            ->whereYear('transaction_date', $year)
             ->get();
 
         for($i = 0; $i < count($buildingExpenses); $i++) {
@@ -114,8 +114,8 @@ class LabaRugiController extends Controller
         // equipment
         $equipments = JurnalDetail::select('debit')
             ->where('akun_id', 15)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->whereMonth('transaction_date', $month)
+            ->whereYear('transaction_date', $year)
             ->get();
         for($i = 0; $i < count($equipments); $i++) {
             $equipmentTotal += $equipments[$i]->debit;
@@ -123,39 +123,39 @@ class LabaRugiController extends Controller
 
         // freight out
         $freightOuts = JurnalDetail::select('debit')
-            ->where('akun_id', 50)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->where('akun_id', 16)
+            ->whereMonth('transaction_date', $month)
+            ->whereYear('transaction_date', $year)
             ->get();
         for($i = 0; $i < count($freightOuts); $i++) {
             $freightOutTotal += $freightOuts[$i]->debit;
         }
 
-        // other sales total
+        // other sales total Operational Expense
         $otherSales = JurnalDetail::select('debit')
-            ->where('akun_id', 46)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->where('akun_id', 17)
+            ->whereMonth('transaction_date', $month)
+            ->whereYear('transaction_date', $year)
             ->get();
         for($i = 0; $i < count($otherSales); $i++) {
             $otherSalesTotal += $otherSales[$i]->debit;
         }
 
-        // other expense total
+        // other expense total listrik dan air
         $otherExpenses = JurnalDetail::select('debit')
-            ->where('akun_id', 64)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->where('akun_id', 18)
+            ->whereMonth('transaction_date', $month)
+            ->whereYear('transaction_date', $year)
             ->get();
-        for($i = 0; $i < count($otherSales); $i++) {
+        for($i = 0; $i < count($otherExpenses); $i++) {
             $otherExpenseTotal += $otherExpenses[$i]->debit;
         }
 
         // administration expense total
         $administrationExpenses = JurnalDetail::select('debit')
-            ->where('akun_id', 52)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->where('akun_id', 19)
+            ->whereMonth('transaction_date', $month)
+            ->whereYear('transaction_date', $year)
             ->get();
         for($i = 0; $i < count($administrationExpenses); $i++) {
             $administrationExpenseTotal += $administrationExpenses[$i]->debit;

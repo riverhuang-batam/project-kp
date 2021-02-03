@@ -52,17 +52,18 @@ class JurnalController extends Controller
         $request->validate(Jurnal::rules());
         $request->validate(JurnalDetail::rules());
         
-        try {
+        // try {
             DB::beginTransaction();
             $akuns = $request->input('akuns');
             $jurnal = Jurnal::create(request()->except(['akuns']));
-
+            // dd($jurnal);
             $jurnalDetail = [];
             foreach($akuns as $key => $akun) {
                 $jurnalDetail[] = [
                     'akun_id' => $akun['akun_id'],
                     'jurnal_id' => $jurnal->id,
                     'description' => $akun['description'],
+                    'transaction_date' => $jurnal['transaction_date'],
                     'debit' => $akun['debit'],
                     'credit' => $akun['credit'],
                 ];
@@ -72,10 +73,10 @@ class JurnalController extends Controller
             $jurnal->jurnalDetail()->createMany($jurnalDetail);
             DB::commit();
             return redirect()->route('jurnals.index')->with('status', 'New jurnal created successfully');
-        } catch (\Throwable $th) {
-            DB::rollback();
-            return redirect()->route('jurnals.index')->with('error', 'Fail to create jurnal, please try again!');
-        }
+        // } catch (\Throwable $th) {
+        //     DB::rollback();
+        //     return redirect()->route('jurnals.index')->with('error', 'Fail to create jurnal, please try again!');
+        // }
     }
 
     /**
@@ -127,6 +128,7 @@ class JurnalController extends Controller
                     'akun_id' => $akun['akun_id'],
                     'jurnal_id' => $jurnal->id,
                     'description' => $akun['description'],
+                    'transaction_date' => $akun['transaction_date'],
                     'debit' => $akun['debit'],
                     'credit' => $akun['credit'],
               ];

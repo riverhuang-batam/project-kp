@@ -212,7 +212,7 @@ class SaleController extends Controller
                     Options
                   </button>
                   <div class="dropdown-menu" aria-labelledby="optionMenu">
-                    <button class="dropdown-item" type="button" id="invoice" data-id='.$data->id.'>Print Invoice</button>
+                    
                     <button class="dropdown-item" type="button" id="show-detail" data-id='.$data->id.'>Show</button>
                     <button class="dropdown-item" type="button" id="edit" data-id='.$data->id.'>Edit</button>
                     <button class="dropdown-item" type="button" id="delete" data-id='.$data->id.'>Delete</button>
@@ -228,4 +228,35 @@ class SaleController extends Controller
         $saleDetails = SaleDetail::where('sale_id', '=', $id)->get();
         return response()->json($saleDetails);
     }
+    public function invoice($id){
+      $purchase = Purchase::find($id);
+      $supplierDetail = Supplier::find($purchase->supplier_id);
+      $supplier = new Party([
+        'name' => $supplierDetail->name,
+        'phone' => $supplierDetail->phone,
+        'address' => $supplierDetail->address,
+      ]);
+      $buyer = new Party([
+        'name' => 'Admin'
+      ]);
+      $purchaseDetail = $purchase->purchaseDetail;
+      
+      $items = [];
+      foreach($purchase->purchaseDetail as $detail => $value) {
+        $product = Product::find($value->product_id);
+        $items[] = (new InvoiceItem())->title($product->name)->pricePerUnit(floatval($product->unit_price))->quantity($value->quantity);
+      }
+
+      $invoice = Invoice::make()
+        ->name('Purchase')
+        ->seller($supplier)
+        ->buyer($supplier)
+        ->currencySymbol('Rp.')
+        ->currencyCode('IDR')
+        ->currencyFormat('{SYMBOL}{VALUE}')
+        ->addItems($items)
+        ->template('purchase');
+
+      return $invoice->stream();
+     }
 }

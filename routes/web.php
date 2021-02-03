@@ -32,6 +32,7 @@ Route::middleware(['auth'])->group(function () {
   Route::get('sale-list/{status}', 'App\Http\Controllers\Admin\SaleController@saleDataTable');
   Route::get('sale-select', 'App\Http\Controllers\Admin\SaleController@saleSelect')->name('sale-select');
   Route::get('sales/details/{id}', 'App\Http\Controllers\Admin\SaleController@getSaleDetails');
+  Route::get('sales/invoice/{id}', 'App\Http\Controllers\Admin\SaleController@invoice');
 
   Route::resource('markings', 'App\Http\Controllers\Admin\MarkingController');
   Route::get('marking-list', 'App\Http\Controllers\Admin\MarkingController@markingDataTable')->name('marking-list');

@@ -38,7 +38,7 @@
                           <p>{{$sale->order_date}}</p>
                         </div>
                         <div>
-                          <h6>Grand total (RMB):</h6>
+                          <h6>Grand total (Rp):</h6>
                           <p>{{$sale->grand_total}}</p>
                         </div>
                       </div>
@@ -88,7 +88,7 @@
                           @foreach ($product->variants as $variant)
                             @if($variant->quantity != 0)
                               <li class="list-group-item">
-                                <p>{{\App\Models\Purchase::getProductVariantName($variant->product_variant_id)}} - {{$variant->quantity}} pcs - {{$variant->sub_total}} RMB</p>
+                                <p>{{\App\Models\Purchase::getProductVariantName($variant->product_variant_id)}} - {{$variant->quantity}} pcs - {{$variant->sub_total}} Rp</p>
                               </li>
                             @endif
                           @endforeach

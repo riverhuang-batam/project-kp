@@ -12,7 +12,7 @@ class JurnalDetail extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'akun_id', 'jurnal_id', 'debit', 'credit', 'description',
+        'akun_id', 'jurnal_id', 'debit', 'credit', 'description', 'transaction_date',
     ];
 
     public static function rules($merge = [])
@@ -20,6 +20,7 @@ class JurnalDetail extends Model
         return array_merge(
             [
                 'akuns.*.akun_id' => 'required',
+                'akuns.*.transaction_date' => 'nullable',
                 'akuns.*.debit' => 'numeric|nullable',
                 'akuns.*.credit' => 'numeric|nullable',
                 'akuns.*.description' => 'nullable',

@@ -29,9 +29,9 @@ class NeracaController extends Controller
 
         // get cash total
         $cashs = JurnalDetail::select('debit', 'credit')
-            ->where('akun_id', 3)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->where('akun_id', 1)
+            ->whereMonth('transaction_date', $month)
+            ->whereYear('transaction_date', $year)
             ->get();
         for($i = 0; $i < count($cashs); $i++) {
             $cashTotal += ($cashs[$i]->debit - $cashs[$i]->credit);
@@ -39,9 +39,9 @@ class NeracaController extends Controller
 
         // get accountreceivable
         $accountReceivables = JurnalDetail::select('debit', 'credit')
-            ->where('akun_id', 4)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->where('akun_id', 2)
+            ->whereMonth('transaction_date', $month)
+            ->whereYear('transaction_date', $year)
             ->get();
         for($i = 0; $i < count($accountReceivables); $i++) {
             $accountReceivableTotal += ($accountReceivables[$i]->credit - $accountReceivables[$i]->debit);
@@ -49,9 +49,9 @@ class NeracaController extends Controller
 
         // get supplies
         $supplies = JurnalDetail::select('debit', 'credit')
-            ->where('akun_id', 12)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->where('akun_id', 3)
+            ->whereMonth('transaction_date', $month)
+            ->whereYear('transaction_date', $year)
             ->get();
         for($i = 0; $i < count($supplies); $i++) {
             $suppliesTotal += ($supplies[$i]->credit - $supplies[$i]->debit);
@@ -59,9 +59,9 @@ class NeracaController extends Controller
 
         // get prepaid expense
         $prepaidExpenses = JurnalDetail::select('debit', 'credit')
-            ->where('akun_id', 12)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->where('akun_id', 4)
+            ->whereMonth('transaction_date', $month)
+            ->whereYear('transaction_date', $year)
             ->get();
         for($i = 0; $i < count($prepaidExpenses); $i++) {
             $prepaidExpenseTotal += ($prepaidExpenses[$i]->credit - $prepaidExpenses[$i]->debit);
@@ -71,9 +71,9 @@ class NeracaController extends Controller
         $fixedAssetTotal = 0;
 
         $fixedAssets = JurnalDetail::select('debit', 'credit')
-            ->where('akun_id', 14)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->where('akun_id', 5)
+            ->whereMonth('transaction_date', $month)
+            ->whereYear('transaction_date', $year)
             ->get();
         for($i = 0; $i < count($fixedAssets); $i++) {
             $fixedAssetTotal += ($fixedAssets[$i]->credit - $fixedAssets[$i]->debit);
@@ -86,36 +86,36 @@ class NeracaController extends Controller
         $bankLoanTotal = 0;
 
         $accountPayables = JurnalDetail::select('debit', 'credit')
-            ->where('akun_id', 26)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->where('akun_id', 6)
+            ->whereMonth('transaction_date', $month)
+            ->whereYear('transaction_date', $year)
             ->get();
         for($i = 0; $i < count($accountPayables); $i++) {
             $accountPayableTotal += ($accountPayables[$i]->credit - $accountPayables[$i]->debit);
         }
 
         $unearnRevenues = JurnalDetail::select('debit', 'credit')
-            ->where('akun_id', 29)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->where('akun_id', 7)
+            ->whereMonth('transaction_date', $month)
+            ->whereYear('transaction_date', $year)
             ->get();
         for($i = 0; $i < count($unearnRevenues); $i++) {
             $unearnedRevenueTotal += ($unearnRevenues[$i]->credit - $unearnRevenues[$i]->debit);
         }
 
         $longTermLiabilities = JurnalDetail::select('debit', 'credit')
-            ->where('akun_id', 30)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->where('akun_id', 8)
+            ->whereMonth('transaction_date', $month)
+            ->whereYear('transaction_date', $year)
             ->get();
         for($i = 0; $i < count($longTermLiabilities); $i++) {
             $longTermTotal += ($longTermLiabilities[$i]->credit - $longTermLiabilities[$i]->debit);
         }
 
         $bankLoans = JurnalDetail::select('debit', 'credit')
-            ->where('akun_id', 31)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->where('akun_id', 9)
+            ->whereMonth('transaction_date', $month)
+            ->whereYear('transaction_date', $year)
             ->get();
         for($i = 0; $i < count($bankLoans); $i++) {
             $bankLoanTotal += ($bankLoans[$i]->credit - $bankLoans[$i]->debit);
@@ -125,9 +125,9 @@ class NeracaController extends Controller
         $capitalTotal = 0;
 
         $capitals = JurnalDetail::select('debit', 'credit')
-            ->where('akun_id', 33)
-            ->whereMonth('created_at', $month)
-            ->whereYear('created_at', $year)
+            ->where('akun_id', 10)
+            ->whereMonth('transaction_date', $month)
+            ->whereYear('transaction_date', $year)
             ->get();
         for($i = 0; $i < count($capitals); $i++) {
             $capitalTotals += ($capitals[$i]->credit - $capitals[$i]->debit);
